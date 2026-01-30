@@ -1,9 +1,8 @@
 export const radius = {
-  //TODO 디자인시스템에 맞게 값 수정
-  /* 예시값 */
-  xs: "4px",
-  sm: "8px",
-  md: "12px",
-  lg: "16px",
-  xl: "20px",
+  game_category: "8px",
+  game_input: "12px",
+  game_problem: "16px",
+  game_level: "8px",
+  user_input: "12px",
+  user_box: "16px",
 } as const;

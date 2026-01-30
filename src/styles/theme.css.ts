@@ -1,7 +1,8 @@
 import { createGlobalTheme } from "@vanilla-extract/css";
 import { color } from "./tokens/color";
-import { font } from "./tokens/font";
+import { effect } from "./tokens/effect";
 import { fontStyles } from "./tokens/fontStyles";
+import { gradient } from "./tokens/gradient";
 import { radius } from "./tokens/radius";
 import { shadow } from "./tokens/shadow";
 import { typography } from "./tokens/typography";
@@ -10,7 +11,8 @@ export const vars = createGlobalTheme(":root", {
   color,
   radius,
   shadow,
-  font,
   typography,
   fontStyles,
+  gradient,
+  effect,
 });

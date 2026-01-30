@@ -14,7 +14,7 @@ globalStyle(":root", {
 /** 앱 기본 폰트/색/배경 */
 globalStyle("html, body", {
   height: "100%",
-  fontFamily: vars.font.sans,
+  fontFamily: vars.typography.fontFamily.pre,
 });
 
 globalStyle("body", {
