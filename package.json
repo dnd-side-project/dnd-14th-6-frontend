@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "biome check",
+    "lint": "biome lint",
     "format": "biome format --write",
+    "check": "biome check",
     "prepare": "husky"
   },
   "dependencies": {
