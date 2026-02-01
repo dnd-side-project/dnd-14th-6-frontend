@@ -1,0 +1,17 @@
+{
+  "typescript": true,
+  "ext": "tsx",
+  "titleProp": false,
+  "ref": true,
+  "jsxRuntime": "automatic",
+  "replaceAttrWithReact": true,
+  "svgo": false,
+  "replaceAttrValues": {
+    "#62EBFE": "currentColor",
+    "#7F82A1": "currentColor"
+  },
+  "svgProps": {
+    "width": "{size}",
+    "height": "{size}"
+  }
+}
