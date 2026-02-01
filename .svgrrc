@@ -1,0 +1,13 @@
+{
+  "typescript": true,
+  "ext": "tsx",
+  "svgo": false,
+  "titleProp": false,
+  "ref": true,
+  "jsxRuntime": "automatic",
+  "replaceAttrWithReact": true,
+  "svgProps": {
+    "width": "{size}",
+    "height": "{size}"
+  }
+}
