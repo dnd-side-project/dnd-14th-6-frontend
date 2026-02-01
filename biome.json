@@ -20,6 +20,9 @@
       "recommended": true,
       "suspicious": {
         "noVar": "warn"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off"
       }
     },
     "domains": {

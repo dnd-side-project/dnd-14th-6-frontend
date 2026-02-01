@@ -9,7 +9,10 @@
     "lint": "biome lint",
     "format": "biome format --write",
     "check": "biome check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "icon:mono": "pnpm dlx @svgr/cli --config-file .svgrrc.mono.json --out-dir src/assets/icons/mono --index-template _templates/svgr-index-template.js --template _templates/svgr-template.js public/assets/icons/mono && biome check --fix src/assets/icons/mono",
+    "icon:colored": "pnpm dlx @svgr/cli --config-file .svgrrc --out-dir src/assets/icons/colored --index-template _templates/svgr-index-template.js --template _templates/svgr-template-colored.js public/assets/icons/colored && biome check --fix src/assets/icons/colored",
+    "icon": "pnpm run icon:mono && pnpm run icon:colored"
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.18.0",
@@ -22,6 +25,8 @@
     "@biomejs/biome": "2.2.0",
     "@commitlint/cli": "^20.3.1",
     "@commitlint/config-conventional": "^20.3.1",
+    "@svgr/cli": "^8.1.0",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
