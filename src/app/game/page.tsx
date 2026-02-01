@@ -2,18 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const STEPS = ["category", "difficulty", "tutorial", "playing", "end", "badge"] as const;
-type Step = (typeof STEPS)[number];
-
-const STEP_LABELS: Record<Step, string> = {
-  category: "카테고리 선택",
-  difficulty: "난이도 선택",
-  tutorial: "튜토리얼",
-  playing: "게임 진행 중",
-  end: "게임 종료",
-  badge: "뱃지 획득",
-};
+import { STEPS, STEP_LABELS } from "@/types/game";
+import type { Step } from "@/types/game";
+import * as styles from "../page.css";
+import * as gameStyles from "./page.css";
 
 export default function GamePage() {
   const router = useRouter();
@@ -22,7 +14,6 @@ export default function GamePage() {
 
   const goNext = () => {
     if (step === "end") {
-      // 뱃지 조건 충족 시 badge로, 아니면 바로 결과로
       const hasBadge = true; // TODO: 실제 조건으로 교체
       if (hasBadge) {
         setStep("badge");
@@ -45,21 +36,21 @@ export default function GamePage() {
   };
 
   return (
-    <div>
-      <h1>게임</h1>
-      <p>
-        현재 단계: <strong>{STEP_LABELS[step]}</strong>
-      </p>
-      <p style={{ color: "#888", fontSize: 14 }}>
-        ({currentIndex + 1} / {STEPS.length})
-      </p>
-      <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+    <div className={styles.wrapper}>
+      <h1 className={styles.title}>게임</h1>
+      <div className={gameStyles.stepCard}>
+        <p className={gameStyles.stepCount}>
+          {currentIndex + 1} / {STEPS.length}
+        </p>
+        <p className={gameStyles.stepLabel}>{STEP_LABELS[step]}</p>
+      </div>
+      <div className={styles.nav}>
         {currentIndex > 0 && step !== "playing" && (
-          <button type="button" onClick={goPrev}>
+          <button type="button" onClick={goPrev} className={gameStyles.btnOutline}>
             이전
           </button>
         )}
-        <button type="button" onClick={goNext}>
+        <button type="button" onClick={goNext} className={gameStyles.btn}>
           {step === "badge" ? "결과 보기" : step === "end" ? "다음" : "다음 단계"}
         </button>
       </div>
