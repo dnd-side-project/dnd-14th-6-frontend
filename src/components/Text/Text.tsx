@@ -1,15 +1,20 @@
-import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import type {
+  CSSProperties,
+  ElementType,
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 import { textColors, textVariants } from "./Text.css";
 
-interface TextProps extends HTMLAttributes<HTMLParagraphElement> {
+interface TextProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
+  as?: ElementType;
   variant?: keyof typeof textVariants;
   color?: keyof typeof textColors | "inherit";
   children: ReactNode;
-  style?: CSSProperties;
-  className?: string;
 }
 
 const Text = ({
+  as: Component = "p",
   variant = "body5",
   color = "black",
   children,
@@ -29,9 +34,9 @@ const Text = ({
     : style;
 
   return (
-    <p className={combinedClassName} style={inlineStyle} {...rest}>
+    <Component className={combinedClassName} style={inlineStyle} {...rest}>
       {children}
-    </p>
+    </Component>
   );
 };
 
