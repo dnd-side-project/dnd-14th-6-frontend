@@ -26,6 +26,23 @@ type FlexAlignSelf =
 
 type SpacingValue = number | string;
 
+type SpacingProps = Pick<
+  FlexProps,
+  | "gap"
+  | "width"
+  | "height"
+  | "padding"
+  | "paddingTop"
+  | "paddingBottom"
+  | "paddingLeft"
+  | "paddingRight"
+  | "margin"
+  | "marginTop"
+  | "marginBottom"
+  | "marginLeft"
+  | "marginRight"
+>;
+
 const alignSelfMap: Record<FlexAlignSelf, CSSProperties["alignSelf"]> = {
   auto: "auto",
   flexStart: "flex-start",
@@ -41,9 +58,7 @@ const toRem = (value: SpacingValue | undefined): string | undefined => {
   return value;
 };
 
-const buildSpacingStyles = (
-  props: Partial<Record<string, SpacingValue>>,
-): CSSProperties => {
+const buildSpacingStyles = (props: SpacingProps): CSSProperties => {
   const styles: Record<string, string> = {};
   for (const [key, value] of Object.entries(props)) {
     if (value !== undefined) {
@@ -61,7 +76,6 @@ export interface FlexProps extends HTMLAttributes<HTMLElement> {
   wrap?: FlexWrap;
   grow?: 0 | 1;
   shrink?: 0 | 1;
-  flex?: CSSProperties["flex"];
   alignSelf?: FlexAlignSelf;
   gap?: SpacingValue;
   width?: SpacingValue;
@@ -87,7 +101,6 @@ const Flex = ({
   wrap,
   grow,
   shrink,
-  flex,
   alignSelf,
   gap,
   width,
@@ -108,7 +121,6 @@ const Flex = ({
   ...rest
 }: FlexProps) => {
   const inlineStyle: CSSProperties = {
-    ...(flex !== undefined && { flex }),
     ...(alignSelf !== undefined && { alignSelf: alignSelfMap[alignSelf] }),
     ...buildSpacingStyles({
       gap,
