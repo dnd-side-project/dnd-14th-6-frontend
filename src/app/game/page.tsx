@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { STEPS, STEP_LABELS } from "@/types/game";
+import { useState } from "react";
 import type { Step } from "@/types/game";
+import { STEP_LABELS, STEPS } from "@/types/game";
 import * as styles from "../page.css";
 import * as gameStyles from "./page.css";
 
@@ -46,12 +46,20 @@ export default function GamePage() {
       </div>
       <div className={styles.nav}>
         {currentIndex > 0 && step !== "playing" && (
-          <button type="button" onClick={goPrev} className={gameStyles.btnOutline}>
+          <button
+            type="button"
+            onClick={goPrev}
+            className={gameStyles.btnOutline}
+          >
             이전
           </button>
         )}
         <button type="button" onClick={goNext} className={gameStyles.btn}>
-          {step === "badge" ? "결과 보기" : step === "end" ? "다음" : "다음 단계"}
+          {step === "badge"
+            ? "결과 보기"
+            : step === "end"
+              ? "다음"
+              : "다음 단계"}
         </button>
       </div>
     </div>
