@@ -2,15 +2,15 @@ import { style } from "@vanilla-extract/css";
 import { vars } from "@/styles/theme.css";
 
 export const stepCard = style({
-  background: vars.color.grey_50,
-  borderRadius: vars.radius.game_problem,
+  background: vars.color.coolgrey_20,
+  borderRadius: vars.radius.l,
   padding: "32px 24px",
   marginBottom: 24,
 });
 
 export const stepCount = style({
   fontSize: vars.typography.fontSize[14],
-  color: vars.color.grey_200,
+  color: vars.color.coolgrey_80,
   marginBottom: 8,
 });
 
@@ -21,20 +21,20 @@ export const stepLabel = style({
 
 export const btn = style({
   padding: "12px 24px",
-  background: vars.color.grey_350,
-  color: vars.color.white,
+  background: vars.color.coolgrey_180,
+  color: vars.color.coolgrey_10,
   border: "none",
-  borderRadius: vars.radius.game_category,
+  borderRadius: vars.radius.s,
   fontSize: vars.typography.fontSize[16],
   cursor: "pointer",
 });
 
 export const btnOutline = style({
   padding: "12px 24px",
-  background: vars.color.white,
-  color: vars.color.grey_350,
-  border: `1px solid ${vars.color.grey_100}`,
-  borderRadius: vars.radius.game_category,
+  background: vars.color.coolgrey_10,
+  color: vars.color.coolgrey_180,
+  border: `1px solid ${vars.color.coolgrey_40}`,
+  borderRadius: vars.radius.s,
   fontSize: vars.typography.fontSize[16],
   cursor: "pointer",
 });

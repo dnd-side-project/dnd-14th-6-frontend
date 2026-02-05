@@ -18,7 +18,7 @@ globalStyle("html, body", {
 });
 
 globalStyle("body", {
-  backgroundColor: vars.color.white,
+  backgroundColor: vars.color.coolgrey_10,
   color: vars.color.black,
   lineHeight: "1.5",
 });
