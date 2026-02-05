@@ -1,4 +1,11 @@
-export const STEPS = ["category", "difficulty", "tutorial", "playing", "end", "badge"] as const;
+export const STEPS = [
+  "category",
+  "difficulty",
+  "tutorial",
+  "playing",
+  "end",
+  "badge",
+] as const;
 export type Step = (typeof STEPS)[number];
 
 export const STEP_LABELS: Record<Step, string> = {
