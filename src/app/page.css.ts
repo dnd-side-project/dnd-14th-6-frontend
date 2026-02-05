@@ -14,7 +14,7 @@ export const title = style({
 });
 
 export const description = style({
-  color: vars.color.grey_200,
+  color: vars.color.coolgrey_80,
   fontSize: vars.typography.fontSize[16],
   marginBottom: 32,
 });
@@ -28,18 +28,18 @@ export const nav = style({
 export const link = style({
   display: "inline-block",
   padding: "12px 24px",
-  background: vars.color.grey_350,
-  color: vars.color.white,
-  borderRadius: vars.radius.game_category,
+  background: vars.color.coolgrey_180,
+  color: vars.color.coolgrey_10,
+  borderRadius: vars.radius.s,
   fontSize: vars.typography.fontSize[16],
 });
 
 export const linkOutline = style({
   display: "inline-block",
   padding: "12px 24px",
-  background: vars.color.white,
-  color: vars.color.grey_350,
-  border: `1px solid ${vars.color.grey_100}`,
-  borderRadius: vars.radius.game_category,
+  background: vars.color.coolgrey_10,
+  color: vars.color.coolgrey_180,
+  border: `1px solid ${vars.color.coolgrey_40}`,
+  borderRadius: vars.radius.s,
   fontSize: vars.typography.fontSize[16],
 });
