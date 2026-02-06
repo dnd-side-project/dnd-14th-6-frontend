@@ -3,6 +3,10 @@ import { recipe } from "@vanilla-extract/recipes";
 import { vars } from "@/styles/theme.css";
 
 export const header = style({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  zIndex: 100,
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",

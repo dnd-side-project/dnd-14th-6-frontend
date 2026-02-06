@@ -53,7 +53,7 @@ const Header = ({
             className={styles.navItem({ active: isActive(item.label) })}
           >
             <Text
-              variant="caption12"
+              variant={isActive(item.label) ? "caption12" : "caption13"}
               color={isActive(item.label) ? "coolgrey_20" : "coolgrey_80"}
             >
               {item.label}
