@@ -1,6 +1,7 @@
 {
   "typescript": true,
   "ext": "tsx",
+  "prettier": false,
   "titleProp": false,
   "ref": true,
   "jsxRuntime": "automatic",
@@ -8,7 +9,8 @@
   "svgo": false,
   "replaceAttrValues": {
     "#62EBFE": "currentColor",
-    "#7F82A1": "currentColor"
+    "#7F82A1": "currentColor",
+    "#9EA4AA": "currentColor"
   },
   "svgProps": {
     "width": "{size}",
