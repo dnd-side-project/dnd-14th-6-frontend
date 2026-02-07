@@ -24,7 +24,7 @@ export const searchFilterButton = recipe({
     variant: {
       ok: {
         background: vars.gradient.main_accent,
-        color: vars.color.coolgrey_250,
+        color: vars.color.coolgrey_230,
       },
       reset: {
         background: "transparent",

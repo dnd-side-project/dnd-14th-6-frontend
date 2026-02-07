@@ -4,7 +4,7 @@ import { vars } from "@/styles/theme.css";
 import { fontStyles } from "@/styles/tokens/fontStyles";
 
 export const calendarPopup = style({
-  backgroundColor: vars.color.coolgrey_160,
+  backgroundColor: vars.color.coolgrey_150,
   borderRadius: vars.radius.s,
   boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2), 0px 2px 10px rgba(0, 0, 0, 0.1)",
   display: "flex",
@@ -63,7 +63,7 @@ export const dayCellWrapper = recipe({
             transform: "translateY(-50%)",
             width: "50%",
             height: "3.4rem",
-            backgroundColor: vars.color.coolgrey_130,
+            backgroundColor: vars.color.coolgrey_120,
           },
         },
       },
@@ -77,7 +77,7 @@ export const dayCellWrapper = recipe({
             transform: "translateY(-50%)",
             width: "100%",
             height: "3.4rem",
-            backgroundColor: vars.color.coolgrey_130,
+            backgroundColor: vars.color.coolgrey_120,
           },
         },
       },
@@ -91,7 +91,7 @@ export const dayCellWrapper = recipe({
             transform: "translateY(-50%)",
             width: "50%",
             height: "3.4rem",
-            backgroundColor: vars.color.coolgrey_130,
+            backgroundColor: vars.color.coolgrey_120,
           },
         },
       },
