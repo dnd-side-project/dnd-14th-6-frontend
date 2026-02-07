@@ -13,6 +13,7 @@ interface DatePickerProps {
   endDate: Date | null;
   onChange: (startDate: Date | null, endDate: Date | null) => void;
   placeholder?: string;
+  inline?: boolean;
 }
 
 const DatePicker = ({
@@ -20,6 +21,7 @@ const DatePicker = ({
   endDate,
   onChange,
   placeholder = "날짜를 선택하세요",
+  inline = false,
 }: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectionPhase, setSelectionPhase] = useState<"start" | "end">(
@@ -28,6 +30,8 @@ const DatePicker = ({
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (inline) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         wrapperRef.current &&
@@ -43,7 +47,7 @@ const DatePicker = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, inline]);
 
   const handleToggle = useCallback(() => {
     setIsOpen((prev) => {
@@ -108,15 +112,24 @@ const DatePicker = ({
           />
         </Flex>
       </button>
-      {isOpen && (
-        <div className={styles.popover}>
-          <Calendar
-            startDate={startDate}
-            endDate={endDate}
-            onSelectDate={handleSelectDate}
-          />
-        </div>
-      )}
+      {isOpen &&
+        (inline ? (
+          <div className={styles.inlineCalendar}>
+            <Calendar
+              startDate={startDate}
+              endDate={endDate}
+              onSelectDate={handleSelectDate}
+            />
+          </div>
+        ) : (
+          <div className={styles.popover}>
+            <Calendar
+              startDate={startDate}
+              endDate={endDate}
+              onSelectDate={handleSelectDate}
+            />
+          </div>
+        ))}
     </div>
   );
 };
