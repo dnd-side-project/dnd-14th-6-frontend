@@ -21,7 +21,7 @@ export const inputBox = style({
   height: "4.4rem",
   paddingLeft: "1.6rem",
   paddingRight: "1.2rem",
-  backgroundColor: vars.color.coolgrey_150,
+  backgroundColor: vars.color.coolgrey_140,
   borderRadius: vars.radius.s,
   border: "none",
   cursor: "pointer",
