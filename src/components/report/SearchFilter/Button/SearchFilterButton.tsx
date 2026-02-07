@@ -28,11 +28,7 @@ const SearchFilterButton = ({
 
   return (
     <button type="button" className={combinedClassName} {...rest}>
-      <Text
-        as="span"
-        variant={TEXT_VARIANT[variant]}
-        color={variant === "ok" ? "coolgrey_250" : "coolgrey_20"}
-      >
+      <Text as="span" variant={TEXT_VARIANT[variant]} color="inherit">
         {LABEL[variant]}
       </Text>
     </button>

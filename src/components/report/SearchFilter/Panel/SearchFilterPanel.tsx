@@ -26,18 +26,15 @@ const SearchFilterPanel = ({
     onChange({ ...value, startDate, endDate });
   };
 
-  const handleCategoryToggle = (category: string) => {
-    const next = value.categories.includes(category)
-      ? value.categories.filter((c) => c !== category)
-      : [...value.categories, category];
-    onChange({ ...value, categories: next });
-  };
-
-  const handleDifficultyToggle = (difficulty: string) => {
-    const next = value.difficulties.includes(difficulty)
-      ? value.difficulties.filter((d) => d !== difficulty)
-      : [...value.difficulties, difficulty];
-    onChange({ ...value, difficulties: next });
+  const handleArrayToggle = (
+    field: "categories" | "difficulties",
+    item: string,
+  ) => {
+    const currentArray = value[field];
+    const nextArray = currentArray.includes(item)
+      ? currentArray.filter((i) => i !== item)
+      : [...currentArray, item];
+    onChange({ ...value, [field]: nextArray });
   };
 
   return (
@@ -71,7 +68,7 @@ const SearchFilterPanel = ({
                     key={category}
                     label={category}
                     selected={value.categories.includes(category)}
-                    onChange={() => handleCategoryToggle(category)}
+                    onChange={() => handleArrayToggle("categories", category)}
                   />
                 ))}
               </Flex>
@@ -87,7 +84,7 @@ const SearchFilterPanel = ({
                     key={difficulty}
                     label={difficulty}
                     selected={value.difficulties.includes(difficulty)}
-                    onChange={() => handleDifficultyToggle(difficulty)}
+                    onChange={() => handleArrayToggle("difficulties", difficulty)}
                   />
                 ))}
               </Flex>
