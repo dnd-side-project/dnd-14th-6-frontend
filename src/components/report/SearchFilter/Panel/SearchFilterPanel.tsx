@@ -84,7 +84,9 @@ const SearchFilterPanel = ({
                     key={difficulty}
                     label={difficulty}
                     selected={value.difficulties.includes(difficulty)}
-                    onChange={() => handleArrayToggle("difficulties", difficulty)}
+                    onChange={() =>
+                      handleArrayToggle("difficulties", difficulty)
+                    }
                   />
                 ))}
               </Flex>
