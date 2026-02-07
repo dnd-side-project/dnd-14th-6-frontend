@@ -19,7 +19,7 @@ export const isSameDay = (a: Date, b: Date) =>
 
 export const isDateInRange = (date: Date, start: Date, end: Date) => {
   const t = date.getTime();
-  return t > start.getTime() && t < end.getTime(); // 지금은 exclusive
+  return t > start.getTime() && t < end.getTime();
 };
 
 export const isToday = (date: Date) => isSameDay(date, new Date());
