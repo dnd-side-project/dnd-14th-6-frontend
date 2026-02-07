@@ -2,7 +2,7 @@ import { style } from "@vanilla-extract/css";
 import { vars } from "@/styles/theme.css";
 
 export const panel = style({
-  backgroundColor: vars.color.coolgrey_220,
+  backgroundColor: vars.color.coolgrey_210,
   borderRadius: vars.radius.l,
   padding: "3.2rem",
   boxShadow:
