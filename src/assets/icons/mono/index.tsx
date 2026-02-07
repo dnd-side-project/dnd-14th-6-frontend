@@ -1,1 +1,1 @@
-export { default as IcDelete } from "./IcDelete";
+export { default as IcCalendar } from "./IcCalendar";

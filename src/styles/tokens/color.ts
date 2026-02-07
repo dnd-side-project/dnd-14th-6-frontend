@@ -53,3 +53,5 @@ export const color = {
   // Base
   black: "#000000",
 } as const;
+
+export type ColorToken = keyof typeof color;
