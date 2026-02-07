@@ -33,3 +33,7 @@ export const popover = style({
   left: "0",
   zIndex: 100,
 });
+
+export const inlineCalendar = style({
+  marginTop: "2.7rem",
+});
