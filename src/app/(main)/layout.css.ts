@@ -2,7 +2,7 @@ import { style } from "@vanilla-extract/css";
 import { vars } from "@/styles/theme.css";
 
 export const wrapper = style({
-  backgroundColor: vars.color.coolgrey_260,
+  backgroundColor: vars.color.coolgrey_240,
   height: "100vh",
   display: "flex",
   flexDirection: "column",
