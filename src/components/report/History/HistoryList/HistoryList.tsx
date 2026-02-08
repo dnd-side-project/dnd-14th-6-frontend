@@ -24,6 +24,7 @@ const HistoryList = ({ items, totalItems }: HistoryListProps) => {
   };
 
   const handleSort = (field: SortField) => {
+    //TODO api 연동할때 정렬 로직 추가
     if (sortField === field) {
       setSortOrder((prev) =>
         prev === "asc" ? "desc" : prev === "desc" ? null : "asc",

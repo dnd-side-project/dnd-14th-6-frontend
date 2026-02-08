@@ -46,7 +46,6 @@ export const sortIcon = recipe({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    transition: "opacity 0.15s ease",
   },
   variants: {
     active: {
@@ -59,6 +58,6 @@ export const sortIcon = recipe({
     },
   },
   defaultVariants: {
-    active: false,
+    active: true,
   },
 });

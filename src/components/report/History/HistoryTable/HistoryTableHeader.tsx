@@ -1,7 +1,7 @@
 "use client";
 
-import IcArrowDown from "@/assets/icons/mono/IcArrowDown";
-import IcArrowUp from "@/assets/icons/mono/IcArrowUp";
+import IcArrowDown from "@/assets/icons/colored/IcArrowDown";
+import IcArrowUp from "@/assets/icons/colored/IcArrowUp";
 import Text from "@/components/common/Text/Text";
 import type { SortField, SortOrder } from "@/constants/history-table";
 import { HISTORY_COLUMNS } from "@/constants/history-table";
@@ -23,6 +23,7 @@ const HistoryTableHeader = ({
     <div className={styles.header}>
       {HISTORY_COLUMNS.map((col) => {
         const isActive = sortField === col.sortField;
+        const { sortField: colSortField } = col;
 
         return (
           <div
@@ -37,23 +38,23 @@ const HistoryTableHeader = ({
             <Text as="span" variant="subtitle2" color="coolgrey_80">
               {col.label}
             </Text>
-            {col.sortable && col.sortField && (
+            {col.sortable && colSortField && (
               <button
                 type="button"
                 className={styles.sortButton}
                 style={{ left: col.sortIconLeft }}
-                onClick={() => onSort(col.sortField as SortField)}
+                onClick={() => onSort(colSortField)}
               >
                 <span
                   className={styles.sortIcon({
-                    active: isActive && sortOrder === "asc",
+                    active: !isActive || sortOrder === "asc",
                   })}
                 >
                   <IcArrowUp size={11} />
                 </span>
                 <span
                   className={styles.sortIcon({
-                    active: isActive && sortOrder === "desc",
+                    active: !isActive || sortOrder === "desc",
                   })}
                 >
                   <IcArrowDown size={11} />

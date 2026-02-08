@@ -15,10 +15,13 @@ const handleCopy = (text: string) => {
 
 const parseCodeText = (text: string) => {
   const parts = text.split(/(`[^`]+`)/g);
+  let offset = 0;
   return parts.map((part) => {
+    const key = `code-${offset}`;
+    offset += part.length;
     if (part.startsWith("`") && part.endsWith("`")) {
       return (
-        <span key={part} className={styles.codeTag}>
+        <span key={key} className={styles.codeTag}>
           {part.slice(1, -1)}
         </span>
       );
