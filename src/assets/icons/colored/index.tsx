@@ -9,3 +9,4 @@ export { default as IcDeleteGray } from "./IcDeleteGray";
 export { default as IcFilterDefault } from "./IcFilterDefault";
 export { default as IcFilterSelected } from "./IcFilterSelected";
 export { default as IcListArrow } from "./IcListArrow";
+export { default as IcSearch } from "./IcSearch";
