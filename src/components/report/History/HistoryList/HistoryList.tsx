@@ -8,16 +8,26 @@ import type { HistoryItem } from "@/types/history";
 import HistoryTable from "../HistoryTable/HistoryTable";
 import * as styles from "./HistoryList.css";
 
+const ITEMS_PER_PAGE = 5;
+
 interface HistoryListProps {
   items: HistoryItem[];
   totalItems: number;
+  searchKeyword: string;
 }
 
-const HistoryList = ({ items, totalItems }: HistoryListProps) => {
+const HistoryList = ({
+  items,
+  totalItems,
+  searchKeyword,
+}: HistoryListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>(null);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedItems = items.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handleToggle = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
@@ -47,12 +57,13 @@ const HistoryList = ({ items, totalItems }: HistoryListProps) => {
     <div className={styles.container}>
       <div className={styles.tableSection}>
         <HistoryTable
-          items={items}
+          items={paginatedItems}
           expandedId={expandedId}
           onToggle={handleToggle}
           sortField={sortField}
           sortOrder={sortOrder}
           onSort={handleSort}
+          searchKeyword={searchKeyword}
         />
         <div className={styles.paginationWrapper}>
           <Pagination
