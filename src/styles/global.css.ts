@@ -1,5 +1,27 @@
-import { globalStyle } from "@vanilla-extract/css";
+import { globalFontFace, globalStyle } from "@vanilla-extract/css";
 import { vars } from "./theme.css";
+
+/** Paperlogy 폰트 정의 */
+globalFontFace("Paperlogy", {
+  src: 'url("/fonts/Paperlogy-Regular.woff2") format("woff2")',
+  fontWeight: 400,
+  fontStyle: "normal",
+  fontDisplay: "swap",
+});
+
+globalFontFace("Paperlogy", {
+  src: 'url("/fonts/Paperlogy-Medium.woff2") format("woff2")',
+  fontWeight: 500,
+  fontStyle: "normal",
+  fontDisplay: "swap",
+});
+
+globalFontFace("Paperlogy", {
+  src: 'url("/fonts/Paperlogy-SemiBold.woff2") format("woff2")',
+  fontWeight: 600,
+  fontStyle: "normal",
+  fontDisplay: "swap",
+});
 
 /** 1rem = 10px */
 globalStyle("html", {

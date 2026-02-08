@@ -4,8 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { Step } from "@/types/game";
 import { STEP_LABELS, STEPS } from "@/types/game";
-import * as styles from "../page.css";
-import * as gameStyles from "./page.css";
+import * as styles from "./page.css";
 
 export default function GamePage() {
   const router = useRouter();
@@ -38,23 +37,19 @@ export default function GamePage() {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>게임</h1>
-      <div className={gameStyles.stepCard}>
-        <p className={gameStyles.stepCount}>
+      <div className={styles.stepCard}>
+        <p className={styles.stepCount}>
           {currentIndex + 1} / {STEPS.length}
         </p>
-        <p className={gameStyles.stepLabel}>{STEP_LABELS[step]}</p>
+        <p className={styles.stepLabel}>{STEP_LABELS[step]}</p>
       </div>
       <div className={styles.nav}>
         {currentIndex > 0 && step !== "playing" && (
-          <button
-            type="button"
-            onClick={goPrev}
-            className={gameStyles.btnOutline}
-          >
+          <button type="button" onClick={goPrev} className={styles.btnOutline}>
             이전
           </button>
         )}
-        <button type="button" onClick={goNext} className={gameStyles.btn}>
+        <button type="button" onClick={goNext} className={styles.btn}>
           {step === "badge"
             ? "결과 보기"
             : step === "end"
