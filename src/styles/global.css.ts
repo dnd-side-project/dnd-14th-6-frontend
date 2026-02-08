@@ -40,7 +40,7 @@ globalStyle("html, body", {
 });
 
 globalStyle("body", {
-  backgroundColor: vars.color.coolgrey_10,
+  backgroundColor: vars.color.black,
   color: "#000000",
   lineHeight: "1.5",
 });
