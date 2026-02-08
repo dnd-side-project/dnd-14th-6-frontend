@@ -1,5 +1,5 @@
 import Link from "next/link";
-import * as styles from "../../page.css";
+import * as styles from "../page.css";
 
 export default function GameResultPage() {
   return (

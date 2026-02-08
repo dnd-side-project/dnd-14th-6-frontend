@@ -5,7 +5,7 @@ export const typography = {
     Jaka: "var(--font-plus-jakarta-sans)",
     D2: "var(--font-D2)",
     SB: "var(--font-SB)",
-    Pap: "var(--font-paperlogy)",
+    Pap: "Paperlogy, sans-serif",
   },
 
   fontSize: {
