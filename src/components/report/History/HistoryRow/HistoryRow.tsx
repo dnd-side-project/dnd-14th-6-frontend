@@ -5,6 +5,7 @@ import Text from "@/components/common/Text/Text";
 import { HISTORY_COLUMNS } from "@/constants/history-table";
 
 import type { HistoryItem } from "@/types/history";
+import HighlightText from "../HighlightText/HighlightText";
 import * as styles from "./HistoryRow.css";
 import HistoryRowDetail from "./HistoryRowDetail";
 
@@ -12,6 +13,7 @@ interface HistoryRowProps {
   item: HistoryItem;
   isExpanded: boolean;
   onToggle: () => void;
+  searchKeyword: string;
 }
 
 const getColumnStyle = (key: string) => {
@@ -20,7 +22,12 @@ const getColumnStyle = (key: string) => {
   return col.flexible ? { flex: 1, minWidth: col.width } : { width: col.width };
 };
 
-const HistoryRow = ({ item, isExpanded, onToggle }: HistoryRowProps) => {
+const HistoryRow = ({
+  item,
+  isExpanded,
+  onToggle,
+  searchKeyword,
+}: HistoryRowProps) => {
   const isPerfect = item.correctCount === item.totalCount;
 
   return (
@@ -48,7 +55,7 @@ const HistoryRow = ({ item, isExpanded, onToggle }: HistoryRowProps) => {
         </div>
         <div className={styles.cell} style={getColumnStyle("problem")}>
           <Text as="span" variant="body2" color="coolgrey_20">
-            {item.problemSummary}
+            <HighlightText text={item.problemSummary} keyword={searchKeyword} />
           </Text>
         </div>
         <div className={styles.cell} style={getColumnStyle("score")}>

@@ -14,6 +14,7 @@ interface HistoryTableProps {
   sortField: SortField | null;
   sortOrder: SortOrder;
   onSort: (field: SortField) => void;
+  searchKeyword: string;
 }
 
 const HistoryTable = ({
@@ -23,6 +24,7 @@ const HistoryTable = ({
   sortField,
   sortOrder,
   onSort,
+  searchKeyword,
 }: HistoryTableProps) => {
   return (
     <div className={styles.table}>
@@ -39,6 +41,7 @@ const HistoryTable = ({
               item={item}
               isExpanded={expandedId === item.id}
               onToggle={() => onToggle(item.id)}
+              searchKeyword={searchKeyword}
             />
             {index === items.length - 1 && (
               <div className={styles.lastDivider} />

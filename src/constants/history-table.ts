@@ -1,3 +1,5 @@
+import type { HistoryItem } from "@/types/history";
+
 export type SortField = "date" | "score" | "result";
 export type SortOrder = "asc" | "desc" | null;
 
@@ -46,3 +48,38 @@ export const HISTORY_COLUMNS: ColumnConfig[] = [
     sortIconLeft: "5.5rem",
   },
 ];
+
+export const MOCK_HISTORY_ITEMS: HistoryItem[] = Array.from(
+  { length: 15 },
+  (_, i) => ({
+    id: `item-${i + 1}`,
+    date: "2025.02.16",
+    category: "Git",
+    difficulty: "Normal",
+    problemSummary: "기능 개발을 위한 브랜치 생성 및 이동 외 19건",
+    score: 200,
+    correctCount: i === 14 ? 18 : 20,
+    totalCount: 20,
+    problems: [
+      {
+        id: `problem-${i + 1}-1`,
+        description:
+          "현재 `main` 브랜치에서 `feature/login` 브랜치를 생성하고 이동하세요.",
+        userAnswers: [
+          { text: "git checkout -b feature/login", isCorrect: true },
+        ],
+        correctAnswer: "git checkout -b feature/login",
+        explanation:
+          "`git checkout -b`는 새 브랜치를 생성하고 동시에 이동하는 명령어입니다.",
+      },
+      {
+        id: `problem-${i + 1}-2`,
+        description: "변경된 파일을 모두 스테이징하세요.",
+        userAnswers: [{ text: "git add .", isCorrect: true }],
+        correctAnswer: "git add .",
+        explanation:
+          "`git add .`은 현재 디렉토리의 모든 변경 사항을 스테이징합니다.",
+      },
+    ],
+  }),
+);
