@@ -1,4 +1,4 @@
-import type { ScoreDetail } from "@/types/report";
+import type { FrequentWrongCategory, ScoreDetail } from "@/types/report";
 
 export const MOCK_SCORE_DETAIL: ScoreDetail[] = [
   {
@@ -32,7 +32,7 @@ export const MOCK_SCORE_DETAIL: ScoreDetail[] = [
 
 export const MOCK_TOTAL_SCORE = 54610;
 
-export const MOCK_FREQUENT_WRONG_CATEGORIES = [
+export const MOCK_FREQUENT_WRONG_CATEGORIES: FrequentWrongCategory[] = [
   { category: "Git", wrongRatio: 48, wrongCount: 24 },
   { category: "Docker", wrongRatio: 30, wrongCount: 15 },
   { category: "Linux", wrongRatio: 22, wrongCount: 11 },
