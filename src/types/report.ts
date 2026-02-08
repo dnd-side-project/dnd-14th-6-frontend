@@ -22,6 +22,14 @@ export interface Tier {
   imageUrl: string;
 }
 
+export type KnownCategory = "Git" | "Docker" | "Linux";
+
+export interface FrequentWrongCategory {
+  category: KnownCategory;
+  wrongRatio: number;
+  wrongCount: number;
+}
+
 export interface CumulativeScoreData {
   nickname: string;
   totalScore: number;
