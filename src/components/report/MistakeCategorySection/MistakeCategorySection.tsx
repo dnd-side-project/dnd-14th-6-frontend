@@ -3,7 +3,7 @@ import { IcDocker, IcGit, IcLinux } from "@/assets/icons/colored";
 import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
 import DashboardCard from "@/components/report/DashboardCard/DashboardCard";
-import type { FrequentWrongCategory } from "@/types/report";
+import type { FrequentWrongCategory, KnownCategory } from "@/types/report";
 import MistakeCategoryItem from "./MistakeCategoryItem/MistakeCategoryItem";
 import { card } from "./MistakeCategorySection.css";
 
@@ -11,7 +11,7 @@ interface MistakeCategorySectionProps {
   frequentWrongCategories: FrequentWrongCategory[];
 }
 
-const CATEGORY_ICON_MAP: Record<string, ReactNode> = {
+const CATEGORY_ICON_MAP: Record<KnownCategory, ReactNode> = {
   Git: <IcGit size={33} />,
   Docker: <IcDocker size={28} />,
   Linux: <IcLinux size={34} />,
@@ -27,7 +27,7 @@ export default function MistakeCategorySection({
           많이 틀린 카테고리
         </Text>
         <Flex direction="column" gap={2.3}>
-          {frequentWrongCategories.map((item, index) => {
+          {frequentWrongCategories.slice(0, 3).map((item, index) => {
             const level = (index + 1) as 1 | 2 | 3;
 
             return (
