@@ -3,14 +3,9 @@ import { IcDocker, IcGit, IcLinux } from "@/assets/icons/colored";
 import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
 import DashboardCard from "@/components/report/DashboardCard/DashboardCard";
+import type { FrequentWrongCategory } from "@/types/report";
 import MistakeCategoryItem from "./MistakeCategoryItem/MistakeCategoryItem";
 import { card } from "./MistakeCategorySection.css";
-
-interface FrequentWrongCategory {
-  category: string;
-  wrongRatio: number;
-  wrongCount: number;
-}
 
 interface MistakeCategorySectionProps {
   frequentWrongCategories: FrequentWrongCategory[];

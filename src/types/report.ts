@@ -22,6 +22,12 @@ export interface Tier {
   imageUrl: string;
 }
 
+export interface FrequentWrongCategory {
+  category: string;
+  wrongRatio: number;
+  wrongCount: number;
+}
+
 export interface CumulativeScoreData {
   nickname: string;
   totalScore: number;
