@@ -72,10 +72,9 @@ export default function CumulativeScoreSection({
               const isLast = index === scoreDetail.length - 1;
               const isDimmed = hoveredIndex !== null && hoveredIndex !== index;
 
-              const gradient =
-                BAR_GRADIENTS[index] ?? BAR_GRADIENTS[BAR_GRADIENTS.length - 1];
-              const opacity =
-                BAR_OPACITIES[index] ?? BAR_OPACITIES[BAR_OPACITIES.length - 1];
+              const styleIndex = Math.min(index, BAR_GRADIENTS.length - 1);
+              const gradient = BAR_GRADIENTS[styleIndex];
+              const opacity = BAR_OPACITIES[styleIndex];
 
               const barPosition = isFirst
                 ? "first"
