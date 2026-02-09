@@ -26,6 +26,8 @@ globalFontFace("Paperlogy", {
 /** 1rem = 10px */
 globalStyle("html", {
   fontSize: "62.5%",
+  scrollbarWidth: "thin",
+  scrollbarColor: `${vars.color.coolgrey_80} transparent`,
 });
 
 /** 텍스트 렌더링 */
