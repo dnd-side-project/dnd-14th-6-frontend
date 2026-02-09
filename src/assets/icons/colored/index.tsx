@@ -1,5 +1,6 @@
 export { default as IcArrowDown } from "./IcArrowDown";
 export { default as IcArrowLeft } from "./IcArrowLeft";
+export { default as IcArrowLink } from "./IcArrowLink";
 export { default as IcArrowRight } from "./IcArrowRight";
 export { default as IcArrowUp } from "./IcArrowUp";
 export { default as IcCheckBox } from "./IcCheckBox";
