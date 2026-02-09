@@ -2,10 +2,13 @@ import Flex from "@/components/common/Flex/Flex";
 import CumulativeScoreSection from "@/components/report/CumulativeScoreSection/CumulativeScoreSection";
 import FrequentWrongCommandsSection from "@/components/report/FrequentWrongCommandsSection/FrequentWrongCommandsSection";
 import MistakeCategorySection from "@/components/report/MistakeCategorySection/MistakeCategorySection";
+import TierRankingSection from "@/components/report/TierRankingSection/TierRankingSection";
 import {
   MOCK_FREQUENT_WRONG_CATEGORIES,
   MOCK_FREQUENT_WRONG_COMMANDS,
+  MOCK_RANKING,
   MOCK_SCORE_DETAIL,
+  MOCK_TIER,
   MOCK_TOTAL_SCORE,
 } from "@/constants/report-mock";
 
@@ -26,7 +29,10 @@ export default function ReportPage() {
           <MistakeCategorySection
             frequentWrongCategories={MOCK_FREQUENT_WRONG_CATEGORIES}
           />
-          <Flex style={{ flex: 1 }}></Flex>
+          <Flex gap={1.6} style={{ flex: 1 }}>
+            <TierRankingSection variant="tier" tier={MOCK_TIER} />
+            <TierRankingSection variant="ranking" ranking={MOCK_RANKING} />
+          </Flex>
         </Flex>
         <FrequentWrongCommandsSection
           frequentWrongCommands={MOCK_FREQUENT_WRONG_COMMANDS}
