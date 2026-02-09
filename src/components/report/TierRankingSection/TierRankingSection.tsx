@@ -12,27 +12,22 @@ import {
   linkWrapper,
 } from "./TierRankingSection.css";
 
-interface TierRankingSectionProps {
-  variant: "tier" | "ranking";
-  tier?: Tier;
-  ranking?: number;
-}
+type TierRankingSectionProps =
+  | { variant: "tier"; tier: Tier }
+  | { variant: "ranking"; ranking: number };
 
-const VARIANT_CONFIG = {
-  tier: {
-    label: "티어",
-    getValue: (props: TierRankingSectionProps) => props.tier?.name ?? "-",
-  },
-  ranking: {
-    label: "랭킹",
-    getValue: (props: TierRankingSectionProps) =>
-      props.ranking !== undefined ? `${props.ranking}위` : "-",
-  },
+const VARIANT_LABEL = {
+  tier: "티어",
+  ranking: "랭킹",
 } as const;
 
+function getValue(props: TierRankingSectionProps) {
+  if (props.variant === "tier") return props.tier.name;
+  return `${props.ranking}위`;
+}
+
 export default function TierRankingSection(props: TierRankingSectionProps) {
-  const { variant, tier } = props;
-  const config = VARIANT_CONFIG[variant];
+  const { variant } = props;
 
   return (
     <Link href="/report/ranking" className={linkWrapper}>
@@ -40,18 +35,18 @@ export default function TierRankingSection(props: TierRankingSectionProps) {
         <div className={content}>
           <div className={header}>
             <Text variant="heading4" color="coolgrey_40">
-              {config.label}
+              {VARIANT_LABEL[variant]}
             </Text>
             <IcArrowLink size={24} />
           </div>
           <Text variant="display1" color="coolgrey_10">
-            {config.getValue(props)}
+            {getValue(props)}
           </Text>
           <div className={imagePlaceholder}>
-            {variant === "tier" && tier?.imageUrl && (
+            {variant === "tier" && props.tier.imageUrl && (
               <Image
-                src={tier.imageUrl}
-                alt={`${tier.name} 티어 이미지`}
+                src={props.tier.imageUrl}
+                alt={`${props.tier.name} 티어 이미지`}
                 fill
                 style={{ objectFit: "contain" }}
               />
