@@ -50,6 +50,20 @@ globalStyle("a", {
   textDecoration: "none",
 });
 
+/** 스크롤바 */
+globalStyle("::-webkit-scrollbar", {
+  width: "6px",
+});
+
+globalStyle("::-webkit-scrollbar-track", {
+  background: "transparent",
+});
+
+globalStyle("::-webkit-scrollbar-thumb", {
+  backgroundColor: vars.color.coolgrey_80,
+  borderRadius: "100px",
+});
+
 globalStyle("button", {
   cursor: "pointer",
 });
