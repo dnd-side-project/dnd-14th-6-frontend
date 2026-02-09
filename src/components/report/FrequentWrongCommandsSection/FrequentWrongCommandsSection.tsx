@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
 import type { FrequentWrongCommand } from "@/types/report";
 import DashboardCard from "../DashboardCard/DashboardCard";
@@ -19,7 +20,7 @@ export default function FrequentWrongCommandsSection({
 
   return (
     <DashboardCard className={styles.card}>
-      <div className={styles.content}>
+      <Flex direction="column" gap={3} width="100%">
         <Text variant="heading4" color="coolgrey_40">
           자주 틀린 명령어
         </Text>
@@ -33,7 +34,7 @@ export default function FrequentWrongCommandsSection({
           hoveredIndex={hoveredIndex}
           onHoverIndex={setHoveredIndex}
         />
-      </div>
+      </Flex>
     </DashboardCard>
   );
 }

@@ -36,10 +36,27 @@ const PIE_CENTER_Y = 122.5;
 const DEFAULT_BADGE_SIZE = 22.94;
 const HOVERED_BADGE_SIZE = 30;
 
+function parseGradientStops(gradientStr: string) {
+  const colorStopRegex = /(#[0-9a-fA-F]{6}|rgba?\([^)]+\))\s+([\d.]+%?)/g;
+  const stops: { color: string; offset: string }[] = [];
+  let match = colorStopRegex.exec(gradientStr);
+  while (match) {
+    stops.push({ color: match[1], offset: match[2] });
+    match = colorStopRegex.exec(gradientStr);
+  }
+  return stops;
+}
+
+const GRADIENT_DEFS = [
+  { id: "donutLevel2", stops: parseGradientStops(gradient.chart_level2) },
+  { id: "donutLevel3", stops: parseGradientStops(gradient.chart_level3) },
+  { id: "donutAccent", stops: parseGradientStops(gradient.main_accent) },
+];
+
 const CHART_GRADIENTS = {
-  level2Id: "donutLevel2",
-  level3Id: "donutLevel3",
-  accentId: "donutAccent",
+  level2Id: GRADIENT_DEFS[0].id,
+  level3Id: GRADIENT_DEFS[1].id,
+  accentId: GRADIENT_DEFS[2].id,
 };
 
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
@@ -89,17 +106,6 @@ function describeRoundedAnnularSector(
     `A ${maxCr} ${maxCr} 0 0 1 ${p8.x} ${p8.y}`,
     "Z",
   ].join(" ");
-}
-
-function parseGradient(gradientStr: string) {
-  const colorStopRegex = /(#[0-9a-fA-F]{6}|rgba?\([^)]+\))\s+([\d.]+%?)/g;
-  const stops: { color: string; offset: string }[] = [];
-  let match = colorStopRegex.exec(gradientStr);
-  while (match) {
-    stops.push({ color: match[1], offset: match[2] });
-    match = colorStopRegex.exec(gradientStr);
-  }
-  return stops;
 }
 
 function normalizeAngle(angle: number): number {
@@ -259,10 +265,6 @@ export default function FrequentWrongCommandsDonutChart({
     [getBadgePosition],
   );
 
-  const level2Stops = parseGradient(gradient.chart_level2);
-  const level3Stops = parseGradient(gradient.chart_level3);
-  const accentStops = parseGradient(gradient.main_accent);
-
   return (
     <div className={styles.chartWrapper}>
       <div className={styles.svgContainer}>
@@ -274,54 +276,25 @@ export default function FrequentWrongCommandsDonutChart({
           onMouseLeave={handleSvgMouseLeave}
         >
           <defs>
-            <linearGradient
-              id={CHART_GRADIENTS.level2Id}
-              x1="0"
-              y1="0"
-              x2={String(SVG_SIZE)}
-              y2="0"
-              gradientUnits="userSpaceOnUse"
-            >
-              {level2Stops.map((stop) => (
-                <stop
-                  key={stop.offset}
-                  offset={stop.offset}
-                  stopColor={stop.color}
-                />
-              ))}
-            </linearGradient>
-            <linearGradient
-              id={CHART_GRADIENTS.level3Id}
-              x1="0"
-              y1="0"
-              x2={String(SVG_SIZE)}
-              y2="0"
-              gradientUnits="userSpaceOnUse"
-            >
-              {level3Stops.map((stop) => (
-                <stop
-                  key={stop.offset}
-                  offset={stop.offset}
-                  stopColor={stop.color}
-                />
-              ))}
-            </linearGradient>
-            <linearGradient
-              id={CHART_GRADIENTS.accentId}
-              x1="0"
-              y1="0"
-              x2={String(SVG_SIZE)}
-              y2="0"
-              gradientUnits="userSpaceOnUse"
-            >
-              {accentStops.map((stop) => (
-                <stop
-                  key={stop.offset}
-                  offset={stop.offset}
-                  stopColor={stop.color}
-                />
-              ))}
-            </linearGradient>
+            {GRADIENT_DEFS.map((def) => (
+              <linearGradient
+                key={def.id}
+                id={def.id}
+                x1="0"
+                y1="0"
+                x2={String(SVG_SIZE)}
+                y2="0"
+                gradientUnits="userSpaceOnUse"
+              >
+                {def.stops.map((stop) => (
+                  <stop
+                    key={stop.offset}
+                    offset={stop.offset}
+                    stopColor={stop.color}
+                  />
+                ))}
+              </linearGradient>
+            ))}
           </defs>
 
           {segments.map((seg) => {
@@ -344,7 +317,7 @@ export default function FrequentWrongCommandsDonutChart({
                   CORNER_RADIUS,
                 )}
                 fill={seg.fillId}
-                style={{ cursor: "pointer" }}
+                className={styles.segment}
               />
             );
           })}

@@ -21,6 +21,10 @@ export const svg = style({
   overflow: "visible",
 });
 
+export const segment = style({
+  cursor: "pointer",
+});
+
 export const numberBadge = style({
   position: "absolute",
   borderRadius: "50%",
