@@ -1,4 +1,8 @@
-import type { FrequentWrongCategory, ScoreDetail } from "@/types/report";
+import type {
+  FrequentWrongCategory,
+  FrequentWrongCommand,
+  ScoreDetail,
+} from "@/types/report";
 
 export const MOCK_SCORE_DETAIL: ScoreDetail[] = [
   {
@@ -36,4 +40,12 @@ export const MOCK_FREQUENT_WRONG_CATEGORIES: FrequentWrongCategory[] = [
   { category: "Git", wrongRatio: 48, wrongCount: 24 },
   { category: "Docker", wrongRatio: 30, wrongCount: 15 },
   { category: "Linux", wrongRatio: 22, wrongCount: 11 },
+];
+
+export const MOCK_FREQUENT_WRONG_COMMANDS: FrequentWrongCommand[] = [
+  { mainCategory: "Git", subCategory: "Branch", wrongCount: 12 },
+  { mainCategory: "Git", subCategory: "Commit", wrongCount: 9 },
+  { mainCategory: "Git", subCategory: "Merge", wrongCount: 7 },
+  { mainCategory: "Git", subCategory: "Rebase", wrongCount: 5 },
+  { mainCategory: "Linux", subCategory: "Stash", wrongCount: 3 },
 ];
