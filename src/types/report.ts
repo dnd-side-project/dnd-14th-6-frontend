@@ -30,6 +30,12 @@ export interface FrequentWrongCategory {
   wrongCount: number;
 }
 
+export interface FrequentWrongCommand {
+  mainCategory: string;
+  subCategory: string;
+  wrongCount: number;
+}
+
 export interface CumulativeScoreData {
   nickname: string;
   totalScore: number;
