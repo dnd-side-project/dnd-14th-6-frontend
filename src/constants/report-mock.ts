@@ -2,6 +2,7 @@ import type {
   FrequentWrongCategory,
   FrequentWrongCommand,
   ScoreDetail,
+  Tier,
 } from "@/types/report";
 
 export const MOCK_SCORE_DETAIL: ScoreDetail[] = [
@@ -49,3 +50,11 @@ export const MOCK_FREQUENT_WRONG_COMMANDS: FrequentWrongCommand[] = [
   { mainCategory: "Git", subCategory: "Rebase", wrongCount: 5 },
   { mainCategory: "Linux", subCategory: "Stash", wrongCount: 3 },
 ];
+
+export const MOCK_RANKING = 131;
+
+export const MOCK_TIER: Tier = {
+  id: 3,
+  name: "Master",
+  imageUrl: "",
+};
