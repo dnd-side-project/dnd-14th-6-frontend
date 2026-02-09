@@ -10,13 +10,15 @@ export default function ReportLayout({
 }>) {
   return (
     <div className={styles.wrapper}>
-      <Image
-        src="/assets/images/dashboard.png"
-        alt=""
-        fill
-        priority
-        className={styles.backgroundImage}
-      />
+      <div className={styles.backgroundWrapper}>
+        <Image
+          src="/assets/images/dashboard.png"
+          alt=""
+          fill
+          priority
+          className={styles.backgroundImage}
+        />
+      </div>
       <div className={styles.foreground}>
         <Header fixed={false} />
         <main className={styles.contentStyle}>{children}</main>

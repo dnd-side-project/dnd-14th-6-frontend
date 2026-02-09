@@ -9,10 +9,15 @@ export const wrapper = style({
   flexDirection: "column",
 });
 
-export const backgroundImage = style({
-  objectFit: "cover",
+export const backgroundWrapper = style({
+  position: "fixed",
+  inset: 0,
   zIndex: 0,
   pointerEvents: "none",
+});
+
+export const backgroundImage = style({
+  objectFit: "cover",
 });
 
 export const foreground = style({
