@@ -30,11 +30,13 @@ const BADGE_RADIUS = OUTER_RADIUS;
 const HOVER_EXPAND = 5;
 const CORNER_RADIUS = 6;
 
-const PIE_CENTER_X = 172.5;
-const PIE_CENTER_Y = 122.5;
+const SVG_CONTAINER_LEFT = 50;
+const PIE_CENTER_X = SVG_CONTAINER_LEFT + SVG_CENTER;
+const PIE_CENTER_Y = SVG_CENTER;
 
 const DEFAULT_BADGE_SIZE = 22.94;
 const HOVERED_BADGE_SIZE = 30;
+const TOOLTIP_GAP = 6;
 
 function parseGradientStops(gradientStr: string) {
   const colorStopRegex = /(#[0-9a-fA-F]{6}|rgba?\([^)]+\))\s+([\d.]+%?)/g;
@@ -205,7 +207,11 @@ export default function FrequentWrongCommandsDonutChart({
       const y = (clientY - rect.top) * scaleY;
 
       const dist = getDistanceFromCenter(SVG_CENTER, SVG_CENTER, x, y);
-      if (dist < INNER_RADIUS - 5 || dist > OUTER_RADIUS + 5) return null;
+      if (
+        dist < INNER_RADIUS - HOVER_EXPAND ||
+        dist > OUTER_RADIUS + HOVER_EXPAND
+      )
+        return null;
 
       const angle = getAngleFromCenter(SVG_CENTER, SVG_CENTER, x, y);
 
@@ -244,20 +250,19 @@ export default function FrequentWrongCommandsDonutChart({
   const getTooltipPosition = useCallback(
     (midAngle: number): CSSProperties => {
       const badgePos = getBadgePosition(midAngle);
-      const gap = 6;
       const badgeHalf = HOVERED_BADGE_SIZE / 2;
       const isRightSide = badgePos.left > PIE_CENTER_X;
 
       if (isRightSide) {
         return {
-          left: `${(badgePos.left + badgeHalf + gap) / 10}rem`,
+          left: `${(badgePos.left + badgeHalf + TOOLTIP_GAP) / 10}rem`,
           top: `${badgePos.top / 10}rem`,
           transform: "translateY(-50%)",
         };
       }
 
       return {
-        left: `${(badgePos.left - badgeHalf - gap) / 10}rem`,
+        left: `${(badgePos.left - badgeHalf - TOOLTIP_GAP) / 10}rem`,
         top: `${badgePos.top / 10}rem`,
         transform: "translate(-100%, -50%)",
       };

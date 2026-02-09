@@ -36,7 +36,7 @@ export default function CommandsTable({
       <div className={styles.tableBody}>
         {commands.map((command, index) => (
           <Flex
-            key={command.subCategory}
+            key={`${command.mainCategory}-${command.subCategory}`}
             align="center"
             className={
               styles.row[hoveredIndex === index ? "hovered" : "default"]
