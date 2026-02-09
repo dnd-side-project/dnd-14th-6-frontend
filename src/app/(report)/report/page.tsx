@@ -1,6 +1,7 @@
 import Flex from "@/components/common/Flex/Flex";
 import CumulativeScoreSection from "@/components/report/CumulativeScoreSection/CumulativeScoreSection";
 import FrequentWrongCommandsSection from "@/components/report/FrequentWrongCommandsSection/FrequentWrongCommandsSection";
+import GameHistorySection from "@/components/report/GameHistorySection/GameHistorySection";
 import MistakeCategorySection from "@/components/report/MistakeCategorySection/MistakeCategorySection";
 import TierRankingSection from "@/components/report/TierRankingSection/TierRankingSection";
 import {
@@ -17,14 +18,14 @@ export default function ReportPage() {
     <Flex
       width={"100%"}
       direction="column"
-      padding={"3.6rem 4.8rem 5rem"}
+      padding={"3.6rem 4.8rem 16rem"}
       gap={1.6}
     >
       <CumulativeScoreSection
         totalScore={MOCK_TOTAL_SCORE}
         scoreDetail={MOCK_SCORE_DETAIL}
       />
-      <Flex width={"100%"} gap={1.6}>
+      <Flex width={"100%"} gap={1.6} marginBottom={6.4}>
         <Flex direction="column" gap={1.6} style={{ flex: 1 }}>
           <MistakeCategorySection
             frequentWrongCategories={MOCK_FREQUENT_WRONG_CATEGORIES}
@@ -38,6 +39,7 @@ export default function ReportPage() {
           frequentWrongCommands={MOCK_FREQUENT_WRONG_COMMANDS}
         />
       </Flex>
+      <GameHistorySection />
     </Flex>
   );
 }

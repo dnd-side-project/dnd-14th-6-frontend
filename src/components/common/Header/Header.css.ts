@@ -2,17 +2,31 @@ import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { vars } from "@/styles/theme.css";
 
-export const header = style({
-  position: "fixed",
-  top: 0,
-  left: 0,
-  zIndex: 100,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
-  height: "11.4rem",
-  padding: "0 5.6rem",
+export const header = recipe({
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "11.4rem",
+    padding: "0 5.6rem",
+  },
+  variants: {
+    fixed: {
+      true: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        zIndex: 100,
+      },
+      false: {
+        position: "relative",
+      },
+    },
+  },
+  defaultVariants: {
+    fixed: true,
+  },
 });
 
 export const logoPlaceholder = style({

@@ -7,6 +7,7 @@ import Text from "../Text/Text";
 import * as styles from "./Header.css";
 
 interface HeaderProps {
+  fixed?: boolean;
   isLoggedIn?: boolean;
   username?: string;
   profileImage?: string;
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
 ] as const;
 
 const Header = ({
+  fixed = true,
   isLoggedIn = false,
   username,
   profileImage,
@@ -42,7 +44,7 @@ const Header = ({
   };
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header({ fixed })}>
       <div className={styles.logoPlaceholder} />
 
       <nav className={styles.nav}>
