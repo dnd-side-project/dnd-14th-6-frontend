@@ -3,6 +3,7 @@ import type { Command } from "./CommandInput";
 import * as styles from "./CommandInput.css";
 
 interface CommandDropdownProps {
+  listboxId: string;
   commands: Command[];
   activeIndex: number;
   onSelect: (href: string) => void;
@@ -10,6 +11,7 @@ interface CommandDropdownProps {
 }
 
 const CommandDropdown = ({
+  listboxId,
   commands,
   activeIndex,
   onSelect,
@@ -17,10 +19,13 @@ const CommandDropdown = ({
 }: CommandDropdownProps) => {
   return (
     <div className={styles.dropdownBorder}>
-      <div className={styles.dropdown}>
+      <div id={listboxId} role="listbox" className={styles.dropdown}>
         {commands.map((cmd, index) => (
           <button
             type="button"
+            id={`command-option-${index}`}
+            role="option"
+            aria-selected={index === activeIndex}
             key={cmd.label}
             className={styles.dropdownItem({ active: index === activeIndex })}
             onMouseDown={(e) => e.preventDefault()}

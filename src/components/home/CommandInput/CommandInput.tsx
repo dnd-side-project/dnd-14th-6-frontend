@@ -24,13 +24,21 @@ const CommandInput = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  const listboxId = "command-listbox";
+
   const filteredCommands = COMMANDS.filter((cmd) =>
-    cmd.label.startsWith(inputValue.toLowerCase()),
+    cmd.label.toLowerCase().startsWith(inputValue.toLowerCase()),
   );
+
+  const activeOptionId =
+    isOpen && filteredCommands.length > 0
+      ? `command-option-${activeIndex}`
+      : undefined;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
+    setIsOpen(true);
     setActiveIndex(0);
   };
 
@@ -78,13 +86,17 @@ const CommandInput = () => {
       if (!wrapperRef.current?.contains(document.activeElement)) {
         setIsOpen(false);
       }
-    }, 150);
+    }, 0);
   };
 
   return (
     <div ref={wrapperRef} className={styles.wrapper}>
       <div className={styles.inputBorder}>
         <input
+          role="combobox"
+          aria-expanded={isOpen && filteredCommands.length > 0}
+          aria-controls={listboxId}
+          aria-activedescendant={activeOptionId}
           className={styles.input}
           value={inputValue}
           onChange={handleChange}
@@ -96,6 +108,7 @@ const CommandInput = () => {
       </div>
       {isOpen && filteredCommands.length > 0 && (
         <CommandDropdown
+          listboxId={listboxId}
           commands={filteredCommands}
           activeIndex={activeIndex}
           onSelect={handleSelect}
