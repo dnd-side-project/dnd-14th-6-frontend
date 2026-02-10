@@ -40,6 +40,12 @@ export const cursorRow = style({
   minHeight: "2.7rem",
 });
 
+export const cursorNumberArea = style({
+  width: "1.9rem",
+  flexShrink: 0,
+  textAlign: "left",
+});
+
 export const cursorArea = style({
   marginLeft: "0.8rem",
 });

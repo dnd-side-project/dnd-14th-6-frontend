@@ -10,7 +10,6 @@ export interface LogLineItemProps {
   text?: string;
   indented?: boolean;
   descriptionColor?: "coolgrey_80" | "coolgrey_50";
-  className?: string;
 }
 
 const LogLineItem = ({
@@ -20,13 +19,8 @@ const LogLineItem = ({
   text,
   indented = false,
   descriptionColor = "coolgrey_80",
-  className,
 }: LogLineItemProps) => {
-  const rowClassName = [
-    styles.row,
-    variant === "header" && styles.headerRow,
-    className,
-  ]
+  const rowClassName = [styles.row, variant === "header" && styles.headerRow]
     .filter(Boolean)
     .join(" ");
 
