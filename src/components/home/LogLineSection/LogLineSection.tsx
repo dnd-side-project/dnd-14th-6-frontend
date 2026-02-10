@@ -6,9 +6,8 @@ import { LOG_LINES } from "@/constants/log-lines";
 import LogLineItem from "./LogLineItem";
 import * as styles from "./LogLineSection.css";
 
-const getGapClassName = (gap?: "header" | "section") => {
+const getGapClassName = (gap?: "header") => {
   if (gap === "header") return styles.headerGap;
-  if (gap === "section") return styles.sectionGap;
   return undefined;
 };
 
@@ -29,9 +28,18 @@ const LogLineSection = () => {
 
   useEffect(() => {
     const slot = slotRefs.current[FIRST_NUMBERED_INDEX];
-    if (slot && verticalLineRef.current) {
-      verticalLineRef.current.style.top = `${slot.offsetTop}px`;
-    }
+    const line = verticalLineRef.current;
+    if (!slot || !line) return;
+
+    const updateTop = () => {
+      line.style.top = `${slot.offsetTop}px`;
+    };
+    updateTop();
+
+    const observer = new ResizeObserver(updateTop);
+    observer.observe(slot);
+
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {

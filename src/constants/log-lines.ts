@@ -2,7 +2,7 @@ import type { LogLineItemProps } from "@/components/home/LogLineSection/LogLineI
 
 export interface LogLine extends LogLineItemProps {
   id: string;
-  gap?: "header" | "section";
+  gap?: "header";
 }
 
 export const LOG_LINES: LogLine[] = [
@@ -100,14 +100,13 @@ export const LOG_LINES: LogLine[] = [
   { id: "empty-14", displayNumber: 14, variant: "empty" },
   {
     id: "system-ready",
-    displayNumber: 13,
+    displayNumber: 15,
     variant: "bold",
     text: "SYSTEM READY",
-    gap: "section",
   },
   {
     id: "system-desc",
-    displayNumber: 14,
+    displayNumber: 16,
     variant: "description",
     text: "# 실무 기반 시나리오 타이핑 훈련을 시작합니다.",
     indented: true,
@@ -115,27 +114,27 @@ export const LOG_LINES: LogLine[] = [
   },
   {
     id: "training",
-    displayNumber: 15,
+    displayNumber: 17,
     variant: "bold",
     text: "Training Flow",
   },
   {
     id: "flow-1",
-    displayNumber: 16,
+    displayNumber: 18,
     variant: "description",
     text: "1. 실무 시나리오가 순차적으로 내려옵니다.",
     indented: true,
   },
   {
     id: "flow-2",
-    displayNumber: 17,
+    displayNumber: 19,
     variant: "description",
     text: "2. 시나리오에 해당하는 명령어를 입력하세요.",
     indented: true,
   },
   {
     id: "flow-3",
-    displayNumber: 18,
+    displayNumber: 20,
     variant: "description",
     text: "3. 맞춤형 분석 리포트로 게임 결과를 받아 보세요.",
     indented: true,

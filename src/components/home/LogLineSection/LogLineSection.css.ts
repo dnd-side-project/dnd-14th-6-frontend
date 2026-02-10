@@ -60,7 +60,3 @@ export const cursorBlock = style({
 export const headerGap = style({
   marginTop: "3.7rem",
 });
-
-export const sectionGap = style({
-  marginTop: "2rem",
-});

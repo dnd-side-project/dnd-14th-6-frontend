@@ -31,6 +31,42 @@ const LogLineItem = ({
     .filter(Boolean)
     .join(" ");
 
+  const renderContent = () => {
+    switch (variant) {
+      case "header":
+        return (
+          <Text as="span" variant="body17" color="primary_150">
+            {text}
+          </Text>
+        );
+      case "label":
+        return (
+          <>
+            <Text as="span" variant="body12" color="coolgrey_20">
+              {label}
+            </Text>
+            <Text as="span" variant="body12" color="coolgrey_40">
+              {text}
+            </Text>
+          </>
+        );
+      case "description":
+        return (
+          <Text as="span" variant="body17" color={descriptionColor}>
+            {text}
+          </Text>
+        );
+      case "bold":
+        return (
+          <Text as="span" variant="body12" color="coolgrey_20">
+            {text}
+          </Text>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className={rowClassName}>
       <div className={styles.lineNumberArea}>
@@ -40,33 +76,7 @@ const LogLineItem = ({
           </Text>
         )}
       </div>
-      <div className={contentClassName}>
-        {variant === "header" && (
-          <Text as="span" variant="body17" color="primary_150">
-            {text}
-          </Text>
-        )}
-        {variant === "label" && (
-          <>
-            <Text as="span" variant="body12" color="coolgrey_20">
-              {label}
-            </Text>
-            <Text as="span" variant="body12" color="coolgrey_40">
-              {text}
-            </Text>
-          </>
-        )}
-        {variant === "description" && (
-          <Text as="span" variant="body17" color={descriptionColor}>
-            {text}
-          </Text>
-        )}
-        {variant === "bold" && (
-          <Text as="span" variant="body12" color="coolgrey_20">
-            {text}
-          </Text>
-        )}
-      </div>
+      <div className={contentClassName}>{renderContent()}</div>
     </div>
   );
 };
