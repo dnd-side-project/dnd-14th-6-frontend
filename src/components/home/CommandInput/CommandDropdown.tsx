@@ -1,10 +1,6 @@
 import Text from "@/components/common/Text/Text";
+import type { Command } from "./CommandInput";
 import * as styles from "./CommandInput.css";
-
-interface Command {
-  label: string;
-  href: string;
-}
 
 interface CommandDropdownProps {
   commands: Command[];

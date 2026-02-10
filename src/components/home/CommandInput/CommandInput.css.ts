@@ -3,6 +3,26 @@ import { recipe } from "@vanilla-extract/recipes";
 import { vars } from "@/styles/theme.css";
 import { fontStyles } from "@/styles/tokens/fontStyles";
 
+const BORDER_WIDTH = "1.5px";
+const innerRadius = `calc(${vars.radius.s} - ${BORDER_WIDTH})`;
+const defaultGradient =
+  "linear-gradient(to right, rgba(98, 235, 254, 0.3), rgba(59, 141, 152, 0.3))";
+
+const gradientBorderBase = {
+  position: "relative",
+  borderRadius: vars.radius.s,
+  padding: BORDER_WIDTH,
+  background: defaultGradient,
+} as const;
+
+const gradientBorderBefore = {
+  content: '""',
+  position: "absolute",
+  inset: BORDER_WIDTH,
+  borderRadius: innerRadius,
+  backgroundColor: vars.color.black,
+} as const;
+
 export const wrapper = style({
   position: "relative",
   width: "100%",
@@ -10,20 +30,10 @@ export const wrapper = style({
 });
 
 export const inputBorder = style({
-  position: "relative",
-  borderRadius: vars.radius.s,
-  padding: "1.5px",
-  background:
-    "linear-gradient(to right, rgba(98, 235, 254, 0.3), rgba(59, 141, 152, 0.3))",
+  ...gradientBorderBase,
   backdropFilter: "blur(5px)",
   selectors: {
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      inset: "1.5px",
-      borderRadius: `calc(${vars.radius.s} - 1.5px)`,
-      backgroundColor: vars.color.black,
-    },
+    "&::before": gradientBorderBefore,
     "&:hover, &:focus-within": {
       background:
         "linear-gradient(to right, rgba(98, 235, 254, 0.91), rgba(63, 198, 216, 0.91), rgba(98, 235, 254, 0.91))",
@@ -41,7 +51,7 @@ export const input = style({
   paddingRight: "2.4rem",
   backgroundColor: vars.color.coolgrey_190,
   border: "none",
-  borderRadius: `calc(${vars.radius.s} - 1.5px)`,
+  borderRadius: innerRadius,
   color: vars.color.primary_50,
   outline: "none",
   caretColor: vars.color.primary_default,
@@ -56,30 +66,21 @@ export const input = style({
 });
 
 export const dropdownBorder = style({
+  ...gradientBorderBase,
   position: "absolute",
   top: "calc(100% + 0.7rem)",
   left: 0,
   width: "22rem",
-  borderRadius: vars.radius.s,
-  padding: "1.5px",
-  background:
-    "linear-gradient(to right, rgba(98, 235, 254, 0.3), rgba(59, 141, 152, 0.3))",
   zIndex: 10,
   selectors: {
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      inset: "1.5px",
-      borderRadius: `calc(${vars.radius.s} - 1.5px)`,
-      backgroundColor: vars.color.black,
-    },
+    "&::before": gradientBorderBefore,
   },
 });
 
 export const dropdown = style({
   position: "relative",
   backgroundColor: vars.color.coolgrey_190,
-  borderRadius: `calc(${vars.radius.s} - 1.5px)`,
+  borderRadius: innerRadius,
   overflow: "hidden",
 });
 

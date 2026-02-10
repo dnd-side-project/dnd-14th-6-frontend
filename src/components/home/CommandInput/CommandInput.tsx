@@ -1,16 +1,21 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useCallback, useRef, useState } from "react";
 import CommandDropdown from "./CommandDropdown";
 import * as styles from "./CommandInput.css";
 
-const COMMANDS = [
+export interface Command {
+  label: string;
+  href: string;
+}
+
+const COMMANDS: Command[] = [
   { label: "/start", href: "/game" },
   { label: "/report", href: "/report" },
   { label: "/ranking", href: "/report/ranking" },
   { label: "/setting", href: "/" },
-] as const;
+];
 
 const CommandInput = () => {
   const router = useRouter();
