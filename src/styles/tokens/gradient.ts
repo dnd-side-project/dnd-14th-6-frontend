@@ -37,6 +37,10 @@ export const gradient = {
   game_default_right:
     "linear-gradient(96.08deg, #4b696f 11.67%, #90b3b7 76.47%, #779196 100%)",
 
+  // Login
+  login_github:
+    "linear-gradient(0deg, rgba(16, 40, 52, 0.2) 0%, rgba(26, 28, 36, 0.2) 100%)",
+
   // Chart
   chart_line:
     "linear-gradient(113.64deg, rgba(255, 255, 255, 0.21) 23.09%, rgba(255, 255, 255, 0.7) 42.28%, rgba(255, 255, 255, 0) 62.22%, rgba(255, 255, 255, 0.21) 81.79%, rgba(255, 255, 255, 0.455) 91.57%, rgba(255, 255, 255, 0.7) 101.35%)",

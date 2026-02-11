@@ -14,4 +14,6 @@ export { default as IcGit } from "./IcGit";
 export { default as IcHomeLogo } from "./IcHomeLogo";
 export { default as IcLinux } from "./IcLinux";
 export { default as IcListArrow } from "./IcListArrow";
+export { default as IcLoginGit } from "./IcLoginGit";
+export { default as IcLoginGoogle } from "./IcLoginGoogle";
 export { default as IcSearch } from "./IcSearch";
