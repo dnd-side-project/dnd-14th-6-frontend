@@ -2,12 +2,23 @@ import { style } from "@vanilla-extract/css";
 import { vars } from "@/styles/theme.css";
 
 export const wrapper = style({
-  backgroundColor: vars.color.coolgrey_240,
+  position: "relative",
+  isolation: "isolate",
+  backgroundColor: vars.color.black,
   display: "flex",
+  flexDirection: "column",
   height: "100vh",
+  overflow: "hidden",
+});
+
+export const backgroundImage = style({
+  objectFit: "cover",
+  objectPosition: "top center",
+  zIndex: -1,
+  pointerEvents: "none",
 });
 
 export const contentStyle = style({
-  flex: 1,
-  overflowY: "auto",
+  marginTop: "11.4rem",
+  height: "calc(100vh - 11.4rem)",
 });
