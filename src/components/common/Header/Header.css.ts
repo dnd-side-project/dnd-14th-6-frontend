@@ -121,7 +121,9 @@ export const loginLink = style({
   },
 });
 
-globalStyle(`${loginLink}:hover span`, {
+export const loginText = style({});
+
+globalStyle(`${loginLink}:hover ${loginText}`, {
   fontWeight: 600,
 });
 

@@ -73,7 +73,12 @@ const Header = ({
         ) : (
           <Link href="/login" className={styles.loginLink}>
             <IcHeaderLogin size={18} />
-            <Text as="span" variant="caption10" color="primary_default">
+            <Text
+              as="span"
+              variant="caption10"
+              color="primary_default"
+              className={styles.loginText}
+            >
               Log In
             </Text>
           </Link>
