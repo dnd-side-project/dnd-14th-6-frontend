@@ -1,6 +1,7 @@
-import { style } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { vars } from "@/styles/theme.css";
+import { fontStyles } from "@/styles/tokens/fontStyles";
 
 export const header = recipe({
   base: {
@@ -9,7 +10,9 @@ export const header = recipe({
     justifyContent: "space-between",
     width: "100%",
     height: "11.4rem",
-    padding: "0 5.6rem",
+    padding: "0 6rem",
+    backgroundColor: vars.color.coolgrey_210,
+    backdropFilter: "blur(9.9px)",
   },
   variants: {
     fixed: {
@@ -29,19 +32,10 @@ export const header = recipe({
   },
 });
 
-export const logoPlaceholder = style({
-  width: "16.2rem",
-  height: "5.4rem",
-  backgroundColor: vars.color.coolgrey_120,
-  borderRadius: vars.radius.s,
-});
-
 export const nav = style({
   display: "flex",
   alignItems: "center",
   gap: "0.6rem",
-  padding: "0.6rem 2.2rem",
-  borderRadius: "99px",
 });
 
 export const navItem = recipe({
@@ -49,20 +43,28 @@ export const navItem = recipe({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "9.4rem",
-    padding: "0.7rem 2.4rem",
-    borderRadius: "99px",
+    width: "10rem",
+    padding: "0.8rem 2rem",
+    borderRadius: vars.radius.max,
     textDecoration: "none",
-    transition: "background-color 0.2s ease",
+    transition: "color 0.2s ease, background-color 0.2s ease",
   },
   variants: {
     active: {
       true: {
-        backgroundColor: "rgba(58, 87, 103, 0.6)",
-        backdropFilter: "blur(20px)",
+        ...fontStyles.caption12,
+        color: vars.color.coolgrey_20,
+        backgroundColor: vars.color.coolgrey_120,
       },
       false: {
-        backgroundColor: "transparent",
+        ...fontStyles.caption13,
+        color: vars.color.coolgrey_80,
+        selectors: {
+          "&:hover": {
+            ...fontStyles.caption9,
+            color: vars.color.coolgrey_50,
+          },
+        },
       },
     },
   },
@@ -71,45 +73,99 @@ export const navItem = recipe({
   },
 });
 
-export const rightSection = style({
+export const loginLink = style({
+  position: "relative",
   display: "flex",
   alignItems: "center",
-  gap: "1.9rem",
+  gap: "1rem",
+  padding: "1.2rem 2rem",
+  background: vars.gradient.main_background,
+  borderRadius: vars.radius.max,
+  boxShadow: `inset 1px 1px 4px 0px ${vars.color.primary_250}`,
+  backdropFilter: "blur(4px)",
+  textDecoration: "none",
+  cursor: "pointer",
+  transition: "padding 0.2s ease, box-shadow 0.2s ease",
+  selectors: {
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      inset: 0,
+      borderRadius: "inherit",
+      padding: "0.2px",
+      background: vars.gradient.glass_outstroke,
+      WebkitMask:
+        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+      WebkitMaskComposite: "xor",
+      mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+      maskComposite: "exclude",
+      pointerEvents: "none",
+      transition: "padding 0.2s ease",
+    },
+    "&:hover": {
+      padding: "1.6rem 2rem",
+      boxShadow: `inset 1.088px 1.088px 2.721px ${vars.color.primary_250}, inset 0px 4.354px 20.246px #62ebfe70`,
+    },
+    "&:hover::before": {
+      padding: "0.5px",
+    },
+  },
 });
 
-export const loginButton = style({
-  display: "flex",
-  alignItems: "center",
-  gap: "0.4rem",
-  padding: "1.1rem 1.9rem",
-  background: vars.gradient.main_background,
-  border: "0.2px solid white",
-  borderRadius: "99px",
-  boxShadow: `inset 1px 1px 4px 0px ${vars.color.primary_250}`,
-  cursor: "pointer",
+globalStyle(`${loginLink} svg`, {
+  transition: "width 0.2s ease, height 0.2s ease",
+});
+
+globalStyle(`${loginLink}:hover svg`, {
+  width: "19.59px",
+  height: "19.59px",
+});
+
+globalStyle(`${loginLink}:hover span`, {
+  ...fontStyles.caption8,
 });
 
 export const profileSection = style({
   display: "flex",
   alignItems: "center",
-  gap: "1.9rem",
+  gap: "1.8rem",
 });
 
-export const profileImage = style({
+const profileBase = {
+  position: "relative" as const,
   width: "4.8rem",
   height: "4.8rem",
-  borderRadius: "99px",
+  borderRadius: vars.radius.max,
   background: vars.gradient.main_background,
-  border: "0.2px solid white",
   boxShadow: `inset 1px 1px 4px 0px ${vars.color.primary_250}`,
+};
+
+const profileBorderBefore = {
+  content: '""',
+  position: "absolute" as const,
+  inset: 0,
+  borderRadius: "inherit",
+  padding: "0.2px",
+  background: vars.gradient.glass_outstroke,
+  WebkitMask:
+    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+  WebkitMaskComposite: "xor" as const,
+  mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+  maskComposite: "exclude" as const,
+  pointerEvents: "none" as const,
+};
+
+export const profileImage = style({
+  ...profileBase,
   objectFit: "cover",
+  selectors: {
+    "&::before": profileBorderBefore,
+  },
 });
 
 export const profilePlaceholder = style({
-  width: "4.8rem",
-  height: "4.8rem",
-  borderRadius: "99px",
-  background: vars.gradient.main_background,
-  border: "0.2px solid white",
-  boxShadow: `inset 1px 1px 4px 0px ${vars.color.primary_250}`,
+  ...profileBase,
+  selectors: {
+    "&::before": profileBorderBefore,
+  },
 });
