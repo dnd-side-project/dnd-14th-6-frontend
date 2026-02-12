@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import IcHeaderLogin from "@/assets/icons/colored/IcHeaderLogin";
+import IcHeaderLogo from "@/assets/icons/colored/IcHeaderLogo";
 import Text from "../Text/Text";
 import * as styles from "./Header.css";
 
@@ -11,14 +13,13 @@ interface HeaderProps {
   isLoggedIn?: boolean;
   username?: string;
   profileImage?: string;
-  onLoginClick?: () => void;
 }
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Report", href: "/report" },
   { label: "Ranking", href: "/report/ranking" },
-  { label: "Setting", href: "/" },
+  { label: "Setting", href: "/login" },
 ] as const;
 
 const Header = ({
@@ -26,40 +27,25 @@ const Header = ({
   isLoggedIn = false,
   username,
   profileImage,
-  onLoginClick,
 }: HeaderProps) => {
   const pathname = usePathname();
 
-  const isActive = (label: string) => {
-    if (label === "Ranking") {
-      return pathname === "/report/ranking";
-    }
-    if (label === "Report") {
-      return pathname === "/report";
-    }
-    if (label === "Home") {
-      return pathname === "/";
-    }
-    return false;
-  };
-
   return (
     <header className={styles.header({ fixed })}>
-      <div className={styles.logoPlaceholder} />
+      <div className={styles.leftSection}>
+        <Link href="/">
+          <IcHeaderLogo width={92} height={38} />
+        </Link>
+      </div>
 
       <nav className={styles.nav}>
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.label}
             href={item.href}
-            className={styles.navItem({ active: isActive(item.label) })}
+            className={styles.navItem({ active: pathname === item.href })}
           >
-            <Text
-              variant={isActive(item.label) ? "caption12" : "caption13"}
-              color={isActive(item.label) ? "coolgrey_20" : "coolgrey_80"}
-            >
-              {item.label}
-            </Text>
+            {item.label}
           </Link>
         ))}
       </nav>
@@ -71,27 +57,31 @@ const Header = ({
               {username}
             </Text>
             {profileImage ? (
-              <Image
-                src={profileImage}
-                alt="profile"
-                width={48}
-                height={48}
-                className={styles.profileImage}
-              />
+              <div className={styles.profileImageWrapper}>
+                <Image
+                  src={profileImage}
+                  alt="profile"
+                  width={48}
+                  height={48}
+                  className={styles.profileImage}
+                />
+              </div>
             ) : (
               <div className={styles.profilePlaceholder} />
             )}
           </div>
         ) : (
-          <button
-            type="button"
-            className={styles.loginButton}
-            onClick={onLoginClick}
-          >
-            <Text variant="caption10" color="primary_default">
+          <Link href="/login" className={styles.loginLink}>
+            <IcHeaderLogin size={18} />
+            <Text
+              as="span"
+              variant="caption10"
+              color="primary_default"
+              className={styles.loginText}
+            >
               Log In
             </Text>
-          </button>
+          </Link>
         )}
       </div>
     </header>
