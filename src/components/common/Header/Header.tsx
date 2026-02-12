@@ -57,13 +57,15 @@ const Header = ({
               {username}
             </Text>
             {profileImage ? (
-              <Image
-                src={profileImage}
-                alt="profile"
-                width={48}
-                height={48}
-                className={styles.profileImage}
-              />
+              <div className={styles.profileImageWrapper}>
+                <Image
+                  src={profileImage}
+                  alt="profile"
+                  width={48}
+                  height={48}
+                  className={styles.profileImage}
+                />
+              </div>
             ) : (
               <div className={styles.profilePlaceholder} />
             )}

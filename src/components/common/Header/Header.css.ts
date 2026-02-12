@@ -155,12 +155,19 @@ const profileBorderBefore = {
   pointerEvents: "none" as const,
 };
 
-export const profileImage = style({
+export const profileImageWrapper = style({
   ...profileBase,
-  objectFit: "cover",
+  overflow: "hidden",
   selectors: {
     "&::before": profileBorderBefore,
   },
+});
+
+export const profileImage = style({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  borderRadius: "inherit",
 });
 
 export const profilePlaceholder = style({
