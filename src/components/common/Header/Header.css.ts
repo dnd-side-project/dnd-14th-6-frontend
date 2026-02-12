@@ -7,7 +7,6 @@ export const header = recipe({
   base: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
     width: "100%",
     height: "11.4rem",
     padding: "0 6rem",
@@ -30,6 +29,16 @@ export const header = recipe({
   defaultVariants: {
     fixed: true,
   },
+});
+
+export const leftSection = style({
+  flex: 1,
+});
+
+export const rightSection = style({
+  flex: 1,
+  display: "flex",
+  justifyContent: "flex-end",
 });
 
 export const nav = style({
@@ -85,7 +94,7 @@ export const loginLink = style({
   backdropFilter: "blur(4px)",
   textDecoration: "none",
   cursor: "pointer",
-  transition: "padding 0.2s ease, box-shadow 0.2s ease",
+  transition: "transform 0.2s ease, box-shadow 0.2s ease",
   selectors: {
     "&::before": {
       content: '""',
@@ -103,7 +112,7 @@ export const loginLink = style({
       transition: "padding 0.2s ease",
     },
     "&:hover": {
-      padding: "1.6rem 2rem",
+      transform: "scale(1.09)",
       boxShadow: `inset 1.088px 1.088px 2.721px ${vars.color.primary_250}, inset 0px 4.354px 20.246px #62ebfe70`,
     },
     "&:hover::before": {
@@ -112,17 +121,8 @@ export const loginLink = style({
   },
 });
 
-globalStyle(`${loginLink} svg`, {
-  transition: "width 0.2s ease, height 0.2s ease",
-});
-
-globalStyle(`${loginLink}:hover svg`, {
-  width: "19.59px",
-  height: "19.59px",
-});
-
 globalStyle(`${loginLink}:hover span`, {
-  ...fontStyles.caption8,
+  fontWeight: 600,
 });
 
 export const profileSection = style({

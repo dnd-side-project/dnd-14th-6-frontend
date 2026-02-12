@@ -30,62 +30,53 @@ const Header = ({
 }: HeaderProps) => {
   const pathname = usePathname();
 
-  const isActive = (label: string) => {
-    if (label === "Ranking") {
-      return pathname === "/report/ranking";
-    }
-    if (label === "Report") {
-      return pathname === "/report";
-    }
-    if (label === "Home") {
-      return pathname === "/";
-    }
-    return false;
-  };
-
   return (
     <header className={styles.header({ fixed })}>
-      <Link href="/">
-        <IcHeaderLogo width={92} height={38} />
-      </Link>
+      <div className={styles.leftSection}>
+        <Link href="/">
+          <IcHeaderLogo width={92} height={38} />
+        </Link>
+      </div>
 
       <nav className={styles.nav}>
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.label}
             href={item.href}
-            className={styles.navItem({ active: isActive(item.label) })}
+            className={styles.navItem({ active: pathname === item.href })}
           >
             {item.label}
           </Link>
         ))}
       </nav>
 
-      {isLoggedIn ? (
-        <div className={styles.profileSection}>
-          <Text variant="caption12" color="coolgrey_40">
-            {username}
-          </Text>
-          {profileImage ? (
-            <Image
-              src={profileImage}
-              alt="profile"
-              width={48}
-              height={48}
-              className={styles.profileImage}
-            />
-          ) : (
-            <div className={styles.profilePlaceholder} />
-          )}
-        </div>
-      ) : (
-        <Link href="/login" className={styles.loginLink}>
-          <IcHeaderLogin size={18} />
-          <Text as="span" variant="caption10" color="primary_default">
-            Log In
-          </Text>
-        </Link>
-      )}
+      <div className={styles.rightSection}>
+        {isLoggedIn ? (
+          <div className={styles.profileSection}>
+            <Text variant="caption12" color="coolgrey_40">
+              {username}
+            </Text>
+            {profileImage ? (
+              <Image
+                src={profileImage}
+                alt="profile"
+                width={48}
+                height={48}
+                className={styles.profileImage}
+              />
+            ) : (
+              <div className={styles.profilePlaceholder} />
+            )}
+          </div>
+        ) : (
+          <Link href="/login" className={styles.loginLink}>
+            <IcHeaderLogin size={18} />
+            <Text as="span" variant="caption10" color="primary_default">
+              Log In
+            </Text>
+          </Link>
+        )}
+      </div>
     </header>
   );
 };
