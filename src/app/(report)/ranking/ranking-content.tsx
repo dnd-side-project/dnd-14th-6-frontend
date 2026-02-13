@@ -30,7 +30,6 @@ export default function RankingContent({ tab }: RankingContentProps) {
 
   const handleTabChange = (newTab: RankingTabType) => {
     router.replace(`?tab=${newTab}`);
-    setCurrentPage(1);
   };
 
   return (

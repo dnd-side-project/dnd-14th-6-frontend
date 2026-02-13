@@ -6,5 +6,5 @@ interface RankingPageProps {
 
 export default async function RankingPage({ searchParams }: RankingPageProps) {
   const { tab } = await searchParams;
-  return <RankingContent tab={tab} />;
+  return <RankingContent key={tab} tab={tab} />;
 }
