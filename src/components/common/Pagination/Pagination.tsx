@@ -5,20 +5,22 @@ import Flex from "../Flex/Flex";
 import * as styles from "./Pagination.css";
 
 const PAGES_PER_GROUP = 3;
-const ITEMS_PER_PAGE = 5;
+const DEFAULT_ITEMS_PER_PAGE = 5;
 
 interface PaginationProps {
   totalItems: number;
   currentPage: number;
   onPageChange: (page: number) => void;
+  itemsPerPage?: number;
 }
 
 const Pagination = ({
   totalItems,
   currentPage,
   onPageChange,
+  itemsPerPage = DEFAULT_ITEMS_PER_PAGE,
 }: PaginationProps) => {
-  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
   const currentGroup = Math.floor((currentPage - 1) / PAGES_PER_GROUP);
   const startPage = currentGroup * PAGES_PER_GROUP + 1;
   const endPage = Math.min(startPage + PAGES_PER_GROUP - 1, totalPages);
