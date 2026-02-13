@@ -11,6 +11,8 @@ export { default as IcDocker } from "./IcDocker";
 export { default as IcFilterDefault } from "./IcFilterDefault";
 export { default as IcFilterSelected } from "./IcFilterSelected";
 export { default as IcGit } from "./IcGit";
+export { default as IcGitActive } from "./IcGitActive";
+export { default as IcGitInactive } from "./IcGitInactive";
 export { default as IcHeaderLogin } from "./IcHeaderLogin";
 export { default as IcHeaderLogo } from "./IcHeaderLogo";
 export { default as IcHomeLogo } from "./IcHomeLogo";
