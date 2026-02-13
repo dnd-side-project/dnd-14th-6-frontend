@@ -13,7 +13,7 @@ export interface Command {
 const COMMANDS: Command[] = [
   { label: "/start", href: "/game" },
   { label: "/report", href: "/report" },
-  { label: "/ranking", href: "/report/ranking" },
+  { label: "/ranking", href: "/ranking" },
   { label: "/setting", href: "/" },
 ];
 
