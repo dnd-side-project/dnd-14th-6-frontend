@@ -1,226 +1,171 @@
-import type { RankingListItemProps } from "@/components/ranking/RankingListSection/RankingListItem/RankingListItem";
+import type { RankUser } from "@/types/ranking";
 
-export const MOCK_RANKS: RankingListItemProps[] = [
+const TIER_PLACEHOLDER =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E";
+
+export const MOCK_RANKS: RankUser[] = [
   {
     ranking: 1,
     nickname: "Jin Park",
     totalScore: "1029342",
+    profileImage: "https://i.pravatar.cc/300?u=1",
     githubUrl: "https://github.com/user1",
-    tier: {
-      name: "Master",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Master", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 2,
     nickname: "Alex Kim",
     totalScore: "982150",
+    profileImage: "https://i.pravatar.cc/300?u=2",
     githubUrl: "https://github.com/user2",
-    tier: {
-      name: "Master",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Master", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 3,
     nickname: "Sora Lee",
     totalScore: "875430",
+    profileImage: "",
     githubUrl: null,
-    tier: {
-      name: "Diamond",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Diamond", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 4,
     nickname: "Minho Choi",
     totalScore: "754200",
+    profileImage: null,
     githubUrl: "https://github.com/user4",
-    tier: {
-      name: "Diamond",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Diamond", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 5,
     nickname: "Yuna Han",
     totalScore: "698100",
+    profileImage: null,
     githubUrl: null,
-    tier: {
-      name: "Platinum",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Platinum", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 6,
     nickname: "Doha Jang",
     totalScore: "645300",
+    profileImage: null,
     githubUrl: "https://github.com/user6",
-    tier: {
-      name: "Platinum",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Platinum", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 7,
     nickname: "Jiho Yoon",
     totalScore: "612450",
+    profileImage: null,
     githubUrl: "https://github.com/user7",
-    tier: {
-      name: "Platinum",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Platinum", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 8,
     nickname: "Eunji Lim",
     totalScore: "589700",
+    profileImage: null,
     githubUrl: null,
-    tier: {
-      name: "Gold",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Gold", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 9,
     nickname: "Taemin Seo",
     totalScore: "534200",
+    profileImage: null,
     githubUrl: "https://github.com/user9",
-    tier: {
-      name: "Gold",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Gold", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 10,
     nickname: "Hyein Kang",
     totalScore: "498600",
+    profileImage: null,
     githubUrl: "https://github.com/user10",
-    tier: {
-      name: "Gold",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Gold", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 11,
     nickname: "Sunwoo Bae",
     totalScore: "467300",
+    profileImage: null,
     githubUrl: null,
-    tier: {
-      name: "Silver",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Silver", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 12,
     nickname: "Chaewon Oh",
     totalScore: "432100",
+    profileImage: null,
     githubUrl: "https://github.com/user12",
-    tier: {
-      name: "Silver",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Silver", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 13,
     nickname: "Jiwon Noh",
     totalScore: "398500",
+    profileImage: null,
     githubUrl: "https://github.com/user13",
-    tier: {
-      name: "Silver",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Silver", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 14,
     nickname: "Minseok Ryu",
     totalScore: "365200",
+    profileImage: null,
     githubUrl: null,
-    tier: {
-      name: "Silver",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Silver", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 15,
     nickname: "Hayoung Shin",
     totalScore: "334800",
+    profileImage: null,
     githubUrl: "https://github.com/user15",
-    tier: {
-      name: "Bronze",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Bronze", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 16,
     nickname: "Woojin Ahn",
     totalScore: "312400",
+    profileImage: null,
     githubUrl: "https://github.com/user16",
-    tier: {
-      name: "Bronze",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Bronze", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 17,
     nickname: "Soyeon Jung",
     totalScore: "289600",
+    profileImage: null,
     githubUrl: null,
-    tier: {
-      name: "Bronze",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Bronze", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 18,
     nickname: "Junho Moon",
     totalScore: "254300",
+    profileImage: null,
     githubUrl: "https://github.com/user18",
-    tier: {
-      name: "Bronze",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Bronze", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 19,
     nickname: "Dahee Kwon",
     totalScore: "221500",
+    profileImage: null,
     githubUrl: "https://github.com/user19",
-    tier: {
-      name: "Bronze",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Bronze", imageUrl: TIER_PLACEHOLDER },
   },
   {
     ranking: 20,
     nickname: "Seojun Hwang",
     totalScore: "198700",
+    profileImage: null,
     githubUrl: null,
-    tier: {
-      name: "Bronze",
-      imageUrl:
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='13' fill='%239ea4aa'%3E%3Crect width='17' height='13' rx='6'/%3E%3C/svg%3E",
-    },
+    tier: { name: "Bronze", imageUrl: TIER_PLACEHOLDER },
   },
 ];
 
 export const MOCK_TOTAL_PAGE = 6;
+
+export const MOCK_TOP_RANKS: RankUser[] = MOCK_RANKS.slice(0, 3);
