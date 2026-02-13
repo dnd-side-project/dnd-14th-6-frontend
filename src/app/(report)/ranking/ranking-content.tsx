@@ -25,9 +25,7 @@ interface RankingContentProps {
 
 export default function RankingContent({ tab }: RankingContentProps) {
   const router = useRouter();
-  const activeTab = VALID_TABS.includes(tab as RankingTabType)
-    ? (tab as RankingTabType)
-    : "all";
+  const activeTab = VALID_TABS.find((t) => t === tab) ?? "all";
   const [currentPage, setCurrentPage] = useState(1);
 
   const handleTabChange = (newTab: RankingTabType) => {
