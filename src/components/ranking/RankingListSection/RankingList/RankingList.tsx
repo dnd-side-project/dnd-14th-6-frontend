@@ -1,12 +1,12 @@
 import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
+import type { RankUser } from "@/types/ranking";
 
-import type { RankingListItemProps } from "../RankingListItem/RankingListItem";
 import RankingListItem from "../RankingListItem/RankingListItem";
 import * as styles from "./RankingList.css";
 
 interface RankingListProps {
-  ranks: RankingListItemProps[];
+  ranks: RankUser[];
 }
 
 const RankingList = ({ ranks }: RankingListProps) => {

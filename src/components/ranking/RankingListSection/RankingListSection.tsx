@@ -1,13 +1,13 @@
 import Flex from "@/components/common/Flex/Flex";
 import Pagination from "@/components/common/Pagination/Pagination";
+import type { RankUser } from "@/types/ranking";
 
 import RankingList from "./RankingList/RankingList";
-import type { RankingListItemProps } from "./RankingListItem/RankingListItem";
 
 const ITEMS_PER_PAGE = 20;
 
 export interface RankingListSectionProps {
-  ranks: RankingListItemProps[];
+  ranks: RankUser[];
   totalPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;

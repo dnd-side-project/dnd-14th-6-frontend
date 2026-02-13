@@ -2,20 +2,11 @@ import IcGitActive from "@/assets/icons/colored/IcGitActive";
 import IcGitInactive from "@/assets/icons/colored/IcGitInactive";
 import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
+import type { RankUser } from "@/types/ranking";
 
 import * as styles from "./RankingListItem.css";
 
-interface Tier {
-  name: string;
-  imageUrl: string;
-}
-
-export interface RankingListItemProps {
-  ranking: number;
-  nickname: string;
-  totalScore: string;
-  githubUrl: string | null;
-  tier: Tier;
+export interface RankingListItemProps extends RankUser {
   isMe?: boolean;
 }
 
