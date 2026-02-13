@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { hostname: "i.pravatar.cc" },
       { hostname: "github.com" },
-      { hostname: "*.githubusercontent.com" },
+      { hostname: "avatars.githubusercontent.com" },
     ],
   },
 };
