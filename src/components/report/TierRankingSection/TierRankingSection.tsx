@@ -30,7 +30,7 @@ export default function TierRankingSection(props: TierRankingSectionProps) {
   const { variant } = props;
 
   return (
-    <Link href="/report/ranking" className={linkWrapper}>
+    <Link href="/ranking" className={linkWrapper}>
       <DashboardCard className={cardFullHeight}>
         <div className={content}>
           <div className={header}>

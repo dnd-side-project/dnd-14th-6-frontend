@@ -18,7 +18,7 @@ interface HeaderProps {
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Report", href: "/report" },
-  { label: "Ranking", href: "/report/ranking" },
+  { label: "Ranking", href: "/ranking" },
   { label: "Setting", href: "/login" },
 ] as const;
 
