@@ -30,6 +30,7 @@ export const color = {
   coolgrey_50: "#c9cdd2",
   coolgrey_60: "#a7b4c31a",
   coolgrey_70: "#93a5b9b2",
+  coolgrey_75: "#93A5B9",
   coolgrey_80: "#9ea4aa",
   coolgrey_90: "#72787f",
   coolgrey_100: "#6d7b86",
@@ -45,6 +46,7 @@ export const color = {
   coolgrey_200: "#191d26",
   coolgrey_210: "#18283833",
   coolgrey_220: "#1f222a",
+  coolgrey_225: "#1d212c",
   coolgrey_230: "#1b1d1f",
   coolgrey_240: "#1a1c24",
 

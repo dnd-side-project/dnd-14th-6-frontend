@@ -48,4 +48,12 @@ export const gradient = {
   chart_level3: "linear-gradient(90deg, #1ca1b3 0%, #2d565c 100%)",
   chart_line2:
     "linear-gradient(113.64deg, rgba(255, 255, 255, 0.035) 23.09%, rgba(255, 255, 255, 0.7) 42.28%, rgba(255, 255, 255, 0.455) 70.87%, rgba(255, 255, 255, 0.56) 88.18%, rgba(255, 255, 255, 0.035) 101.35%)",
+
+  // Ranking
+  ranking_top1:
+    "linear-gradient(90deg, rgba(179, 155, 113, 0.3) 0%, rgba(179, 155, 113, 0) 18.564%), linear-gradient(90deg, #1d212c 0%, #1d212c 100%)",
+  ranking_top2:
+    "linear-gradient(90deg, rgba(153, 175, 240, 0.14) 0%, rgba(153, 175, 240, 0) 18%), linear-gradient(90deg, #1d212c 0%, #1d212c 100%)",
+  ranking_top3:
+    "linear-gradient(90deg, rgba(238, 129, 93, 0.1) 0%, rgba(238, 129, 93, 0) 18.415%), linear-gradient(90deg, #1d212c 0%, #1d212c 100%)",
 } as const;
