@@ -16,17 +16,14 @@ export const panel = style({
 });
 
 export const category = style({
-  width: "100%",
-  paddingRight: "7rem",
   display: "flex",
   alignItems: "flex-start",
-  justifyContent: "space-between",
+  gap: "23rem",
 });
 
 export const difficultyGrid = style({
   display: "grid",
   gridTemplateColumns: "auto auto",
-  gridTemplateRows: "auto auto",
   columnGap: "6.2rem",
   rowGap: "1rem",
 });
