@@ -1,5 +1,5 @@
 ---
-name: create-pr
+name: pr
 description: 현재 브랜치의 변경사항을 분석하여 원격에 푸시하고 develop 브랜치 대상으로 Draft PR을 생성하는 스킬. PR 생성, 푸시, pull request 관련 요청에서 자동으로 트리거된다.
 user-invocable: true
 metadata:
