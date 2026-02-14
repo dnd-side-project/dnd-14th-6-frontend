@@ -16,10 +16,16 @@ export const panel = style({
 });
 
 export const category = style({
-  width: "37.1rem",
   display: "flex",
   alignItems: "flex-start",
-  justifyContent: "space-between",
+  gap: "23rem",
+});
+
+export const difficultyGrid = style({
+  display: "grid",
+  gridTemplateColumns: "auto auto",
+  columnGap: "6.2rem",
+  rowGap: "1rem",
 });
 
 export const divider = style({

@@ -7,7 +7,7 @@ import CheckBox from "../CheckBox/CheckBox";
 import * as styles from "./SearchFilterPanel.css";
 
 const CATEGORIES = ["Git", "Docker", "Linux"] as const;
-const DIFFICULTIES = ["Easy", "Normal", "Hard"] as const;
+const DIFFICULTIES = ["Easy", "Normal", "Hard", "Random"] as const;
 
 interface SearchFilterPanelProps {
   value: SearchFilterValue;
@@ -62,7 +62,7 @@ const SearchFilterPanel = ({
               <Text variant="caption1" color="coolgrey_80">
                 카테고리
               </Text>
-              <Flex direction="column" gap={1.2}>
+              <Flex direction="column" gap={1}>
                 {CATEGORIES.map((category) => (
                   <CheckBox
                     key={category}
@@ -78,7 +78,7 @@ const SearchFilterPanel = ({
               <Text variant="caption1" color="coolgrey_80">
                 난이도
               </Text>
-              <Flex direction="column" gap={1.2}>
+              <div className={styles.difficultyGrid}>
                 {DIFFICULTIES.map((difficulty) => (
                   <CheckBox
                     key={difficulty}
@@ -89,7 +89,7 @@ const SearchFilterPanel = ({
                     }
                   />
                 ))}
-              </Flex>
+              </div>
             </Flex>
           </div>
         </Flex>
