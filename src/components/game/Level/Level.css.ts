@@ -6,5 +6,5 @@ export const level = style({
   backgroundClip: "text",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
-  filter: "drop-shadow(0px 1px 30px rgba(98, 235, 254, 0.83))",
+  filter: `drop-shadow(${vars.effect.game_glow})`,
 });
