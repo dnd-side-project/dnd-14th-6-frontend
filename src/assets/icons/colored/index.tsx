@@ -21,3 +21,5 @@ export { default as IcListArrow } from "./IcListArrow";
 export { default as IcLoginGit } from "./IcLoginGit";
 export { default as IcLoginGoogle } from "./IcLoginGoogle";
 export { default as IcSearch } from "./IcSearch";
+export { default as IcTimerDefault } from "./IcTimerDefault";
+export { default as IcTimerRed } from "./IcTimerRed";
