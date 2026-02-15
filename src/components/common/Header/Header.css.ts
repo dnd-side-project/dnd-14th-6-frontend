@@ -8,10 +8,11 @@ export const header = recipe({
     display: "flex",
     alignItems: "center",
     width: "100%",
-    height: "11.4rem",
+    height: "10.4rem",
     padding: "0 6rem",
-    backgroundColor: vars.color.coolgrey_210,
-    backdropFilter: "blur(9.9px)",
+    background:
+      "linear-gradient(345deg, rgba(24, 40, 56, 0.04) 63.51%, rgba(24, 40, 56, 0.00) 103.01%)",
+    backdropFilter: "blur(7.5px)",
   },
   variants: {
     fixed: {
