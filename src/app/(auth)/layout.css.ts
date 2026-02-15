@@ -19,6 +19,6 @@ export const backgroundImage = style({
 });
 
 export const contentStyle = style({
-  marginTop: "11.4rem",
-  height: "calc(100vh - 11.4rem)",
+  marginTop: "10.4rem",
+  height: "calc(100vh - 10.4rem)",
 });
