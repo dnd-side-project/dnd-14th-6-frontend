@@ -3,8 +3,11 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { getQueryClient } from "./get-query-client";
 
+// biome-ignore lint/suspicious/noExplicitAny: 모든 queryOptions 타입을 수용하기 위해 필요
+type AnyFetchQueryOptions = FetchQueryOptions<any, any, any, any, never>;
+
 interface ServerFetchBoundaryProps {
-  fetchOptions: FetchQueryOptions | FetchQueryOptions[];
+  fetchOptions: AnyFetchQueryOptions | AnyFetchQueryOptions[];
   children: ReactNode;
 }
 

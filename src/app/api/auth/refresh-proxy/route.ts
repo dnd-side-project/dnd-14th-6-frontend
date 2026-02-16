@@ -35,26 +35,11 @@ export async function POST() {
     );
   }
 
-  const { accessToken, refreshToken: newRefreshToken } = json.data;
-
-  cookieStore.set("accessToken", accessToken, {
-    path: "/",
-    secure: true,
-    sameSite: "lax",
-  });
-
-  if (newRefreshToken) {
-    cookieStore.set("refreshToken", newRefreshToken, {
-      path: "/",
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-    });
+  // 백엔드의 Set-Cookie 헤더를 브라우저에 그대로 전달
+  const response = NextResponse.json(json);
+  for (const setCookie of backendResponse.headers.getSetCookie()) {
+    response.headers.append("Set-Cookie", setCookie);
   }
 
-  return NextResponse.json({
-    statusCode: 200,
-    success: true,
-    data: { accessToken },
-  });
+  return response;
 }
