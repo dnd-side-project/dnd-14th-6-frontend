@@ -1,9 +1,10 @@
-import type { ReactNode } from "react";
 import { IcGameHint } from "@/assets/icons/colored";
 import type { CategoryType } from "@/components/game/Category/Category";
 import type { LevelType } from "@/components/game/Level/Level";
 import LevelCell from "@/components/game/LevelCell/LevelCell";
 import ScoreCell from "@/components/game/ScoreCell/ScoreCell";
+import ScoreTable from "@/components/game/ScoreTable/ScoreTable";
+import type { ScoreLevelType } from "@/components/game/ScoreTable/ScoreTable";
 import TimeBar from "@/components/game/TimeBar/TimeBar";
 import type { TimerVariant } from "@/components/game/Timer/Timer";
 import Timer from "@/components/game/Timer/Timer";
@@ -15,18 +16,18 @@ interface GameHeaderProps {
   category: CategoryType;
   level: LevelType;
   score: number;
+  scores?: Record<ScoreLevelType, number>;
   currentTime: number;
   totalTime: number;
-  children?: ReactNode;
 }
 
 export default function GameHeader({
   category,
   level,
   score,
+  scores,
   currentTime,
   totalTime,
-  children,
 }: GameHeaderProps) {
   const ratio = totalTime > 0 ? currentTime / totalTime : 0;
   const timerVariant: TimerVariant = ratio <= RED_THRESHOLD ? "red" : "default";
@@ -46,7 +47,7 @@ export default function GameHeader({
         </div>
       </div>
       <div className={styles.bottomRow}>
-        {children}
+        {scores && <ScoreTable scores={scores} />}
         <button type="button" className={styles.hintButton}>
           <IcGameHint size={36} />
         </button>

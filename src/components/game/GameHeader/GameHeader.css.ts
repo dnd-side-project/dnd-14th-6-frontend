@@ -34,12 +34,13 @@ export const timeBar = style({
 
 export const bottomRow = style({
   display: "flex",
-  justifyContent: "flex-end",
+  alignItems: "flex-start",
   width: "100%",
 });
 
 export const hintButton = style({
   cursor: "pointer",
+  marginLeft: "auto",
   background: "none",
   border: "none",
   padding: 0,
