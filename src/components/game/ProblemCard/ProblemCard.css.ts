@@ -9,6 +9,7 @@ export const container = recipe({
     display: "inline-flex",
     padding: "2px",
     borderRadius: vars.radius.l,
+    border: "none",
     cursor: "pointer",
     outline: "none",
     transition: "box-shadow 0.2s ease",
@@ -36,10 +37,11 @@ export const container = recipe({
 export const inner = style({
   display: "flex",
   alignItems: "center",
-  height: "4.6rem",
+  height: "46px",
   borderRadius: `calc(${vars.radius.l} - 2px)`,
   backgroundColor: vars.color.black,
   backgroundImage: vars.gradient.game_problem_bg,
+  backdropFilter: "blur(4.95px)",
 });
 
 export const categorySection = style({
@@ -58,7 +60,7 @@ export const divider = recipe({
   },
   variants: {
     variant: {
-      default: { backgroundColor: vars.color.game_border_default },
+      default: { backgroundColor: vars.color.game_border_body_default },
       selected: { backgroundColor: vars.color.game_border_selected },
       error: { backgroundColor: vars.color.game_border_error },
     },
@@ -73,10 +75,21 @@ export const bodySection = style({
   height: "100%",
 });
 
-export const categoryText = style({
-  ...fontStyles.subtitle4,
-  color: vars.color.primary_150,
-  whiteSpace: "nowrap",
+export const categoryText = recipe({
+  base: {
+    ...fontStyles.subtitle4,
+    whiteSpace: "nowrap",
+  },
+  variants: {
+    level: {
+      easy: { color: vars.color.primary_150 },
+      normal: { color: vars.color.point_03 },
+      hard: { color: vars.color.point_04 },
+    },
+  },
+  defaultVariants: {
+    level: "easy",
+  },
 });
 
 export const bodyText = style({
