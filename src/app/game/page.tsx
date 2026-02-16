@@ -84,7 +84,12 @@ export default function GamePage() {
           <FoulLine />
         </div>
 
-        <div className={styles.inputArea}>
+        <div className={styles.bottomArea}>
+          <p className={styles.problemText}>
+            현재 main 브랜치에서 작업 중이다. 새로운 기능 개발을 위해
+            feature/login 브랜치를 생성하고, 해당 브랜치로 이동하라. (브랜치가
+            이미 존재하는 경우 에러 없이 이동해야 한다)
+          </p>
           <ProblemInput
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}

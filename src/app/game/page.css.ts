@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { vars } from "@/styles/theme.css";
+import { fontStyles } from "@/styles/tokens/fontStyles";
 
 // ── 기존 step 플로우 스타일 ──
 
@@ -111,12 +112,21 @@ export const foulLineArea = style({
   pointerEvents: "none",
 });
 
-export const inputArea = style({
+export const bottomArea = style({
   position: "fixed",
   left: 0,
   right: 0,
   bottom: 40,
   display: "flex",
-  justifyContent: "center",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 28,
   paddingInline: vars.space.space_48,
+});
+
+export const problemText = style({
+  ...fontStyles.body2,
+  color: vars.color.coolgrey_10,
+  textAlign: "center",
+  maxWidth: 680,
 });
