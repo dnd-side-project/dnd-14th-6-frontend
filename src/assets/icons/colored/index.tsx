@@ -10,6 +10,7 @@ export { default as IcDeleteGray } from "./IcDeleteGray";
 export { default as IcDocker } from "./IcDocker";
 export { default as IcFilterDefault } from "./IcFilterDefault";
 export { default as IcFilterSelected } from "./IcFilterSelected";
+export { default as IcGameHint } from "./IcGameHint";
 export { default as IcGit } from "./IcGit";
 export { default as IcGitActive } from "./IcGitActive";
 export { default as IcGitInactive } from "./IcGitInactive";
