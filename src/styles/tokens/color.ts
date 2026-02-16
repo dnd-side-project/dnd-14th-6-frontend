@@ -50,6 +50,12 @@ export const color = {
   coolgrey_230: "#1b1d1f",
   coolgrey_240: "#1a1c24",
 
+  // Game
+  game_border_default: "#435961",
+  game_border_body_default: "#4b696f",
+  game_border_selected: "#a4e0e9",
+  game_border_error: "#e87384",
+
   black: "#111111",
 } as const;
 

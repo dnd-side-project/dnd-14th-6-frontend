@@ -37,6 +37,14 @@ export const gradient = {
   game_default_right:
     "linear-gradient(96.08deg, #4b696f 11.67%, #90b3b7 76.47%, #779196 100%)",
 
+  // Problem card border
+  game_problem_border_default:
+    "linear-gradient(90deg, #435961 0%, #507176 25%, #4b696f 45%, #90b3b7 80%, #779196 100%)",
+  game_problem_border_selected:
+    "linear-gradient(90deg, #62ebfe 0%, #b9f6ff 25%, #a4e0e9 45%, #f2fbff 70%, #62ebfe 100%)",
+  game_problem_border_error:
+    "linear-gradient(90deg, #ee1331 0%, #e87384 35%, #ff7676 55%, #ee1331 100%)",
+
   // Login
   login_github:
     "linear-gradient(0deg, rgba(16, 40, 52, 0.2) 0%, rgba(26, 28, 36, 0.2) 100%)",
