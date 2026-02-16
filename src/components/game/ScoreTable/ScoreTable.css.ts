@@ -17,7 +17,7 @@ export const row = style({
 export const labelGroup = style({
   display: "flex",
   alignItems: "center",
-  gap: 8,
+  gap: 14,
 });
 
 const dotBase = style({
@@ -28,7 +28,7 @@ const dotBase = style({
 });
 
 export const dot = styleVariants({
-  hard: [dotBase, { backgroundColor: vars.color.point_01 }],
-  normal: [dotBase, { backgroundColor: vars.color.primary_100 }],
-  easy: [dotBase, { backgroundColor: vars.color.point_03 }],
+  hard: [dotBase, { backgroundColor: vars.color.point_04 }],
+  normal: [dotBase, { backgroundColor: vars.color.point_03 }],
+  easy: [dotBase, { backgroundColor: vars.color.primary_150 }],
 });
