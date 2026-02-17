@@ -2,14 +2,36 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import FoulLine from "@/components/game/FoulLine/FoulLine";
+import GameHeader from "@/components/game/GameHeader/GameHeader";
+import ProblemInput from "@/components/game/ProblemInput/ProblemInput";
+import type { CategoryType } from "@/components/game/Category/Category";
+import type { LevelType } from "@/components/game/Level/Level";
+import type { ScoreLevelType } from "@/components/game/ScoreTable/ScoreTable";
 import type { Step } from "@/types/game";
 import { STEP_LABELS, STEPS } from "@/types/game";
 import * as styles from "./page.css";
 
+const TOTAL_TIME = 60;
+
+const DEFAULT_SCORES: Record<ScoreLevelType, number> = {
+  hard: 50,
+  normal: 30,
+  easy: 10,
+};
+
 export default function GamePage() {
   const router = useRouter();
-  const [step, setStep] = useState<Step>("category");
+  const [step, setStep] = useState<Step>("playing");
   const currentIndex = STEPS.indexOf(step);
+
+  // ── playing state ──
+  const [category] = useState<CategoryType>("git");
+  const [level] = useState<LevelType>("easy");
+  const [score, setScore] = useState(0);
+  const [currentTime] = useState(TOTAL_TIME);
+  const [answer, setAnswer] = useState("");
 
   const goNext = () => {
     if (step === "end") {
@@ -34,6 +56,51 @@ export default function GamePage() {
     }
   };
 
+  const handleSubmit = () => {
+    if (!answer.trim()) return;
+    // TODO: 정답 판정 로직
+    setScore((prev) => prev + 10);
+    setAnswer("");
+  };
+
+  // ── playing 화면 ──
+  if (step === "playing") {
+    return (
+      <div className={styles.playingWrapper}>
+        <GameHeader
+          category={category}
+          level={level}
+          score={score}
+          scores={DEFAULT_SCORES}
+          currentTime={currentTime}
+          totalTime={TOTAL_TIME}
+        />
+
+        <div className={styles.gameArea}>
+          {/* TODO: ProblemCard 애니메이션 영역 */}
+        </div>
+
+        <div className={styles.foulLineArea}>
+          <FoulLine />
+        </div>
+
+        <div className={styles.bottomArea}>
+          <p className={styles.problemText}>
+            현재 main 브랜치에서 작업 중이다. 새로운 기능 개발을 위해
+            feature/login 브랜치를 생성하고, 해당 브랜치로 이동하라. (브랜치가
+            이미 존재하는 경우 에러 없이 이동해야 한다)
+          </p>
+          <ProblemInput
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            onSubmit={handleSubmit}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // ── 다른 step 화면 (기존 placeholder) ──
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>게임</h1>
@@ -44,7 +111,7 @@ export default function GamePage() {
         <p className={styles.stepLabel}>{STEP_LABELS[step]}</p>
       </div>
       <div className={styles.nav}>
-        {currentIndex > 0 && step !== "playing" && (
+        {currentIndex > 0 && (
           <button type="button" onClick={goPrev} className={styles.btnOutline}>
             이전
           </button>
