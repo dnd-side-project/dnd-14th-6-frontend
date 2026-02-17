@@ -1,18 +1,19 @@
-export const STEPS = [
-  "category",
-  "difficulty",
-  "tutorial",
-  "playing",
-  "end",
-  "badge",
-] as const;
-export type Step = (typeof STEPS)[number];
+export type SetupStep = "category" | "difficulty" | "tutorial";
 
-export const STEP_LABELS: Record<Step, string> = {
-  category: "카테고리 선택",
-  difficulty: "난이도 선택",
-  tutorial: "튜토리얼",
-  playing: "게임 진행 중",
-  end: "게임 종료",
-  badge: "뱃지 획득",
-};
+export type PlayPhase = "playing" | "end" | "badge";
+
+export const GAME_SESSION_KEY = "gameSession";
+export const GAME_RESULT_KEY = "gameResult";
+
+export interface GameSession {
+  category: string;
+  level: string;
+}
+
+export interface GameResult {
+  category: string;
+  level: string;
+  score: number;
+  totalTime: number;
+  playedAt: string;
+}
