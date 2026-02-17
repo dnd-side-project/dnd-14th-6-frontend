@@ -15,8 +15,11 @@
     "icon": "pnpm run icon:mono && pnpm run icon:colored"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.21",
     "@vanilla-extract/css": "^1.18.0",
     "@vanilla-extract/recipes": "^0.5.7",
+    "cookies-next": "^6.1.1",
+    "ky": "^1.14.3",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3"
@@ -32,6 +35,7 @@
     "@types/react-dom": "^19",
     "@vanilla-extract/next-plugin": "^2.4.17",
     "husky": "^9.1.7",
+    "swagger-typescript-api": "^13.2.18",
     "typescript": "^5"
   }
 }

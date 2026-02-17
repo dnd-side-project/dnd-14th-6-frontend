@@ -5,6 +5,7 @@ import "../styles/global.css";
 import type { Metadata } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import localFont from "next/font/local";
+import Providers from "@/server/query/providers";
 
 const pretendard = localFont({
   src: "../../public/fonts/subset-PretendardVariable.woff2",
@@ -73,7 +74,9 @@ export default function RootLayout({
       lang="ko"
       className={`${pretendard.variable} ${jetbrainsMono.variable} ${plusJakartaSans.variable} ${D2.variable} ${SB.variable} ${paperlogy.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
