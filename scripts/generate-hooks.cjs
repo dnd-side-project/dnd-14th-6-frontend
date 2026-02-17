@@ -528,20 +528,34 @@ function generateMutationHook(op, hookName) {
 
   const responseGeneric = op.responseType ? `<${op.responseType}>` : "";
 
-  // path 파라미터가 있는 mutation의 경우
+  // path params와 request body를 분리하여 처리
   let mutationFnBody;
   let mutationFnArgs;
+  let paramsInterface = "";
   let dynamicPath = `"${apiPath}"`;
 
   if (pathParams.length > 0) {
+    // Variables 인터페이스: path params + body 분리
+    const variablesInterfaceName = `${hookName.slice(3)}Variables`;
+    const pathParamFields = pathParams.map((p) => `  ${p.name}: ${p.type};`);
+    const bodyField = op.requestType ? [`  body: ${op.requestType};`] : [];
+
+    const allFields = [...pathParamFields, ...bodyField];
+    paramsInterface = `export interface ${variablesInterfaceName} {\n${allFields.join("\n")}\n}\n\n`;
+    mutationFnArgs = `(variables: ${variablesInterfaceName})`;
+
     let pathTemplate = apiPath;
     for (const p of pathParams) {
-      pathTemplate = pathTemplate.replace(`{${p.name}}`, `\${data.${p.name}}`);
+      pathTemplate = pathTemplate.replace(
+        `{${p.name}}`,
+        `\${variables.${p.name}}`,
+      );
     }
     dynamicPath = `\`${pathTemplate}\``;
-  }
 
-  if (op.requestType) {
+    const bodyArg = op.requestType ? ", variables.body" : "";
+    mutationFnBody = `${methodFn}${responseGeneric}(${dynamicPath}${bodyArg})`;
+  } else if (op.requestType) {
     mutationFnArgs = `(data: ${op.requestType})`;
     mutationFnBody = `${methodFn}${responseGeneric}(${dynamicPath}, data)`;
   } else {
@@ -551,7 +565,7 @@ function generateMutationHook(op, hookName) {
 
   return `${imports.join("\n")}
 
-export const ${hookName} = () =>
+${paramsInterface}export const ${hookName} = () =>
   useMutation({
     mutationFn: ${mutationFnArgs} =>
       ${mutationFnBody},

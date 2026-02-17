@@ -8,13 +8,13 @@
  * 동일한 --path/--tag/--force 인자를 두 스크립트 모두에 전달합니다.
  */
 
-const { execSync } = require("node:child_process");
+const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { fetchSwagger, SWAGGER_URL } = require("./shared.cjs");
 
-const args = process.argv.slice(2).join(" ");
+const args = process.argv.slice(2);
 const cwd = path.resolve(__dirname, "..");
 
 async function main() {
@@ -24,17 +24,23 @@ async function main() {
   const specFile = path.join(os.tmpdir(), "orvit-swagger-spec.json");
   fs.writeFileSync(specFile, JSON.stringify(spec), "utf-8");
 
+  const commonArgs = ["--spec", specFile, ...args];
+
   try {
-    execSync(`node scripts/generate-types.cjs --spec ${specFile} ${args}`, {
-      stdio: "inherit",
-      cwd,
-    });
-    execSync(`node scripts/generate-hooks.cjs --spec ${specFile} ${args}`, {
-      stdio: "inherit",
-      cwd,
-    });
+    const types = spawnSync(
+      "node",
+      ["scripts/generate-types.cjs", ...commonArgs],
+      { stdio: "inherit", cwd },
+    );
+    if (types.status !== 0) process.exit(types.status ?? 1);
+
+    const hooks = spawnSync(
+      "node",
+      ["scripts/generate-hooks.cjs", ...commonArgs],
+      { stdio: "inherit", cwd },
+    );
+    if (hooks.status !== 0) process.exit(hooks.status ?? 1);
   } finally {
-    // 임시 파일 정리
     fs.unlinkSync(specFile);
   }
 }

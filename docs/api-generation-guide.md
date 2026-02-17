@@ -561,14 +561,16 @@ export const useGetRanksQuery = (params: GetRanksParams) =>
 
 ### 대상 API 목록
 
-| 태그 | Method | Path | 훅 | 인증 (자동 판별) |
-|------|--------|------|----|-----------------|
-| Games | GET | /api/games/options | useGetGameOptionsQuery | public |
-| Games | GET | /api/games/sessions | useGetGameHistoriesQuery | private |
-| Games | POST | /api/games/save | useSaveGameSessionMutation | private |
-| Users | GET | /api/users/ranks | useGetRanksQuery | public |
-| Users | GET | /api/users/{userId}/analysis | useGetUserAnalysisQuery | private |
-| Users | GET | /api/users/{userId}/stats | useGetUserStatsQuery | private |
-| Tiers | GET | /api/tiers | useGetAllTiersQuery | public |
+| 태그 | Method | Path | 훅 | 현재 판별 | 의도된 인증 |
+|------|--------|------|----|----------|-----------|
+| Games | GET | /api/games/options | useGetGameOptionsQuery | public | public |
+| Games | GET | /api/games/sessions | useGetGameHistoriesQuery | public | private |
+| Games | POST | /api/games/save | useSaveGameSessionMutation | public | private |
+| Users | GET | /api/users/ranks | useGetRanksQuery | public | public |
+| Users | GET | /api/users/{userId}/analysis | useGetUserAnalysisQuery | public | private |
+| Users | GET | /api/users/{userId}/stats | useGetUserStatsQuery | public | private |
+| Tiers | GET | /api/tiers | useGetAllTiersQuery | public | public |
+
+> **참고**: 현재 백엔드 Swagger에 글로벌 `security`가 미정의 상태라 모든 엔드포인트가 public으로 판별됩니다. 백엔드에서 `security` 필드를 추가하면 "의도된 인증" 컬럼대로 자동 반영됩니다.
 
 **제외**: App (health check), SSE Sample, /api/games/stream (SSE)
