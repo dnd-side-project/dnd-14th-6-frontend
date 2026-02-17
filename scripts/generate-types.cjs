@@ -34,7 +34,9 @@ const WRAPPER_SCHEMAS = new Set(["ApiResponseDto"]);
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
-  console.log(args.spec ? "Reading local Swagger spec..." : "Fetching Swagger spec...");
+  console.log(
+    args.spec ? "Reading local Swagger spec..." : "Fetching Swagger spec...",
+  );
   const rawSpec = await fetchSwagger(args.spec);
   const spec = swaggerTransformer(rawSpec);
 

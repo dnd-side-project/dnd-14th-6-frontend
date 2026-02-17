@@ -38,10 +38,11 @@ let hasGlobalSecurity = false;
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
-  console.log(args.spec ? "Reading local Swagger spec..." : "Fetching Swagger spec...");
+  console.log(
+    args.spec ? "Reading local Swagger spec..." : "Fetching Swagger spec...",
+  );
   const spec = await fetchSwagger(args.spec);
-  hasGlobalSecurity =
-    Array.isArray(spec.security) && spec.security.length > 0;
+  hasGlobalSecurity = Array.isArray(spec.security) && spec.security.length > 0;
   const operations = extractOperations(spec);
 
   // 제외 필터링 (SSE, App 등)
@@ -128,8 +129,9 @@ function extractOperations(spec) {
       // - 글로벌 security 있음 + operation에 security: [] → public
       // - 글로벌 security 있음 + operation에 security 없음 → private (글로벌 상속)
       const operationSecurity = operation.security;
-      const isPublicOp = !hasGlobalSecurity
-        || (Array.isArray(operationSecurity) && operationSecurity.length === 0);
+      const isPublicOp =
+        !hasGlobalSecurity ||
+        (Array.isArray(operationSecurity) && operationSecurity.length === 0);
 
       operations.push({
         path: apiPath,
