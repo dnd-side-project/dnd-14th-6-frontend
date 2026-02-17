@@ -1,13 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
-
-const PUBLIC_PATHS = ["/", "/login"];
+import { PUBLIC_ROUTES } from "./constants/routes";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const isPublic = PUBLIC_PATHS.some(
-    (path) => pathname === path || pathname.startsWith("/api/"),
-  );
+  const isPublic =
+    (PUBLIC_ROUTES as readonly string[]).includes(pathname) ||
+    pathname.startsWith("/api/");
 
   if (isPublic) {
     return NextResponse.next();

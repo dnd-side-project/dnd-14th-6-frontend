@@ -15,7 +15,7 @@ export async function POST_PUBLIC<T>(
   options?: Options,
 ): Promise<ApiResponse<T>> {
   return apiClient
-    .post(path, { json: body, ...options })
+    .post(path, { ...options, json: body })
     .json<ApiResponse<T>>();
 }
 
@@ -24,7 +24,7 @@ export async function PUT_PUBLIC<T>(
   body?: unknown,
   options?: Options,
 ): Promise<ApiResponse<T>> {
-  return apiClient.put(path, { json: body, ...options }).json<ApiResponse<T>>();
+  return apiClient.put(path, { ...options, json: body }).json<ApiResponse<T>>();
 }
 
 export async function DELETE_PUBLIC<T>(
@@ -40,6 +40,6 @@ export async function PATCH_PUBLIC<T>(
   options?: Options,
 ): Promise<ApiResponse<T>> {
   return apiClient
-    .patch(path, { json: body, ...options })
+    .patch(path, { ...options, json: body })
     .json<ApiResponse<T>>();
 }

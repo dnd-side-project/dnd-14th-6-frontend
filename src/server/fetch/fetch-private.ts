@@ -1,4 +1,4 @@
-import type { Options, SearchParamsOption } from "ky";
+import { HTTPError, type Options, type SearchParamsOption } from "ky";
 import { clearTokens } from "../auth/clear-tokens";
 import { getClientSideTokens } from "../auth/get-client-side-tokens";
 import type { ApiResponse, Tokens } from "../types";
@@ -41,9 +41,7 @@ async function handleUnauthorized<T>(
     return await requestFn(getAuthHeaders(tokens));
   } catch (error: unknown) {
     const isUnauthorized =
-      error instanceof Error &&
-      "response" in error &&
-      (error as { response: Response }).response?.status === 401;
+      error instanceof HTTPError && error.response.status === 401;
 
     if (!isUnauthorized || tokens) throw error;
 
@@ -52,7 +50,8 @@ async function handleUnauthorized<T>(
       return await requestFn({
         Authorization: `Bearer ${newAccessToken}`,
       });
-    } catch {
+    } catch (refreshError) {
+      console.error("Token refresh failed:", refreshError);
       clearTokens();
       window.location.href = "/login";
       throw error;
@@ -81,7 +80,14 @@ export async function POST<T>(
   return handleUnauthorized(
     (headers) =>
       apiClient
-        .post(path, { json: body, headers, ...options })
+        .post(path, {
+          ...options,
+          json: body,
+          headers: {
+            ...headers,
+            ...(options?.headers as Record<string, string>),
+          },
+        })
         .json<ApiResponse<T>>(),
     tokens,
   );
@@ -96,7 +102,14 @@ export async function PUT<T>(
   return handleUnauthorized(
     (headers) =>
       apiClient
-        .put(path, { json: body, headers, ...options })
+        .put(path, {
+          ...options,
+          json: body,
+          headers: {
+            ...headers,
+            ...(options?.headers as Record<string, string>),
+          },
+        })
         .json<ApiResponse<T>>(),
     tokens,
   );
@@ -109,7 +122,15 @@ export async function DELETE<T>(
 ): Promise<ApiResponse<T>> {
   return handleUnauthorized(
     (headers) =>
-      apiClient.delete(path, { headers, ...options }).json<ApiResponse<T>>(),
+      apiClient
+        .delete(path, {
+          ...options,
+          headers: {
+            ...headers,
+            ...(options?.headers as Record<string, string>),
+          },
+        })
+        .json<ApiResponse<T>>(),
     tokens,
   );
 }
@@ -123,7 +144,14 @@ export async function PATCH<T>(
   return handleUnauthorized(
     (headers) =>
       apiClient
-        .patch(path, { json: body, headers, ...options })
+        .patch(path, {
+          ...options,
+          json: body,
+          headers: {
+            ...headers,
+            ...(options?.headers as Record<string, string>),
+          },
+        })
         .json<ApiResponse<T>>(),
     tokens,
   );
