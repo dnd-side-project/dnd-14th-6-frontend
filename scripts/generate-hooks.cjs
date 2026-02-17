@@ -178,7 +178,9 @@ function extractParams(operation, apiPath) {
       type = "number";
     }
     if (param.schema?.enum) {
-      type = param.schema.enum.map((v) => `"${v}"`).join(" | ");
+      type = param.schema.enum
+        .map((v) => (typeof v === "string" ? `"${v}"` : String(v)))
+        .join(" | ");
     }
     params.push({
       name: param.name,
@@ -352,22 +354,25 @@ function generateQueryKeysFile(allOperations, currentBatchOps) {
     return;
   }
 
-  // 도메인별 그룹핑
+  // 도메인별 그룹핑 (detailKey 중복 방지: hasParams=true 우선)
   const domains = {};
   for (const op of relevantOps) {
     const { domain, detailKey } = getQueryKeyFactoryPath(op);
     const hasParams = op.params.length > 0;
 
     if (!domains[domain]) {
-      domains[domain] = [];
+      domains[domain] = new Map();
     }
-    domains[domain].push({ detailKey, hasParams });
+    const existing = domains[domain].get(detailKey);
+    if (!existing || hasParams) {
+      domains[domain].set(detailKey, { detailKey, hasParams });
+    }
   }
 
   // 파일 내용 생성
   const domainEntries = Object.entries(domains)
-    .map(([domain, entries]) => {
-      const entryLines = entries.map((entry) => {
+    .map(([domain, entryMap]) => {
+      const entryLines = [...entryMap.values()].map((entry) => {
         if (entry.hasParams) {
           if (entry.detailKey === "list") {
             return `    ${entry.detailKey}: (params: unknown) =>\n      [...queryKeys.${domain}.all, params] as const,`;

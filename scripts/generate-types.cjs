@@ -256,7 +256,9 @@ function resolveType(schema) {
   if (schema.$ref) return schema.$ref.split("/").pop();
 
   if (schema.enum) {
-    return schema.enum.map((v) => `"${v}"`).join(" | ");
+    return schema.enum
+      .map((v) => (typeof v === "string" ? `"${v}"` : String(v)))
+      .join(" | ");
   }
 
   if (schema.type === "string") return "string";
