@@ -1,127 +1,121 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import FoulLine from "@/components/game/FoulLine/FoulLine";
-import GameHeader from "@/components/game/GameHeader/GameHeader";
-import ProblemInput from "@/components/game/ProblemInput/ProblemInput";
 import type { CategoryType } from "@/components/game/Category/Category";
 import type { LevelType } from "@/components/game/Level/Level";
-import type { ScoreLevelType } from "@/components/game/ScoreTable/ScoreTable";
-import type { Step } from "@/types/game";
-import { STEP_LABELS, STEPS } from "@/types/game";
+import { ROUTES } from "@/constants/routes";
+import type { GameSession, SetupStep } from "@/types/game";
+import { GAME_SESSION_KEY } from "@/types/game";
 import * as styles from "./page.css";
 
-const TOTAL_TIME = 60;
-
-const DEFAULT_SCORES: Record<ScoreLevelType, number> = {
-  hard: 50,
-  normal: 30,
-  easy: 10,
-};
+const HISTORY_STATE_KEY = "gameSetupStep";
 
 export default function GamePage() {
   const router = useRouter();
-  const [step, setStep] = useState<Step>("playing");
-  const currentIndex = STEPS.indexOf(step);
+  const [step, setStep] = useState<SetupStep>("category");
+  const [category, setCategory] = useState<CategoryType | null>(null);
+  const [level, setLevel] = useState<LevelType | null>(null);
 
-  // ── playing state ──
-  const [category] = useState<CategoryType>("git");
-  const [level] = useState<LevelType>("easy");
-  const [score, setScore] = useState(0);
-  const [currentTime] = useState(TOTAL_TIME);
-  const [answer, setAnswer] = useState("");
+  useEffect(() => {
+    window.history.replaceState({ [HISTORY_STATE_KEY]: "category" }, "");
 
-  const goNext = () => {
-    if (step === "end") {
-      const hasBadge = true; // TODO: 실제 조건으로 교체
-      if (hasBadge) {
-        setStep("badge");
-      } else {
-        router.push("/game/result");
+    const handlePopState = (e: PopStateEvent) => {
+      const state = e.state?.[HISTORY_STATE_KEY] as SetupStep | undefined;
+      if (state) {
+        setStep(state);
       }
-      return;
-    }
-    if (step === "badge") {
-      router.push("/game/result");
-      return;
-    }
-    setStep(STEPS[currentIndex + 1]);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const goToStep = (nextStep: SetupStep) => {
+    window.history.pushState({ [HISTORY_STATE_KEY]: nextStep }, "");
+    setStep(nextStep);
   };
 
-  const goPrev = () => {
-    if (currentIndex > 0) {
-      setStep(STEPS[currentIndex - 1]);
-    }
+  const handleCategorySelect = (selected: CategoryType) => {
+    setCategory(selected);
+    goToStep("difficulty");
   };
 
-  const handleSubmit = () => {
-    if (!answer.trim()) return;
-    // TODO: 정답 판정 로직
-    setScore((prev) => prev + 10);
-    setAnswer("");
+  const handleLevelSelect = (selected: LevelType) => {
+    setLevel(selected);
   };
 
-  // ── playing 화면 ──
-  if (step === "playing") {
+  const handleStartGame = () => {
+    if (!category || !level) return;
+    const session: GameSession = { category, level };
+    sessionStorage.setItem(GAME_SESSION_KEY, JSON.stringify(session));
+    router.push(ROUTES.GAME_PLAY);
+  };
+
+  if (step === "category") {
     return (
-      <div className={styles.playingWrapper}>
-        <GameHeader
-          category={category}
-          level={level}
-          score={score}
-          scores={DEFAULT_SCORES}
-          currentTime={currentTime}
-          totalTime={TOTAL_TIME}
-        />
-
-        <div className={styles.gameArea}>
-          {/* TODO: ProblemCard 애니메이션 영역 */}
-        </div>
-
-        <div className={styles.foulLineArea}>
-          <FoulLine />
-        </div>
-
-        <div className={styles.bottomArea}>
-          <p className={styles.problemText}>
-            현재 main 브랜치에서 작업 중이다. 새로운 기능 개발을 위해
-            feature/login 브랜치를 생성하고, 해당 브랜치로 이동하라. (브랜치가
-            이미 존재하는 경우 에러 없이 이동해야 한다)
-          </p>
-          <ProblemInput
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-            onSubmit={handleSubmit}
-          />
+      <div className={styles.wrapper}>
+        <h1 className={styles.title}>카테고리 선택</h1>
+        <p className={styles.description}>플레이할 카테고리를 선택하세요.</p>
+        <div className={styles.nav}>
+          {(["git", "linux", "docker"] as const).map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              className={category === cat ? styles.btn : styles.btnOutline}
+              onClick={() => handleCategorySelect(cat)}
+            >
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </button>
+          ))}
         </div>
       </div>
     );
   }
 
-  // ── 다른 step 화면 (기존 placeholder) ──
+  if (step === "difficulty") {
+    return (
+      <div className={styles.wrapper}>
+        <h1 className={styles.title}>난이도 선택</h1>
+        <p className={styles.description}>
+          {category?.toUpperCase()} — 난이도를 선택하세요.
+        </p>
+        <div className={styles.nav}>
+          {(["easy", "normal", "hard", "random"] as const).map((lv) => (
+            <button
+              key={lv}
+              type="button"
+              className={level === lv ? styles.btn : styles.btnOutline}
+              onClick={() => handleLevelSelect(lv)}
+            >
+              {lv.charAt(0).toUpperCase() + lv.slice(1)}
+            </button>
+          ))}
+        </div>
+        {level ? (
+          <div className={styles.startButtonArea}>
+            <button
+              type="button"
+              className={styles.btn}
+              onClick={handleStartGame}
+            >
+              게임 시작
+            </button>
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+
+  // TODO: 튜토리얼 화면 구현
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>게임</h1>
-      <div className={styles.stepCard}>
-        <p className={styles.stepCount}>
-          {currentIndex + 1} / {STEPS.length}
-        </p>
-        <p className={styles.stepLabel}>{STEP_LABELS[step]}</p>
-      </div>
+      <h1 className={styles.title}>튜토리얼</h1>
+      <p className={styles.description}>게임 방법을 안내합니다.</p>
       <div className={styles.nav}>
-        {currentIndex > 0 && (
-          <button type="button" onClick={goPrev} className={styles.btnOutline}>
-            이전
-          </button>
-        )}
-        <button type="button" onClick={goNext} className={styles.btn}>
-          {step === "badge"
-            ? "결과 보기"
-            : step === "end"
-              ? "다음"
-              : "다음 단계"}
+        <button type="button" className={styles.btn} onClick={handleStartGame}>
+          게임 시작
         </button>
       </div>
     </div>
