@@ -16,6 +16,7 @@ export function setAuthCookies(
     secure: IS_PRODUCTION,
     sameSite: "lax",
     path: "/",
+    maxAge: 60 * 60,
   });
 
   response.cookies.set("refreshToken", tokens.refreshToken, {
@@ -23,6 +24,6 @@ export function setAuthCookies(
     secure: IS_PRODUCTION,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 14,
   });
 }

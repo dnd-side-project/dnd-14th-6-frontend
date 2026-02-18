@@ -38,7 +38,16 @@ export async function POST() {
       return response;
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = json.data;
+    const data = json.data;
+
+    if (!data?.accessToken || !data?.refreshToken) {
+      return NextResponse.json(
+        { statusCode: 401, success: false, message: "Invalid token response" },
+        { status: 401 },
+      );
+    }
+
+    const { accessToken, refreshToken: newRefreshToken } = data;
     const response = NextResponse.json({
       statusCode: 200,
       success: true,

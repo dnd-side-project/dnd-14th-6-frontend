@@ -26,12 +26,14 @@ export async function GET(request: NextRequest) {
 
     const json: ApiResponse<{ accessToken: string; refreshToken: string }> =
       await backendResponse.json();
-    const { accessToken, refreshToken } = json.data;
+    const data = json.data;
 
-    if (!accessToken || !refreshToken) {
+    if (!data?.accessToken || !data?.refreshToken) {
       console.error("[Auth Callback] Invalid tokens received from backend.");
       return NextResponse.redirect(new URL("/login", request.url));
     }
+
+    const { accessToken, refreshToken } = data;
 
     const rawRedirect = request.nextUrl.searchParams.get("redirect") ?? "/";
     const redirectPath =

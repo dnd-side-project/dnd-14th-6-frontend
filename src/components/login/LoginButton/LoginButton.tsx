@@ -12,7 +12,7 @@ type Provider = "github" | "google";
 type LoginButtonProps = {
   provider: Provider;
   redirectUrl?: string;
-} & Omit<ComponentPropsWithoutRef<"button">, "children">;
+} & Omit<ComponentPropsWithoutRef<"button">, "children" | "onClick">;
 
 const PROVIDER_CONFIG = {
   github: {

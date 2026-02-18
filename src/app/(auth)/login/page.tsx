@@ -9,7 +9,11 @@ interface LoginPageProps {
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { redirect = "/" } = await searchParams;
+  const { redirect: rawRedirect = "/" } = await searchParams;
+  const redirect =
+    rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")
+      ? rawRedirect
+      : "/";
 
   return (
     <Flex
