@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { CategoryType } from "@/components/game/Category/Category";
 import CategoryCard from "@/components/game/CategoryCard/CategoryCard";
 import type { LevelType } from "@/components/game/Level/Level";
+import LevelCard from "@/components/game/LevelCard/LevelCard";
 import StepIndicator from "@/components/game/StepIndicator/StepIndicator";
 import { ROUTES } from "@/constants/routes";
 import type { GameSession, SetupStep } from "@/types/game";
@@ -46,6 +47,7 @@ export default function GamePage() {
 
   const handleLevelSelect = (selected: LevelType) => {
     setLevel(selected);
+    goToStep("tutorial");
   };
 
   const handleStartGame = () => {
@@ -77,34 +79,20 @@ export default function GamePage() {
 
   if (step === "difficulty") {
     return (
-      <div className={styles.wrapper}>
-        <h1 className={styles.title}>난이도 선택</h1>
-        <p className={styles.description}>
-          {category?.toUpperCase()} — 난이도를 선택하세요.
-        </p>
-        <div className={styles.nav}>
+      <div className={styles.categoryWrapper}>
+        <div className={styles.guide}>
+          <StepIndicator currentStep={2} totalSteps={2} />
+          <p className={styles.categoryTitle}>난이도를 선택해 주세요</p>
+        </div>
+        <div className={styles.levelCards}>
           {(["easy", "normal", "hard", "random"] as const).map((lv) => (
-            <button
+            <LevelCard
               key={lv}
-              type="button"
-              className={level === lv ? styles.btn : styles.btnOutline}
+              level={lv}
               onClick={() => handleLevelSelect(lv)}
-            >
-              {lv.charAt(0).toUpperCase() + lv.slice(1)}
-            </button>
+            />
           ))}
         </div>
-        {level ? (
-          <div className={styles.startButtonArea}>
-            <button
-              type="button"
-              className={styles.btn}
-              onClick={handleStartGame}
-            >
-              게임 시작
-            </button>
-          </div>
-        ) : null}
       </div>
     );
   }

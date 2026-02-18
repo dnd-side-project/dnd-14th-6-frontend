@@ -81,3 +81,9 @@ export const categoryCards = style({
   gap: vars.space.space_32,
   alignItems: "center",
 });
+
+export const levelCards = style({
+  display: "grid",
+  gridTemplateColumns: "53.8rem 53.8rem",
+  gap: vars.space.space_20,
+});
