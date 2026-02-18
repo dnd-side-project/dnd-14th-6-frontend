@@ -15,6 +15,7 @@ export {
 } from "./fetch/fetch-public";
 
 export { getQueryClient } from "./query/get-query-client";
+export { queryKeys } from "./query/query-keys";
 
 export type { ApiError, ApiResponse, Tokens } from "./types";
 export { STATUS } from "./types";

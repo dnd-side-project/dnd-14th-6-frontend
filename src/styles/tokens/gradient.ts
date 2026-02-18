@@ -57,6 +57,10 @@ export const gradient = {
   chart_line2:
     "linear-gradient(113.64deg, rgba(255, 255, 255, 0.035) 23.09%, rgba(255, 255, 255, 0.7) 42.28%, rgba(255, 255, 255, 0.455) 70.87%, rgba(255, 255, 255, 0.56) 88.18%, rgba(255, 255, 255, 0.035) 101.35%)",
 
+  // Category card
+  category_card_selected:
+    "linear-gradient(132.83deg, rgba(98, 235, 254, 0.18) 11.209%, rgba(27, 155, 172, 0.18) 92.506%)",
+
   // Level card
   level_card_selected:
     "linear-gradient(161.89deg, rgba(98, 235, 254, 0.18) 11.209%, rgba(27, 155, 172, 0.18) 92.506%)",
