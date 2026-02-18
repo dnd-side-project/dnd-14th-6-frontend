@@ -1,5 +1,7 @@
 import { style } from "@vanilla-extract/css";
+
 import { vars } from "@/styles/theme.css";
+import { fontStyles } from "@/styles/tokens/fontStyles";
 
 export const wrapper = style({
   maxWidth: 480,
@@ -49,4 +51,33 @@ export const startButtonArea = style({
   display: "flex",
   justifyContent: "center",
   marginTop: 24,
+});
+
+export const categoryWrapper = style({
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "10.6rem",
+});
+
+export const guide = style({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: vars.space.space_32,
+});
+
+export const categoryTitle = style({
+  ...fontStyles.display7,
+  color: vars.color.coolgrey_20,
+  textAlign: "center",
+});
+
+export const categoryCards = style({
+  display: "flex",
+  flexDirection: "row",
+  gap: vars.space.space_32,
+  alignItems: "center",
 });

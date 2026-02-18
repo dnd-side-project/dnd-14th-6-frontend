@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import type { CategoryType } from "@/components/game/Category/Category";
+import CategoryCard from "@/components/game/CategoryCard/CategoryCard";
 import type { LevelType } from "@/components/game/Level/Level";
+import StepIndicator from "@/components/game/StepIndicator/StepIndicator";
 import { ROUTES } from "@/constants/routes";
 import type { GameSession, SetupStep } from "@/types/game";
 import { GAME_SESSION_KEY } from "@/types/game";
@@ -55,19 +57,18 @@ export default function GamePage() {
 
   if (step === "category") {
     return (
-      <div className={styles.wrapper}>
-        <h1 className={styles.title}>카테고리 선택</h1>
-        <p className={styles.description}>플레이할 카테고리를 선택하세요.</p>
-        <div className={styles.nav}>
-          {(["git", "linux", "docker"] as const).map((cat) => (
-            <button
+      <div className={styles.categoryWrapper}>
+        <div className={styles.guide}>
+          <StepIndicator currentStep={1} totalSteps={2} />
+          <p className={styles.categoryTitle}>카테고리를 선택해 주세요</p>
+        </div>
+        <div className={styles.categoryCards}>
+          {(["linux", "git", "docker"] as const).map((cat) => (
+            <CategoryCard
               key={cat}
-              type="button"
-              className={category === cat ? styles.btn : styles.btnOutline}
+              category={cat}
               onClick={() => handleCategorySelect(cat)}
-            >
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </button>
+            />
           ))}
         </div>
       </div>
