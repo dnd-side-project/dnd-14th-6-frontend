@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { setAuthCookies } from "@/server/auth/set-auth-cookies";
+import type { ApiResponse } from "@/server/types";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -11,11 +12,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const backendResponse = await fetch(`${BACKEND_URL}/api/auth/token`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code }),
-    });
+    const backendResponse = await fetch(
+      `${BACKEND_URL}/api/auth/token?code=${encodeURIComponent(code)}`,
+    );
 
     if (!backendResponse.ok) {
       console.error(
@@ -25,7 +24,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    const { accessToken, refreshToken } = await backendResponse.json();
+    const json: ApiResponse<{ accessToken: string; refreshToken: string }> =
+      await backendResponse.json();
+    const { accessToken, refreshToken } = json.data;
 
     const redirectPath = request.nextUrl.searchParams.get("redirect") ?? "/";
 

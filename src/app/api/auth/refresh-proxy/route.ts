@@ -38,14 +38,15 @@ export async function POST() {
       return response;
     }
 
+    const { accessToken, refreshToken: newRefreshToken } = json.data;
     const response = NextResponse.json({
       statusCode: 200,
       success: true,
-      data: { accessToken: json.accessToken },
+      data: { accessToken },
     });
     setAuthCookies(response, {
-      accessToken: json.accessToken,
-      refreshToken: json.refreshToken,
+      accessToken,
+      refreshToken: newRefreshToken,
     });
 
     return response;
