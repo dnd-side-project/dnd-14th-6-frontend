@@ -12,7 +12,10 @@
     "prepare": "husky",
     "icon:mono": "pnpm dlx @svgr/cli --config-file .svgrrc.mono.json --out-dir src/assets/icons/mono --index-template _templates/svgr-index-template.js --template _templates/svgr-template.js public/assets/icons/mono && biome check --fix src/assets/icons/mono",
     "icon:colored": "pnpm dlx @svgr/cli --config-file .svgrrc --out-dir src/assets/icons/colored --index-template _templates/svgr-index-template.js --template _templates/svgr-template-colored.js public/assets/icons/colored && biome check --fix src/assets/icons/colored",
-    "icon": "pnpm run icon:mono && pnpm run icon:colored"
+    "icon": "pnpm run icon:mono && pnpm run icon:colored",
+    "generate:types": "node scripts/generate-types.cjs",
+    "generate:hooks": "node scripts/generate-hooks.cjs",
+    "generate:api": "node scripts/generate-api.cjs"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
