@@ -57,6 +57,8 @@ export const color = {
   game_border_error: "#e87384",
   game_category_inactive_text: "#4d5b70",
 
+  game_level_inactive_text: "#4d5b70",
+
   black: "#111111",
 } as const;
 
