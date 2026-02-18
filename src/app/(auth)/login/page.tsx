@@ -4,7 +4,13 @@ import Text from "@/components/common/Text/Text";
 import LoginButton from "@/components/login/LoginButton/LoginButton";
 import * as styles from "./page.css";
 
-export default function LoginPage() {
+interface LoginPageProps {
+  searchParams: Promise<{ redirect?: string }>;
+}
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const { redirect = "/" } = await searchParams;
+
   return (
     <Flex
       className={styles.pageWrapper}
@@ -33,8 +39,8 @@ export default function LoginPage() {
         />
       </div>
       <Flex direction="column" gap={1.5} align="center">
-        <LoginButton provider="github" />
-        <LoginButton provider="google" />
+        <LoginButton provider="github" redirectUrl={redirect} />
+        <LoginButton provider="google" redirectUrl={redirect} />
       </Flex>
     </Flex>
   );

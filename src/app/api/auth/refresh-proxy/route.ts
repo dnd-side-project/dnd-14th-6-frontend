@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { setAuthCookies } from "@/server/auth/set-auth-cookies";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -23,7 +24,7 @@ export async function POST() {
 
     const json = await backendResponse.json();
 
-    if (!backendResponse.ok || !json.success) {
+    if (!backendResponse.ok) {
       const response = NextResponse.json(
         {
           statusCode: 401,
@@ -37,10 +38,15 @@ export async function POST() {
       return response;
     }
 
-    const response = NextResponse.json(json);
-    for (const setCookie of backendResponse.headers.getSetCookie()) {
-      response.headers.append("Set-Cookie", setCookie);
-    }
+    const response = NextResponse.json({
+      statusCode: 200,
+      success: true,
+      data: { accessToken: json.accessToken },
+    });
+    setAuthCookies(response, {
+      accessToken: json.accessToken,
+      refreshToken: json.refreshToken,
+    });
 
     return response;
   } catch {

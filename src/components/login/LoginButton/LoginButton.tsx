@@ -1,13 +1,17 @@
+"use client";
+
 import type { ComponentPropsWithoutRef } from "react";
 import IcLoginGit from "@/assets/icons/colored/IcLoginGit";
 import IcLoginGoogle from "@/assets/icons/colored/IcLoginGoogle";
 import Text from "@/components/common/Text/Text";
+import { getSocialLoginUrl } from "@/server";
 import { buttonStyle } from "./LoginButton.css";
 
 type Provider = "github" | "google";
 
 type LoginButtonProps = {
   provider: Provider;
+  redirectUrl?: string;
 } & Omit<ComponentPropsWithoutRef<"button">, "children">;
 
 const PROVIDER_CONFIG = {
@@ -23,11 +27,28 @@ const PROVIDER_CONFIG = {
   },
 } as const;
 
-export default function LoginButton({ provider, ...props }: LoginButtonProps) {
+export default function LoginButton({
+  provider,
+  redirectUrl,
+  ...props
+}: LoginButtonProps) {
   const { label, textVariant, textColor } = PROVIDER_CONFIG[provider];
 
+  const handleClick = () => {
+    const callbackUrl = redirectUrl
+      ? `/api/auth/callback?redirect=${encodeURIComponent(redirectUrl)}`
+      : "/api/auth/callback";
+    const url = getSocialLoginUrl(provider, { redirectUrl: callbackUrl });
+    window.location.href = url;
+  };
+
   return (
-    <button className={buttonStyle({ provider })} type="button" {...props}>
+    <button
+      className={buttonStyle({ provider })}
+      type="button"
+      onClick={handleClick}
+      {...props}
+    >
       {provider === "github" ? (
         <IcLoginGit size={24} />
       ) : (
