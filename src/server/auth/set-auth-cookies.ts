@@ -23,5 +23,6 @@ export function setAuthCookies(
     secure: IS_PRODUCTION,
     sameSite: "lax",
     path: "/",
+    maxAge: 60 * 60 * 24 * 7,
   });
 }

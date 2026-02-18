@@ -28,7 +28,16 @@ export async function GET(request: NextRequest) {
       await backendResponse.json();
     const { accessToken, refreshToken } = json.data;
 
-    const redirectPath = request.nextUrl.searchParams.get("redirect") ?? "/";
+    if (!accessToken || !refreshToken) {
+      console.error("[Auth Callback] Invalid tokens received from backend.");
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    const rawRedirect = request.nextUrl.searchParams.get("redirect") ?? "/";
+    const redirectPath =
+      rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")
+        ? rawRedirect
+        : "/";
 
     const response = NextResponse.redirect(new URL(redirectPath, request.url));
     setAuthCookies(response, { accessToken, refreshToken });
