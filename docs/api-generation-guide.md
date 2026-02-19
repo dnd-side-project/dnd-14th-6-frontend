@@ -478,31 +478,31 @@ queryClient.invalidateQueries({ queryKey: queryKeys.games.all });
 
 | 조건 | 결과 | fetch 함수 |
 |------|------|-----------|
-| 글로벌 `security` 없음 | 전체 public | `GET_PUBLIC`, `POST_PUBLIC` 등 |
-| 글로벌 `security` 있음 + operation `security: []` | 해당 API만 public | `GET_PUBLIC` |
-| 글로벌 `security` 있음 + operation에 `security` 미지정 | private (글로벌 상속) | `GET`, `POST` 등 |
+| operation에 `security: [{...}]` 명시 | private | `GET`, `POST` 등 |
+| operation에 `security: []` 명시 | public (글로벌 오버라이드) | `GET_PUBLIC`, `POST_PUBLIC` 등 |
+| operation에 `security` 미지정 + 글로벌 `security` 있음 | private (글로벌 상속) | `GET`, `POST` 등 |
+| operation에 `security` 미지정 + 글로벌 `security` 없음 | public | `GET_PUBLIC`, `POST_PUBLIC` 등 |
 
 ### Swagger 스펙 예시
 
 ```yaml
-# 글로벌 security 정의 (모든 엔드포인트에 기본 적용)
-security:
-  - BearerAuth: []
-
 paths:
   /api/games/options:
     get:
-      security: []          # ← 글로벌 security 오버라이드 → public
-      tags: [Games]
+      tags: [Games]          # ← security 미지정 + 글로벌 없음 → public
+
+  /api/users/{userId}/stats:
+    get:
+      security:
+        - bearer: []         # ← operation에 security 명시 → private
+      tags: [Users]
 
   /api/games/sessions:
-    get:                     # ← security 미지정 → 글로벌 상속 → private
+    get:
+      security:
+        - bearer: []         # ← operation에 security 명시 → private
       tags: [Games]
 ```
-
-### 현재 상태
-
-현재 Orvit 백엔드 Swagger에는 글로벌 `security`가 정의되지 않아 **모든 엔드포인트가 public으로 판별**됩니다. 백엔드에서 인증을 추가하면 자동으로 반영됩니다.
 
 ---
 
@@ -561,16 +561,16 @@ export const useGetRanksQuery = (params: GetRanksParams) =>
 
 ### 대상 API 목록
 
-| 태그 | Method | Path | 훅 | 현재 판별 | 의도된 인증 |
-|------|--------|------|----|----------|-----------|
-| Games | GET | /api/games/options | useGetGameOptionsQuery | public | public |
-| Games | GET | /api/games/sessions | useGetGameHistoriesQuery | public | private |
-| Games | POST | /api/games/save | useSaveGameSessionMutation | public | private |
-| Users | GET | /api/users/ranks | useGetRanksQuery | public | public |
-| Users | GET | /api/users/{userId}/analysis | useGetUserAnalysisQuery | public | private |
-| Users | GET | /api/users/{userId}/stats | useGetUserStatsQuery | public | private |
-| Tiers | GET | /api/tiers | useGetAllTiersQuery | public | public |
-
-> **참고**: 현재 백엔드 Swagger에 글로벌 `security`가 미정의 상태라 모든 엔드포인트가 public으로 판별됩니다. 백엔드에서 `security` 필드를 추가하면 "의도된 인증" 컬럼대로 자동 반영됩니다.
+| 태그 | Method | Path | 훅 | 인증 |
+| ------ | -------- | ------ | ----- | ------ |
+| Games | GET | /api/games/options | useGetGameOptionsQuery | public |
+| Games | GET | /api/games/sessions | useGetGameHistoriesQuery | private |
+| Games | POST | /api/games/save | useSaveGameSessionMutation | public |
+| Games | GET | /api/games/{gameSessionId}/reports | — | public |
+| Users | GET | /api/users/me | — | private |
+| Users | GET | /api/users/ranks | useGetRanksQuery | public |
+| Users | GET | /api/users/{userId}/analysis | useGetUserAnalysisQuery | private |
+| Users | GET | /api/users/{userId}/stats | useGetUserStatsQuery | private |
+| Tiers | GET | /api/tiers | useGetAllTiersQuery | public |
 
 **제외**: App (health check), SSE Sample, /api/games/stream (SSE)
