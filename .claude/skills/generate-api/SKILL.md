@@ -99,10 +99,11 @@ src/
 Swagger `security` 필드 기반으로 fetch 함수를 자동 결정한다 (수동 관리 불필요):
 
 | 조건 | 결과 | fetch 함수 |
-|------|------|-----------|
-| 글로벌 `security` 없음 | 전체 public | `GET_PUBLIC` 등 |
-| 글로벌 `security` 있음 + operation `security: []` | public | `GET_PUBLIC` |
-| 글로벌 `security` 있음 + operation `security` 미지정 | private | `GET`, `POST` 등 |
+| ------ | ------ | ----------- |
+| operation에 `security: [{...}]` 명시 | private | `GET`, `POST` 등 |
+| operation에 `security: []` 명시 | public (글로벌 오버라이드) | `GET_PUBLIC` 등 |
+| operation에 `security` 미지정 + 글로벌 있음 | private (글로벌 상속) | `GET`, `POST` 등 |
+| operation에 `security` 미지정 + 글로벌 없음 | public | `GET_PUBLIC` 등 |
 
 ## 주의사항
 
