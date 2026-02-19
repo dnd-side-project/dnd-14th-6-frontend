@@ -1,5 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { fetchUserInfo } from "@/server/auth/fetch-user-info";
 import { setAuthCookies } from "@/server/auth/set-auth-cookies";
+import { setUserInfoCookie } from "@/server/auth/set-user-info-cookie";
 import type { ApiResponse } from "@/server/types";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -41,8 +43,15 @@ export async function GET(request: NextRequest) {
         ? rawRedirect
         : "/";
 
+    const userInfo = await fetchUserInfo(accessToken);
+    if (!userInfo) {
+      console.error("[Auth Callback] Failed to fetch user info.");
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
     const response = NextResponse.redirect(new URL(redirectPath, request.url));
     setAuthCookies(response, { accessToken, refreshToken });
+    setUserInfoCookie(response, userInfo);
 
     return response;
   } catch (error) {

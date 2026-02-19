@@ -5,30 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import IcHeaderLogin from "@/assets/icons/colored/IcHeaderLogin";
 import IcHeaderLogo from "@/assets/icons/colored/IcHeaderLogo";
+import type { UserInfo } from "@/types/user";
 import Text from "../Text/Text";
 import * as styles from "./Header.css";
 
 interface HeaderProps {
   fixed?: boolean;
-  isLoggedIn?: boolean;
-  username?: string;
-  profileImage?: string;
+  userInfo?: UserInfo | null;
 }
 
 const NAV_ITEMS = [
-  { label: "Home", href: "/" },
-  { label: "Report", href: "/report" },
-  { label: "Ranking", href: "/ranking" },
-  { label: "Setting", href: "/login" },
+  { label: "Home", href: "/", disabled: false },
+  { label: "Report", href: "/report", disabled: false },
+  { label: "Ranking", href: "/ranking", disabled: false },
+  { label: "Setting", href: "/setting", disabled: true },
 ] as const;
 
-const Header = ({
-  fixed = true,
-  isLoggedIn = false,
-  username,
-  profileImage,
-}: HeaderProps) => {
+const Header = ({ fixed = true, userInfo = null }: HeaderProps) => {
   const pathname = usePathname();
+  const isLoggedIn = userInfo !== null;
 
   return (
     <header className={styles.header({ fixed })}>
@@ -39,27 +34,36 @@ const Header = ({
       </div>
 
       <nav className={styles.nav}>
-        {NAV_ITEMS.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className={styles.navItem({ active: pathname === item.href })}
-          >
-            {item.label}
-          </Link>
-        ))}
+        {NAV_ITEMS.map((item) =>
+          item.disabled ? (
+            <span
+              key={item.label}
+              className={styles.navItem({ disabled: true })}
+            >
+              {item.label}
+            </span>
+          ) : (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={styles.navItem({ active: pathname === item.href })}
+            >
+              {item.label}
+            </Link>
+          ),
+        )}
       </nav>
 
       <div className={styles.rightSection}>
         {isLoggedIn ? (
           <div className={styles.profileSection}>
             <Text variant="caption12" color="coolgrey_40">
-              {username}
+              {userInfo.nickname}
             </Text>
-            {profileImage ? (
+            {userInfo.profileImage ? (
               <div className={styles.profileImageWrapper}>
                 <Image
-                  src={profileImage}
+                  src={userInfo.profileImage}
                   alt="profile"
                   width={48}
                   height={48}
