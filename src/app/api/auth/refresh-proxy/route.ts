@@ -51,6 +51,23 @@ export async function POST() {
     }
 
     const { accessToken, refreshToken: newRefreshToken } = data;
+
+    const userInfo = await fetchUserInfo(accessToken);
+    if (!userInfo) {
+      const response = NextResponse.json(
+        {
+          statusCode: 401,
+          success: false,
+          message: "Failed to fetch user info",
+        },
+        { status: 401 },
+      );
+      response.cookies.delete("accessToken");
+      response.cookies.delete("refreshToken");
+      response.cookies.delete("userInfo");
+      return response;
+    }
+
     const response = NextResponse.json({
       statusCode: 200,
       success: true,
@@ -60,11 +77,7 @@ export async function POST() {
       accessToken,
       refreshToken: newRefreshToken,
     });
-
-    const userInfo = await fetchUserInfo(accessToken);
-    if (userInfo) {
-      setUserInfoCookie(response, userInfo);
-    }
+    setUserInfoCookie(response, userInfo);
 
     return response;
   } catch {

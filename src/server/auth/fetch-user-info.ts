@@ -17,7 +17,7 @@ export async function fetchUserInfo(
     }
 
     const json: ApiResponse<UserInfo> = await response.json();
-    return json.data;
+    return json.data ?? null;
   } catch (error) {
     console.error("[fetchUserInfo] Error:", error);
     return null;

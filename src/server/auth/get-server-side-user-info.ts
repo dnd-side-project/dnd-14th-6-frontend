@@ -8,7 +8,21 @@ async function parseUserInfoCookie(): Promise<UserInfo | null> {
   if (!raw) return null;
 
   try {
-    return JSON.parse(raw) as UserInfo;
+    const parsed = JSON.parse(raw);
+
+    if (
+      typeof parsed?.id !== "string" ||
+      typeof parsed?.nickname !== "string" ||
+      typeof parsed?.profileImage !== "string"
+    ) {
+      return null;
+    }
+
+    return {
+      id: parsed.id,
+      nickname: parsed.nickname,
+      profileImage: parsed.profileImage,
+    };
   } catch {
     return null;
   }

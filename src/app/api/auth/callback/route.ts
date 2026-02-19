@@ -43,13 +43,15 @@ export async function GET(request: NextRequest) {
         ? rawRedirect
         : "/";
 
+    const userInfo = await fetchUserInfo(accessToken);
+    if (!userInfo) {
+      console.error("[Auth Callback] Failed to fetch user info.");
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
     const response = NextResponse.redirect(new URL(redirectPath, request.url));
     setAuthCookies(response, { accessToken, refreshToken });
-
-    const userInfo = await fetchUserInfo(accessToken);
-    if (userInfo) {
-      setUserInfoCookie(response, userInfo);
-    }
+    setUserInfoCookie(response, userInfo);
 
     return response;
   } catch (error) {

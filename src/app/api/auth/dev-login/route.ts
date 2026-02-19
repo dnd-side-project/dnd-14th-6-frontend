@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { fetchUserInfo } from "@/server/auth/fetch-user-info";
 import { setAuthCookies } from "@/server/auth/set-auth-cookies";
 import { setUserInfoCookie } from "@/server/auth/set-user-info-cookie";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   if (process.env.NODE_ENV !== "development") {
     return NextResponse.json(
       { message: "Not available in production" },
@@ -21,13 +21,17 @@ export async function GET() {
     );
   }
 
-  const response = NextResponse.redirect(new URL("/", "http://localhost:3000"));
-  setAuthCookies(response, { accessToken, refreshToken });
-
   const userInfo = await fetchUserInfo(accessToken);
-  if (userInfo) {
-    setUserInfoCookie(response, userInfo);
+  if (!userInfo) {
+    return NextResponse.json(
+      { message: "Failed to fetch user info. Token may be expired." },
+      { status: 500 },
+    );
   }
+
+  const response = NextResponse.redirect(new URL("/", request.url));
+  setAuthCookies(response, { accessToken, refreshToken });
+  setUserInfoCookie(response, userInfo);
 
   return response;
 }
