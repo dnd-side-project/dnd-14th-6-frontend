@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { fetchUserInfo } from "@/server/auth/fetch-user-info";
 import { setAuthCookies } from "@/server/auth/set-auth-cookies";
+import { setUserInfoCookie } from "@/server/auth/set-user-info-cookie";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -35,6 +37,7 @@ export async function POST() {
       );
       response.cookies.delete("accessToken");
       response.cookies.delete("refreshToken");
+      response.cookies.delete("userInfo");
       return response;
     }
 
@@ -57,6 +60,11 @@ export async function POST() {
       accessToken,
       refreshToken: newRefreshToken,
     });
+
+    const userInfo = await fetchUserInfo(accessToken);
+    if (userInfo) {
+      setUserInfoCookie(response, userInfo);
+    }
 
     return response;
   } catch {
