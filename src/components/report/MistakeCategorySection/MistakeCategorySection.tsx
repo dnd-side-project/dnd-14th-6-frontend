@@ -3,7 +3,7 @@ import { IcDocker, IcGit, IcLinux } from "@/assets/icons/colored";
 import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
 import DashboardCard from "@/components/report/DashboardCard/DashboardCard";
-import type { FrequentWrongCategory, KnownCategory } from "@/types/report";
+import type { FrequentWrongCategory } from "@/types/report";
 import MistakeCategoryItem from "./MistakeCategoryItem/MistakeCategoryItem";
 import { card } from "./MistakeCategorySection.css";
 
@@ -11,7 +11,7 @@ interface MistakeCategorySectionProps {
   frequentWrongCategories: FrequentWrongCategory[];
 }
 
-const CATEGORY_ICON_MAP: Record<KnownCategory, ReactNode> = {
+const CATEGORY_ICON_MAP: Record<string, ReactNode> = {
   Git: <IcGit size={33} />,
   Docker: <IcDocker size={28} />,
   Linux: <IcLinux size={34} />,
