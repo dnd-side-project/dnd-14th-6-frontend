@@ -125,13 +125,13 @@ function extractOperations(spec) {
       const requestType = extractRequestType(operation, schemas);
 
       // security 기반 public/private 자동 판별
-      // - 글로벌 security 없음 → 전체 public
-      // - 글로벌 security 있음 + operation에 security: [] → public
-      // - 글로벌 security 있음 + operation에 security 없음 → private (글로벌 상속)
+      // - operation에 security: [{...}] 명시 → private
+      // - operation에 security: [] 명시 → public (글로벌 오버라이드)
+      // - operation에 security 미지정 → 글로벌 상속 (글로벌 있으면 private, 없으면 public)
       const operationSecurity = operation.security;
-      const isPublicOp =
-        !hasGlobalSecurity ||
-        (Array.isArray(operationSecurity) && operationSecurity.length === 0);
+      const isPublicOp = Array.isArray(operationSecurity)
+        ? operationSecurity.length === 0
+        : !hasGlobalSecurity;
 
       operations.push({
         path: apiPath,

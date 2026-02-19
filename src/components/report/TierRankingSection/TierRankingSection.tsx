@@ -48,6 +48,7 @@ export default function TierRankingSection(props: TierRankingSectionProps) {
                 src={props.tier.imageUrl}
                 alt={`${props.tier.name} 티어 이미지`}
                 fill
+                sizes="(max-width: 768px) 50vw, 25vw"
                 style={{ objectFit: "contain" }}
               />
             )}
@@ -56,6 +57,7 @@ export default function TierRankingSection(props: TierRankingSectionProps) {
                 src="/assets/images/ranking-placeholder.png"
                 alt="랭킹 그래프"
                 fill
+                sizes="(max-width: 768px) 50vw, 25vw"
                 style={{ objectFit: "contain" }}
               />
             )}

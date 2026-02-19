@@ -35,12 +35,3 @@ export interface FrequentWrongCommand {
   subCategory: string;
   wrongCount: number;
 }
-
-export interface CumulativeScoreData {
-  nickname: string;
-  totalScore: number;
-  averageScore: number;
-  ranking: number;
-  tier: Tier;
-  scoreDetail: ScoreDetail[];
-}
