@@ -77,6 +77,11 @@ export const navItem = recipe({
         },
       },
     },
+    disabled: {
+      true: {
+        cursor: "not-allowed",
+      },
+    },
   },
   defaultVariants: {
     active: false,

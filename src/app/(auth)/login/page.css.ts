@@ -24,7 +24,7 @@ export const circleImage = style({
   top: "50%",
   transform: "translate(calc(-50% - 7.35rem), -50%)",
   width: "53.4rem",
-  height: "53.4rem",
+  height: "auto",
   pointerEvents: "none",
 });
 
