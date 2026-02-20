@@ -66,48 +66,51 @@ export default function CumulativeScoreSection({
             </Text>
           </Flex>
 
-          <Flex gap={0.8} align="center" width="100%">
-            {scoreDetail.map((detail, index) => {
-              const isFirst = index === 0;
-              const isLast = index === scoreDetail.length - 1;
-              const isDimmed = hoveredIndex !== null && hoveredIndex !== index;
+          {totalScore > 0 && (
+            <Flex gap={0.8} align="center" width="100%">
+              {scoreDetail.map((detail, index) => {
+                const isFirst = index === 0;
+                const isLast = index === scoreDetail.length - 1;
+                const isDimmed =
+                  hoveredIndex !== null && hoveredIndex !== index;
 
-              const styleIndex = Math.min(index, BAR_GRADIENTS.length - 1);
-              const gradient = BAR_GRADIENTS[styleIndex];
-              const opacity = BAR_OPACITIES[styleIndex];
+                const styleIndex = Math.min(index, BAR_GRADIENTS.length - 1);
+                const gradient = BAR_GRADIENTS[styleIndex];
+                const opacity = BAR_OPACITIES[styleIndex];
 
-              const barPosition = isFirst
-                ? "first"
-                : isLast
-                  ? "last"
-                  : "middle";
+                const barPosition = isFirst
+                  ? "first"
+                  : isLast
+                    ? "last"
+                    : "middle";
 
-              return (
-                <Flex
-                  key={detail.difficultyMode}
-                  direction="column"
-                  gap={0.2}
-                  className={styles.barWrapper}
-                  style={{
-                    flex: `${detail.totalScore} 0 0%`,
-                  }}
-                  onMouseMove={(e) => handleBarMouseMove(e, index)}
-                  onMouseLeave={handleBarMouseLeave}
-                >
-                  <div
-                    className={styles.bar[barPosition]}
+                return (
+                  <Flex
+                    key={detail.difficultyMode}
+                    direction="column"
+                    gap={0.2}
+                    className={styles.barWrapper}
                     style={{
-                      background: isDimmed ? DIMMED_BG : gradient,
-                      opacity,
+                      flex: `${detail.totalScore} 0 0%`,
                     }}
-                  />
-                  <Text variant="body8" color="coolgrey_80">
-                    {detail.difficultyMode}
-                  </Text>
-                </Flex>
-              );
-            })}
-          </Flex>
+                    onMouseMove={(e) => handleBarMouseMove(e, index)}
+                    onMouseLeave={handleBarMouseLeave}
+                  >
+                    <div
+                      className={styles.bar[barPosition]}
+                      style={{
+                        background: isDimmed ? DIMMED_BG : gradient,
+                        opacity,
+                      }}
+                    />
+                    <Text variant="body8" color="coolgrey_80">
+                      {detail.difficultyMode}
+                    </Text>
+                  </Flex>
+                );
+              })}
+            </Flex>
+          )}
         </Flex>
 
         {hoveredIndex !== null && (

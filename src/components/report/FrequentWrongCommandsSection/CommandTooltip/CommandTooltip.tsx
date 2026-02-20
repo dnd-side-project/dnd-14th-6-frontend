@@ -15,7 +15,7 @@ export default function CommandTooltip({
   return (
     <div className={styles.tooltipWrapper} style={style}>
       <Text variant="body7" color="primary_default">
-        {command.mainCategory}
+        {command.category}
       </Text>
       <div className={styles.contentRow}>
         <Text variant="body7" color="coolgrey_10">

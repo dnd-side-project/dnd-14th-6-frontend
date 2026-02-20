@@ -24,16 +24,20 @@ export default function FrequentWrongCommandsSection({
         <Text variant="heading4" color="coolgrey_40">
           자주 틀린 명령어
         </Text>
-        <FrequentWrongCommandsDonutChart
-          commands={frequentWrongCommands}
-          hoveredIndex={hoveredIndex}
-          onHoverIndex={setHoveredIndex}
-        />
-        <CommandsTable
-          commands={frequentWrongCommands}
-          hoveredIndex={hoveredIndex}
-          onHoverIndex={setHoveredIndex}
-        />
+        {frequentWrongCommands.length > 0 && (
+          <>
+            <FrequentWrongCommandsDonutChart
+              commands={frequentWrongCommands}
+              hoveredIndex={hoveredIndex}
+              onHoverIndex={setHoveredIndex}
+            />
+            <CommandsTable
+              commands={frequentWrongCommands}
+              hoveredIndex={hoveredIndex}
+              onHoverIndex={setHoveredIndex}
+            />
+          </>
+        )}
       </Flex>
     </DashboardCard>
   );
