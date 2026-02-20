@@ -30,8 +30,8 @@ const Pagination = ({
     (_, index) => startPage + index,
   );
 
-  const hasPrevious = startPage > 1;
-  const hasNext = endPage < totalPages;
+  const hasPrevious = currentPage > 1;
+  const hasNext = currentPage < totalPages;
 
   return (
     <nav className={styles.container}>
@@ -39,7 +39,7 @@ const Pagination = ({
         type="button"
         className={styles.navigationButton}
         disabled={!hasPrevious}
-        onClick={() => onPageChange(startPage - 1)}
+        onClick={() => onPageChange(currentPage - 1)}
       >
         <Text as="span" variant="caption2" color="inherit">
           Previous
@@ -69,7 +69,7 @@ const Pagination = ({
         type="button"
         className={styles.navigationButton}
         disabled={!hasNext}
-        onClick={() => onPageChange(endPage + 1)}
+        onClick={() => onPageChange(currentPage + 1)}
       >
         <Text as="span" variant="caption2" color="inherit">
           Next

@@ -4,65 +4,52 @@ import { useState } from "react";
 
 import Pagination from "@/components/common/Pagination/Pagination";
 import type { SortField, SortOrder } from "@/constants/history-table";
-import type { HistoryItem } from "@/types/history";
+import type { SessionHistoryDto } from "@/types/api";
 import HistoryTable from "../HistoryTable/HistoryTable";
 import * as styles from "./HistoryList.css";
 
-const ITEMS_PER_PAGE = 5;
-
 interface HistoryListProps {
-  items: HistoryItem[];
+  items: SessionHistoryDto[];
   totalItems: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  sortField: SortField | null;
+  sortOrder: SortOrder;
+  onSort: (field: SortField, direction: "asc" | "desc") => void;
   searchKeyword: string;
 }
 
 const HistoryList = ({
   items,
   totalItems,
+  currentPage,
+  onPageChange,
+  sortField,
+  sortOrder,
+  onSort,
   searchKeyword,
 }: HistoryListProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [sortField, setSortField] = useState<SortField | null>(null);
-  const [sortOrder, setSortOrder] = useState<SortOrder>(null);
-
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedItems = items.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handleToggle = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
   };
 
-  const handleSort = (field: SortField) => {
-    //TODO api 연동할때 정렬 로직 추가
-    if (sortField === field) {
-      setSortOrder((prev) =>
-        prev === "asc" ? "desc" : prev === "desc" ? null : "asc",
-      );
-      if (sortOrder === "desc") {
-        setSortField(null);
-      }
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-  };
-
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
     setExpandedId(null);
+    onPageChange(page);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.tableSection}>
         <HistoryTable
-          items={paginatedItems}
+          items={items}
           expandedId={expandedId}
           onToggle={handleToggle}
           sortField={sortField}
           sortOrder={sortOrder}
-          onSort={handleSort}
+          onSort={onSort}
           searchKeyword={searchKeyword}
         />
         <div className={styles.paginationWrapper}>

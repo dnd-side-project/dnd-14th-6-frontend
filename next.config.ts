@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       { hostname: "github.com" },
       { hostname: "avatars.githubusercontent.com" },
       { hostname: "cdn.orvit.net" },
+      { hostname: "lh3.googleusercontent.com" },
       { hostname: "placehold.co" },
     ],
   },
