@@ -12,24 +12,33 @@ import ServerFetchBoundary from "@/server/query/server-fetch-boundary";
 import ReportContent from "./report-content";
 
 interface ReportPageProps {
-  searchParams: Promise<Record<string, string | undefined>>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
+
+const toStr = (value: string | string[] | undefined): string | undefined =>
+  Array.isArray(value) ? value[0] : value;
 
 export default async function ReportPage({ searchParams }: ReportPageProps) {
   const { userId, tokens } = await requireAuth();
-  const params = await searchParams;
+  const raw = await searchParams;
 
-  const page = Math.max(1, Number(params.page) || 1);
-  const sortField = VALID_SORT_FIELDS.includes(params.sortField as SortField)
-    ? (params.sortField as SortField)
+  const page = Math.max(1, Number(toStr(raw.page)) || 1);
+  const rawSortField = toStr(raw.sortField);
+  const sortField = VALID_SORT_FIELDS.includes(rawSortField as SortField)
+    ? (rawSortField as SortField)
     : null;
-  const sortOrder =
-    sortField &&
-    VALID_SORT_ORDERS.includes(
-      params.sortOrder as (typeof VALID_SORT_ORDERS)[number],
-    )
-      ? (params.sortOrder as "asc" | "desc")
-      : null;
+  const rawSortOrder = toStr(raw.sortOrder);
+  const sortOrder = VALID_SORT_ORDERS.includes(
+    rawSortOrder as (typeof VALID_SORT_ORDERS)[number],
+  )
+    ? (rawSortOrder as "asc" | "desc")
+    : "desc";
+
+  const search = toStr(raw.search);
+  const startDate = toStr(raw.startDate);
+  const endDate = toStr(raw.endDate);
+  const categories = toStr(raw.categories);
+  const difficulties = toStr(raw.difficulties);
 
   return (
     <ServerFetchBoundary
@@ -42,16 +51,12 @@ export default async function ReportPage({ searchParams }: ReportPageProps) {
             page,
             size: 5,
             sortBy: sortField ? SORT_FIELD_TO_API[sortField] : "playedAt",
-            sortOrder: sortField
-              ? ((sortOrder ?? "desc") as "asc" | "desc")
-              : "desc",
-            ...(params.search && { search: params.search }),
-            ...(params.startDate && { startDate: params.startDate }),
-            ...(params.endDate && { endDate: params.endDate }),
-            ...(params.categories && { categories: params.categories }),
-            ...(params.difficulties && {
-              difficultyModes: params.difficulties,
-            }),
+            sortOrder,
+            ...(search && { search }),
+            ...(startDate && { startDate }),
+            ...(endDate && { endDate }),
+            ...(categories && { categories }),
+            ...(difficulties && { difficultyModes: difficulties }),
           },
           tokens,
         ),

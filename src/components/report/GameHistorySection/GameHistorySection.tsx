@@ -9,7 +9,6 @@ import Text from "@/components/common/Text/Text";
 import {
   SORT_FIELD_TO_API,
   type SortField,
-  type SortOrder,
   VALID_SORT_FIELDS,
   VALID_SORT_ORDERS,
 } from "@/constants/history-table";
@@ -85,11 +84,11 @@ const GameHistorySection = ({ userId }: GameHistorySectionProps) => {
       ? (sf as SortField)
       : null;
   });
-  const [sortOrder, setSortOrder] = useState<SortOrder>(() => {
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">(() => {
     const so = searchParams.get("sortOrder");
     return VALID_SORT_ORDERS.includes(so as (typeof VALID_SORT_ORDERS)[number])
       ? (so as "asc" | "desc")
-      : null;
+      : "desc";
   });
   const [currentPage, setCurrentPage] = useState(() =>
     Math.max(1, Number(searchParams.get("page")) || 1),
@@ -105,8 +104,10 @@ const GameHistorySection = ({ userId }: GameHistorySectionProps) => {
 
     if (currentPage > 1) params.set("page", String(currentPage));
     if (debouncedSearch) params.set("search", debouncedSearch);
-    if (sortField) params.set("sortField", sortField);
-    if (sortField && sortOrder) params.set("sortOrder", sortOrder);
+    if (sortField) {
+      params.set("sortField", sortField);
+      params.set("sortOrder", sortOrder);
+    }
     if (appliedFilter.startDate)
       params.set("startDate", formatDate(appliedFilter.startDate));
     if (appliedFilter.endDate)
@@ -152,7 +153,7 @@ const GameHistorySection = ({ userId }: GameHistorySectionProps) => {
       setCurrentPage(1);
       if (sortField === field && sortOrder === direction) {
         setSortField(null);
-        setSortOrder(null);
+        setSortOrder("desc");
       } else {
         setSortField(field);
         setSortOrder(direction);
@@ -171,9 +172,7 @@ const GameHistorySection = ({ userId }: GameHistorySectionProps) => {
       page: currentPage,
       size: ITEMS_PER_PAGE,
       sortBy: sortField ? SORT_FIELD_TO_API[sortField] : ("playedAt" as const),
-      sortOrder: sortField
-        ? ((sortOrder ?? "desc") as "asc" | "desc")
-        : ("desc" as const),
+      sortOrder,
       ...(debouncedSearch && { search: debouncedSearch }),
       ...(appliedFilter.startDate && {
         startDate: formatDate(appliedFilter.startDate),
