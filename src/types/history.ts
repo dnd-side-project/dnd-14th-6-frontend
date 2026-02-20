@@ -10,15 +10,3 @@ export interface Problem {
   correctAnswer: string;
   explanation: string;
 }
-
-export interface HistoryItem {
-  id: string;
-  date: string;
-  category: string;
-  difficulty: string;
-  problemSummary: string;
-  score: number;
-  correctCount: number;
-  totalCount: number;
-  problems: Problem[];
-}
