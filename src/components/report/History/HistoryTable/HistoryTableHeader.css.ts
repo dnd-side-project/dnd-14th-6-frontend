@@ -32,13 +32,20 @@ export const sortButton = style({
   alignItems: "center",
   justifyContent: "center",
   gap: 0,
-  background: "none",
-  border: "none",
-  cursor: "pointer",
   padding: 0,
   position: "absolute",
   top: "50%",
   transform: "translateY(-50%)",
+});
+
+export const sortIconButton = style({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "none",
+  border: "none",
+  cursor: "pointer",
+  padding: 0,
 });
 
 export const sortIcon = recipe({

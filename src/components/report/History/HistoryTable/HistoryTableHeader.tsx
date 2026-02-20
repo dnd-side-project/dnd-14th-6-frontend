@@ -11,7 +11,7 @@ import * as styles from "./HistoryTableHeader.css";
 interface HistoryTableHeaderProps {
   sortField: SortField | null;
   sortOrder: SortOrder;
-  onSort: (field: SortField) => void;
+  onSort: (field: SortField, direction: "asc" | "desc") => void;
 }
 
 const HistoryTableHeader = ({
@@ -39,27 +39,37 @@ const HistoryTableHeader = ({
               {col.label}
             </Text>
             {col.sortable && colSortField && (
-              <button
-                type="button"
+              <div
                 className={styles.sortButton}
                 style={{ left: col.sortIconLeft }}
-                onClick={() => onSort(colSortField)}
               >
-                <span
-                  className={styles.sortIcon({
-                    active: !isActive || sortOrder === "asc",
-                  })}
+                <button
+                  type="button"
+                  className={styles.sortIconButton}
+                  onClick={() => onSort(colSortField, "asc")}
                 >
-                  <IcArrowUp size={11} />
-                </span>
-                <span
-                  className={styles.sortIcon({
-                    active: !isActive || sortOrder === "desc",
-                  })}
+                  <span
+                    className={styles.sortIcon({
+                      active: !isActive || sortOrder === "asc",
+                    })}
+                  >
+                    <IcArrowUp size={11} />
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  className={styles.sortIconButton}
+                  onClick={() => onSort(colSortField, "desc")}
                 >
-                  <IcArrowDown size={11} />
-                </span>
-              </button>
+                  <span
+                    className={styles.sortIcon({
+                      active: !isActive || sortOrder === "desc",
+                    })}
+                  >
+                    <IcArrowDown size={11} />
+                  </span>
+                </button>
+              </div>
             )}
           </div>
         );
