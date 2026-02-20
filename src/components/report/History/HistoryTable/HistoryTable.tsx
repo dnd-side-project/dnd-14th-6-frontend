@@ -1,6 +1,9 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import type { SortField, SortOrder } from "@/constants/history-table";
+import { gameResultReportQueryOptions } from "@/hooks/query/useGetGameResultReportQuery";
 
 import type { SessionHistoryDto } from "@/types/api";
 import HistoryRow from "../HistoryRow/HistoryRow";
@@ -26,6 +29,16 @@ const HistoryTable = ({
   onSort,
   searchKeyword,
 }: HistoryTableProps) => {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    for (const item of items) {
+      queryClient.prefetchQuery(
+        gameResultReportQueryOptions({ gameSessionId: item.id }),
+      );
+    }
+  }, [items, queryClient]);
+
   return (
     <div className={styles.table}>
       <HistoryTableHeader

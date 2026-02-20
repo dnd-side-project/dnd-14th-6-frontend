@@ -2,11 +2,11 @@
 
 import IcCopy from "@/assets/icons/colored/IcCopy";
 
-import type { Problem } from "@/types/history";
+import type { ReportDto } from "@/types/api";
 import * as styles from "./HistoryRowDetail.css";
 
 interface HistoryRowDetailProps {
-  problems: Problem[];
+  reports: ReportDto[];
 }
 
 const handleCopy = (text: string) => {
@@ -30,13 +30,13 @@ const parseCodeText = (text: string) => {
   });
 };
 
-const HistoryRowDetail = ({ problems }: HistoryRowDetailProps) => {
+const HistoryRowDetail = ({ reports }: HistoryRowDetailProps) => {
   return (
     <div className={styles.container}>
-      {problems.map((problem) => (
-        <div key={problem.id} className={styles.problemSection}>
+      {reports.map((report, index) => (
+        <div key={report.problemId} className={styles.problemSection}>
           <div className={styles.problemText}>
-            {parseCodeText(problem.description)}
+            {index + 1}. {parseCodeText(report.text ?? "")}
           </div>
 
           <div className={styles.answersSection}>
@@ -44,29 +44,31 @@ const HistoryRowDetail = ({ problems }: HistoryRowDetailProps) => {
               <span className={styles.answerLabel}>나의 답</span>
               <div className={styles.answerBox}>
                 <span className={styles.answerText({ correct: true })}>
-                  {problem.userAnswers.map((answer, index) => (
-                    <span
-                      key={`${answer.text}-${index}`}
-                      className={styles.answerText({
-                        correct: answer.isCorrect,
-                      })}
-                    >
-                      {answer.text}
-                      {index < problem.userAnswers.length - 1 && "\n"}
-                    </span>
-                  ))}
+                  {report.inputs.length > 0
+                    ? report.inputs.map((input, inputIndex) => (
+                        <span
+                          key={`${input.input}-${inputIndex}`}
+                          className={styles.answerText({
+                            correct: input.isCorrect,
+                          })}
+                        >
+                          {input.input}
+                          {inputIndex < report.inputs.length - 1 && "\n"}
+                        </span>
+                      ))
+                    : "\u00A0"}
                 </span>
-                <button
-                  type="button"
-                  className={styles.copyButton}
-                  onClick={() =>
-                    handleCopy(
-                      problem.userAnswers.map((a) => a.text).join("\n"),
-                    )
-                  }
-                >
-                  <IcCopy size={22} />
-                </button>
+                {report.inputs.length > 0 && (
+                  <button
+                    type="button"
+                    className={styles.copyButton}
+                    onClick={() =>
+                      handleCopy(report.inputs.map((i) => i.input).join("\n"))
+                    }
+                  >
+                    <IcCopy size={22} />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -74,12 +76,12 @@ const HistoryRowDetail = ({ problems }: HistoryRowDetailProps) => {
               <span className={styles.answerLabel}>정답</span>
               <div className={styles.answerBox}>
                 <span className={styles.answerText({ correct: true })}>
-                  {problem.correctAnswer}
+                  {report.answer ?? ""}
                 </span>
                 <button
                   type="button"
                   className={styles.copyButton}
-                  onClick={() => handleCopy(problem.correctAnswer)}
+                  onClick={() => handleCopy(report.answer ?? "")}
                 >
                   <IcCopy size={22} />
                 </button>
@@ -89,7 +91,7 @@ const HistoryRowDetail = ({ problems }: HistoryRowDetailProps) => {
             <div className={styles.explanationSection}>
               <span className={styles.explanationLabel}>해설</span>
               <span className={styles.explanationText}>
-                {parseCodeText(problem.explanation)}
+                {parseCodeText(report.explanation ?? "")}
               </span>
             </div>
           </div>
