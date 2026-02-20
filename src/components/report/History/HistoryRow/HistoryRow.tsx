@@ -4,13 +4,13 @@ import IcListArrow from "@/assets/icons/colored/IcListArrow";
 import Text from "@/components/common/Text/Text";
 import { HISTORY_COLUMNS } from "@/constants/history-table";
 
-import type { HistoryItem } from "@/types/history";
+import type { SessionHistoryDto } from "@/types/api";
+import { formatDisplayDate } from "@/utils/date";
 import HighlightText from "../HighlightText/HighlightText";
 import * as styles from "./HistoryRow.css";
-import HistoryRowDetail from "./HistoryRowDetail";
 
 interface HistoryRowProps {
-  item: HistoryItem;
+  item: SessionHistoryDto;
   isExpanded: boolean;
   onToggle: () => void;
   searchKeyword: string;
@@ -28,7 +28,7 @@ const HistoryRow = ({
   onToggle,
   searchKeyword,
 }: HistoryRowProps) => {
-  const isPerfect = item.correctCount === item.totalCount;
+  const isPerfect = item.correctProblemCount === item.totalProblemCount;
 
   return (
     <div className={styles.container}>
@@ -40,7 +40,7 @@ const HistoryRow = ({
       >
         <div className={styles.cell} style={getColumnStyle("date")}>
           <Text as="span" variant="body2" color="coolgrey_20">
-            {item.date}
+            {formatDisplayDate(item.playedAt)}
           </Text>
         </div>
         <div className={styles.cell} style={getColumnStyle("category")}>
@@ -50,12 +50,12 @@ const HistoryRow = ({
         </div>
         <div className={styles.cell} style={getColumnStyle("difficulty")}>
           <Text as="span" variant="body2" color="coolgrey_20">
-            {item.difficulty}
+            {item.difficultyMode}
           </Text>
         </div>
         <div className={styles.cell} style={getColumnStyle("problem")}>
           <Text as="span" variant="body2" color="coolgrey_20">
-            <HighlightText text={item.problemSummary} keyword={searchKeyword} />
+            <HighlightText text={item.title} keyword={searchKeyword} />
           </Text>
         </div>
         <div className={styles.cell} style={getColumnStyle("score")}>
@@ -69,14 +69,13 @@ const HistoryRow = ({
             variant="body2"
             color={isPerfect ? "primary_100" : "primary_200"}
           >
-            {item.correctCount}/{item.totalCount}
+            {item.correctProblemCount}/{item.totalProblemCount}
           </Text>
         </div>
         <div className={styles.arrowIcon({ expanded: isExpanded })}>
           <IcListArrow size={14} />
         </div>
       </button>
-      {isExpanded && <HistoryRowDetail problems={item.problems} />}
     </div>
   );
 };

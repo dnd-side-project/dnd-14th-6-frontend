@@ -44,7 +44,7 @@ export default function ReportContent({ userId }: ReportContentProps) {
           frequentWrongCommands={analysis.frequentWrongCommands}
         />
       </Flex>
-      <GameHistorySection />
+      <GameHistorySection userId={userId} />
     </Flex>
   );
 }

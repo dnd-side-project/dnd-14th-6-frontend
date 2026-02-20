@@ -2,18 +2,18 @@
 
 import type { SortField, SortOrder } from "@/constants/history-table";
 
-import type { HistoryItem } from "@/types/history";
+import type { SessionHistoryDto } from "@/types/api";
 import HistoryRow from "../HistoryRow/HistoryRow";
 import * as styles from "./HistoryTable.css";
 import HistoryTableHeader from "./HistoryTableHeader";
 
 interface HistoryTableProps {
-  items: HistoryItem[];
+  items: SessionHistoryDto[];
   expandedId: string | null;
   onToggle: (id: string) => void;
   sortField: SortField | null;
   sortOrder: SortOrder;
-  onSort: (field: SortField) => void;
+  onSort: (field: SortField, direction: "asc" | "desc") => void;
   searchKeyword: string;
 }
 
