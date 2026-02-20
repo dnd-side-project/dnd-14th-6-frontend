@@ -6,26 +6,8 @@ import FrequentWrongCommandsSection from "@/components/report/FrequentWrongComma
 import GameHistorySection from "@/components/report/GameHistorySection/GameHistorySection";
 import MistakeCategorySection from "@/components/report/MistakeCategorySection/MistakeCategorySection";
 import TierRankingSection from "@/components/report/TierRankingSection/TierRankingSection";
+import { useGetUserAnalysisSuspenseQuery } from "@/hooks/query/useGetUserAnalysisQuery";
 import { useGetUserStatsSuspenseQuery } from "@/hooks/query/useGetUserStatsQuery";
-import type {
-  FrequentWrongCategory,
-  FrequentWrongCommand,
-} from "@/types/report";
-
-// TODO: /api/users/{userId}/analysis API 연동 시 제거
-const TEMP_FREQUENT_WRONG_CATEGORIES: FrequentWrongCategory[] = [
-  { category: "Git", wrongRatio: 48, wrongCount: 24 },
-  { category: "Docker", wrongRatio: 30, wrongCount: 15 },
-  { category: "Linux", wrongRatio: 22, wrongCount: 11 },
-];
-
-const TEMP_FREQUENT_WRONG_COMMANDS: FrequentWrongCommand[] = [
-  { mainCategory: "Git", subCategory: "Branch", wrongCount: 12 },
-  { mainCategory: "Git", subCategory: "Commit", wrongCount: 9 },
-  { mainCategory: "Git", subCategory: "Merge", wrongCount: 7 },
-  { mainCategory: "Git", subCategory: "Rebase", wrongCount: 5 },
-  { mainCategory: "Linux", subCategory: "Stash", wrongCount: 3 },
-];
 
 interface ReportContentProps {
   userId: string;
@@ -33,6 +15,7 @@ interface ReportContentProps {
 
 export default function ReportContent({ userId }: ReportContentProps) {
   const { data: stats } = useGetUserStatsSuspenseQuery({ userId });
+  const { data: analysis } = useGetUserAnalysisSuspenseQuery({ userId });
 
   return (
     <Flex
@@ -48,7 +31,7 @@ export default function ReportContent({ userId }: ReportContentProps) {
       <Flex width={"100%"} gap={1.6} marginBottom={6.4}>
         <Flex direction="column" gap={1.6} style={{ flex: 1 }}>
           <MistakeCategorySection
-            frequentWrongCategories={TEMP_FREQUENT_WRONG_CATEGORIES}
+            frequentWrongCategories={analysis.frequentWrongCategories}
           />
           <Flex gap={1.6} style={{ flex: 1 }}>
             {stats.tier && (
@@ -58,7 +41,7 @@ export default function ReportContent({ userId }: ReportContentProps) {
           </Flex>
         </Flex>
         <FrequentWrongCommandsSection
-          frequentWrongCommands={TEMP_FREQUENT_WRONG_COMMANDS}
+          frequentWrongCommands={analysis.frequentWrongCommands}
         />
       </Flex>
       <GameHistorySection />

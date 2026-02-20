@@ -1,3 +1,30 @@
+export interface FrequentWrongCommandDto {
+  /** 카테고리 이름 */
+  category: string;
+  /** 서브 카테고리 이름 */
+  subCategory: string;
+  /** 오답 횟수 */
+  wrongCount: number;
+}
+
+export interface FrequentWrongCategoryDto {
+  /** 카테고리 이름 */
+  category: string;
+  /** 오답 비율 (%) */
+  wrongRatio: number;
+  /** 오답 횟수 */
+  wrongCount: number;
+  /** 카테고리 아이콘 이미지 URL */
+  iconUrl: string | null;
+}
+
+export interface GetUserAnalysisResponseDto {
+  /** 서브 카테고리 기준 자주 틀린 명령어 Top 5 */
+  frequentWrongCommands: FrequentWrongCommandDto[];
+  /** 많이 틀린 카테고리 */
+  frequentWrongCategories: FrequentWrongCategoryDto[];
+}
+
 export interface TierDto {
   /** 티어 ID */
   id: number;

@@ -1,3 +1,4 @@
+import { userAnalysisQueryOptions } from "@/hooks/query/useGetUserAnalysisQuery";
 import { userStatsQueryOptions } from "@/hooks/query/useGetUserStatsQuery";
 import { requireAuth } from "@/server/auth/require-auth";
 import ServerFetchBoundary from "@/server/query/server-fetch-boundary";
@@ -8,7 +9,10 @@ export default async function ReportPage() {
 
   return (
     <ServerFetchBoundary
-      fetchOptions={userStatsQueryOptions({ userId }, tokens)}
+      fetchOptions={[
+        userStatsQueryOptions({ userId }, tokens),
+        userAnalysisQueryOptions({ userId }, tokens),
+      ]}
     >
       <ReportContent userId={userId} />
     </ServerFetchBoundary>

@@ -22,16 +22,15 @@ export interface Tier {
   imageUrl: string;
 }
 
-export type KnownCategory = "Git" | "Docker" | "Linux";
-
 export interface FrequentWrongCategory {
-  category: KnownCategory;
+  category: string;
   wrongRatio: number;
   wrongCount: number;
+  iconUrl: string | null;
 }
 
 export interface FrequentWrongCommand {
-  mainCategory: string;
+  category: string;
   subCategory: string;
   wrongCount: number;
 }
