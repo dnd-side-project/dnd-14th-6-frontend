@@ -1,11 +1,11 @@
-import type { ReactNode } from "react";
+import Image from "next/image";
 import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { iconWrapper } from "./MistakeCategoryItem.css";
 
 interface MistakeCategoryItemProps {
-  icon: ReactNode;
+  iconUrl: string | null;
   category: string;
   wrongRatio: number;
   wrongCount: number;
@@ -13,7 +13,7 @@ interface MistakeCategoryItemProps {
 }
 
 export default function MistakeCategoryItem({
-  icon,
+  iconUrl,
   category,
   wrongRatio,
   wrongCount,
@@ -21,7 +21,11 @@ export default function MistakeCategoryItem({
 }: MistakeCategoryItemProps) {
   return (
     <Flex gap={1.4} align="center">
-      <div className={iconWrapper}>{icon}</div>
+      <div className={iconWrapper}>
+        {iconUrl && (
+          <Image src={iconUrl} alt={category} width={33} height={33} />
+        )}
+      </div>
       <Flex direction="column" gap={0.9} grow={1}>
         <Flex justify="spaceBetween" align="center">
           <Text variant="body7" color="coolgrey_10">

@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-import { IcDocker, IcGit, IcLinux } from "@/assets/icons/colored";
 import Flex from "@/components/common/Flex/Flex";
 import Text from "@/components/common/Text/Text";
 import DashboardCard from "@/components/report/DashboardCard/DashboardCard";
@@ -10,12 +8,6 @@ import { card } from "./MistakeCategorySection.css";
 interface MistakeCategorySectionProps {
   frequentWrongCategories: FrequentWrongCategory[];
 }
-
-const CATEGORY_ICON_MAP: Record<string, ReactNode> = {
-  Git: <IcGit size={33} />,
-  Docker: <IcDocker size={28} />,
-  Linux: <IcLinux size={34} />,
-};
 
 export default function MistakeCategorySection({
   frequentWrongCategories,
@@ -33,7 +25,7 @@ export default function MistakeCategorySection({
             return (
               <MistakeCategoryItem
                 key={item.category}
-                icon={CATEGORY_ICON_MAP[item.category]}
+                iconUrl={item.iconUrl}
                 category={item.category}
                 wrongRatio={item.wrongRatio}
                 wrongCount={item.wrongCount}

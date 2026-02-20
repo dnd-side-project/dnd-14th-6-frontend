@@ -26,6 +26,7 @@ export interface FrequentWrongCategory {
   category: string;
   wrongRatio: number;
   wrongCount: number;
+  iconUrl: string | null;
 }
 
 export interface FrequentWrongCommand {
