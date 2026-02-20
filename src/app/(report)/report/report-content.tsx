@@ -1,5 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
+
 import Flex from "@/components/common/Flex/Flex";
 import CumulativeScoreSection from "@/components/report/CumulativeScoreSection/CumulativeScoreSection";
 import FrequentWrongCommandsSection from "@/components/report/FrequentWrongCommandsSection/FrequentWrongCommandsSection";
@@ -44,7 +46,10 @@ export default function ReportContent({ userId }: ReportContentProps) {
           frequentWrongCommands={analysis.frequentWrongCommands}
         />
       </Flex>
-      <GameHistorySection userId={userId} />
+      {/* TODO: 게임 히스토리 스켈레톤 UI fallback 추가 */}
+      <Suspense>
+        <GameHistorySection userId={userId} />
+      </Suspense>
     </Flex>
   );
 }
