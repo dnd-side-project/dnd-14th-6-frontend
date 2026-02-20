@@ -1,13 +1,16 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import IcListArrow from "@/assets/icons/colored/IcListArrow";
 import Text from "@/components/common/Text/Text";
 import { HISTORY_COLUMNS } from "@/constants/history-table";
+import { gameResultReportQueryOptions } from "@/hooks/query/useGetGameResultReportQuery";
 
 import type { SessionHistoryDto } from "@/types/api";
 import { formatDisplayDate } from "@/utils/date";
 import HighlightText from "../HighlightText/HighlightText";
 import * as styles from "./HistoryRow.css";
+import HistoryRowDetail from "./HistoryRowDetail";
 
 interface HistoryRowProps {
   item: SessionHistoryDto;
@@ -29,6 +32,11 @@ const HistoryRow = ({
   searchKeyword,
 }: HistoryRowProps) => {
   const isPerfect = item.correctProblemCount === item.totalProblemCount;
+
+  const { data } = useQuery({
+    ...gameResultReportQueryOptions({ gameSessionId: item.id }),
+    enabled: isExpanded,
+  });
 
   return (
     <div className={styles.container}>
@@ -76,6 +84,7 @@ const HistoryRow = ({
           <IcListArrow size={14} />
         </div>
       </button>
+      {isExpanded && data && <HistoryRowDetail reports={data.reports} />}
     </div>
   );
 };
