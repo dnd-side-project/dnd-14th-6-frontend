@@ -8,11 +8,8 @@ import type { LevelType } from "@/components/game/Level/Level";
 
 import * as styles from "./LevelCard.css";
 
-export type LevelCardVariant = "default" | "selected" | "inactive";
-
 export interface LevelCardProps {
   level: LevelType;
-  variant?: LevelCardVariant;
   onClick?: () => void;
 }
 
@@ -30,20 +27,12 @@ const LEVEL_LABEL: Record<LevelType, string> = {
   random: "Random",
 };
 
-const LevelCard = ({
-  level,
-  variant = "default",
-  onClick,
-}: LevelCardProps) => {
+const LevelCard = ({ level, onClick }: LevelCardProps) => {
   const Icon = LEVEL_ICON[level];
 
   return (
-    <button
-      type="button"
-      className={styles.card({ variant })}
-      onClick={onClick}
-    >
-      <span className={styles.label({ variant })}>{LEVEL_LABEL[level]}</span>
+    <button type="button" className={styles.card} onClick={onClick}>
+      <span className={styles.label}>{LEVEL_LABEL[level]}</span>
       <div className={styles.iconWrapper}>
         <Icon />
       </div>

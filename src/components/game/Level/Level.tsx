@@ -4,6 +4,10 @@ import * as styles from "./Level.css";
 
 export type LevelType = "normal" | "easy" | "hard" | "random";
 
+const VALID_LEVEL_SET = new Set<string>(["normal", "easy", "hard", "random"]);
+export const isValidLevel = (value: string): value is LevelType =>
+  VALID_LEVEL_SET.has(value);
+
 const LEVEL_LABELS: Record<LevelType, string> = {
   normal: "Normal",
   easy: "Easy",

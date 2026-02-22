@@ -1,6 +1,6 @@
-export type SetupStep = "category" | "difficulty" | "tutorial";
+export type SetupStep = "category" | "difficulty";
 
-export type PlayPhase = "playing" | "end" | "badge";
+export type PlayPhase = "tutorial" | "playing" | "end" | "badge";
 
 export const GAME_SESSION_KEY = "gameSession";
 export const GAME_RESULT_KEY = "gameResult";
