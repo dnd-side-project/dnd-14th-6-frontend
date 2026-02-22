@@ -18,6 +18,7 @@ export const backgroundWrapper = style({
 
 export const backgroundImage = style({
   objectFit: "cover",
+  objectPosition: "top",
 });
 
 export const foreground = style({

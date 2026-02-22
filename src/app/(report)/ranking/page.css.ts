@@ -19,7 +19,7 @@ export const topRankingArea = style({
 export const planetSection = style({
   position: "relative",
   overflow: "hidden",
-  marginTop: "-10.42vw",
+  marginTop: "-25.42vw",
 });
 
 export const planetImage = style({
@@ -27,7 +27,8 @@ export const planetImage = style({
   top: 0,
   left: "50%",
   transform: "translateX(-50%)",
-  width: "100%",
+  width: "130%",
+  maxWidth: "none",
   height: "auto",
   pointerEvents: "none",
   zIndex: 0,
@@ -36,5 +37,5 @@ export const planetImage = style({
 export const rankingListArea = style({
   position: "relative",
   zIndex: 1,
-  padding: "28.26vw 4.8rem 16rem",
+  padding: "47.26vw 4.8rem 16rem",
 });

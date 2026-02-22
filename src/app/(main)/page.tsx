@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <div className={styles.pageContainer}>
       <Image
-        src="/assets/images/home-planet.png"
+        src="/assets/images/planet.png"
         alt=""
-        width={1024}
-        height={844}
+        width={850.96}
+        height={703.75}
         className={styles.planetImage}
         priority
       />
