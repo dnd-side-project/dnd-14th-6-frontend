@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import CategoryCard from "@/components/game/CategoryCard/CategoryCard";
-import type { LevelType } from "@/components/game/Level/Level";
+import { isValidLevel } from "@/components/game/Level/Level";
 import LevelCard from "@/components/game/LevelCard/LevelCard";
 import StepIndicator from "@/components/game/StepIndicator/StepIndicator";
 import { ROUTES } from "@/constants/routes";
@@ -36,7 +36,7 @@ export default function GameSetupContent({
 
   const handleCategorySelect = (cat: CategoryDto) => {
     router.push(
-      `${ROUTES.GAME}?step=difficulty&category=${cat.name.toLowerCase()}`,
+      `${ROUTES.GAME}?step=difficulty&category=${encodeURIComponent(cat.name.toLowerCase())}`,
     );
   };
 
@@ -63,13 +63,16 @@ export default function GameSetupContent({
           <p className={styles.categoryTitle}>난이도를 선택해 주세요</p>
         </div>
         <div className={styles.levelCards}>
-          {gameOptions.difficultyModes.map((mode) => (
-            <LevelCard
-              key={mode}
-              level={mode.toLowerCase() as LevelType}
-              onClick={() => handleLevelSelect(mode)}
-            />
-          ))}
+          {gameOptions.difficultyModes
+            .map((mode) => mode.toLowerCase())
+            .filter(isValidLevel)
+            .map((level) => (
+              <LevelCard
+                key={level}
+                level={level}
+                onClick={() => handleLevelSelect(level)}
+              />
+            ))}
         </div>
       </div>
     );

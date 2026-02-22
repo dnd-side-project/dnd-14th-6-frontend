@@ -129,8 +129,13 @@ export default function GamePlayPage() {
 
   useEffect(() => {
     if (phase !== "tutorial") return;
-    window.addEventListener("keydown", startGame);
-    return () => window.removeEventListener("keydown", startGame);
+    const IGNORED_KEYS = new Set(["Shift", "Control", "Alt", "Meta"]);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (IGNORED_KEYS.has(e.key)) return;
+      startGame();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [phase, startGame]);
 
   if (!params) {

@@ -49,7 +49,6 @@ export const categoryCards = style({
 
 globalStyle(`${categoryCards}:hover > button:not(:hover)`, {
   opacity: 0.4,
-  transition: "opacity 0.2s ease",
 });
 
 export const levelCards = style({
@@ -62,5 +61,4 @@ export const levelCards = style({
 
 globalStyle(`${levelCards}:hover > button:not(:hover)`, {
   opacity: 0.4,
-  transition: "opacity 0.2s ease",
 });
