@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
       { hostname: "cdn.orvit.net" },
       { hostname: "lh3.googleusercontent.com" },
       { hostname: "placehold.co" },
+      { hostname: "example.com" },
     ],
   },
 };
