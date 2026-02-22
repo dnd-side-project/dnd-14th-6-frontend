@@ -7,9 +7,10 @@ import * as styles from "./RankingList.css";
 
 interface RankingListProps {
   ranks: RankUser[];
+  myNickname?: string | null;
 }
 
-const RankingList = ({ ranks }: RankingListProps) => {
+const RankingList = ({ ranks, myNickname }: RankingListProps) => {
   return (
     <Flex direction="column">
       <div className={styles.headerRow}>
@@ -37,7 +38,11 @@ const RankingList = ({ ranks }: RankingListProps) => {
 
       <Flex direction="column" gap={1}>
         {ranks.map((rank) => (
-          <RankingListItem key={rank.ranking} {...rank} />
+          <RankingListItem
+            key={rank.ranking}
+            {...rank}
+            isMe={myNickname === rank.nickname}
+          />
         ))}
       </Flex>
     </Flex>
