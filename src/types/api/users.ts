@@ -15,7 +15,7 @@ export interface RankItemDto {
   /** 총 점수(int size를 넘길 수 있어 string type) */
   totalScore: string;
   /** 프로필 이미지 */
-  profileImage: string;
+  profileImage: string | null;
   /** github 링크 */
   githubUrl: string | null;
   /** 티어 정보 */
