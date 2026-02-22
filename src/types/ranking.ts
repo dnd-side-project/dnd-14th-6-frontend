@@ -7,5 +7,5 @@ export interface RankUser {
   tier: {
     name: string;
     imageUrl: string;
-  };
+  } | null;
 }

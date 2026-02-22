@@ -1,8 +1,9 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import RankingListSection from "@/components/ranking/RankingListSection/RankingListSection";
 import RankingTabs, {
@@ -10,14 +11,16 @@ import RankingTabs, {
 } from "@/components/ranking/RankingTabs/RankingTabs";
 import TopRankingSection from "@/components/ranking/TopRankingSection/TopRankingSection";
 import {
-  MOCK_RANKS,
-  MOCK_TOP_RANKS,
-  MOCK_TOTAL_PAGE,
-} from "@/constants/ranking-mock";
+  LIST_PAGE_SIZE,
+  TOP_RANKS_SIZE,
+  VALID_TABS,
+} from "@/constants/ranking";
+import {
+  useGetRanksQuery,
+  useGetRanksSuspenseQuery,
+} from "@/hooks/query/useGetRanksQuery";
 
 import * as styles from "./page.css";
-
-const VALID_TABS: RankingTabType[] = ["all", "tier"];
 
 interface RankingContentProps {
   tab?: string;
@@ -27,6 +30,35 @@ export default function RankingContent({ tab }: RankingContentProps) {
   const router = useRouter();
   const activeTab = VALID_TABS.find((t) => t === tab) ?? "all";
   const [currentPage, setCurrentPage] = useState(1);
+  const rankingListRef = useRef<HTMLDivElement>(null);
+
+  const myNickname = useMemo(() => {
+    try {
+      const raw = getCookie("userInfo");
+      if (!raw) return null;
+      const parsed = JSON.parse(String(raw));
+      return typeof parsed?.nickname === "string" ? parsed.nickname : null;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const { data: topRanksData } = useGetRanksSuspenseQuery({
+    page: 1,
+    size: TOP_RANKS_SIZE,
+    scope: activeTab,
+  });
+
+  const { data: listData } = useGetRanksQuery({
+    page: currentPage,
+    size: LIST_PAGE_SIZE,
+    scope: activeTab,
+  });
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+    rankingListRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   const handleTabChange = (newTab: RankingTabType) => {
     router.replace(`?tab=${newTab}`);
@@ -39,7 +71,7 @@ export default function RankingContent({ tab }: RankingContentProps) {
           <RankingTabs activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
         <div className={styles.topRankingArea}>
-          <TopRankingSection ranks={MOCK_TOP_RANKS} />
+          <TopRankingSection ranks={topRanksData.ranks} />
         </div>
       </div>
       <div className={styles.planetSection}>
@@ -50,13 +82,16 @@ export default function RankingContent({ tab }: RankingContentProps) {
           height={3865}
           className={styles.planetImage}
         />
-        <div className={styles.rankingListArea}>
-          <RankingListSection
-            ranks={MOCK_RANKS}
-            totalPage={MOCK_TOTAL_PAGE}
-            currentPage={currentPage}
-            onPageChange={setCurrentPage}
-          />
+        <div ref={rankingListRef} className={styles.rankingListArea}>
+          {listData && (
+            <RankingListSection
+              ranks={listData.ranks}
+              totalPage={listData.metadata.totalPage}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+              myNickname={myNickname}
+            />
+          )}
         </div>
       </div>
     </>
