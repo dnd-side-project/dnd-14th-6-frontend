@@ -8,7 +8,6 @@ export const container = recipe({
   base: {
     display: "inline-flex",
     padding: "2px",
-    borderRadius: vars.radius.l,
     border: "none",
     cursor: "pointer",
     outline: "none",
@@ -28,20 +27,44 @@ export const container = recipe({
         boxShadow: vars.effect.game_selected_error,
       },
     },
+    shape: {
+      full: {
+        borderRadius: vars.radius.l,
+      },
+      headOnly: {
+        borderTopLeftRadius: vars.radius.l,
+        borderBottomLeftRadius: vars.radius.l,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+      },
+    },
   },
   defaultVariants: {
     variant: "default",
+    shape: "full",
   },
 });
 
-export const inner = style({
+const innerBase = {
   display: "flex",
   alignItems: "center",
   height: "46px",
-  borderRadius: `calc(${vars.radius.l} - 2px)`,
   backgroundColor: vars.color.black,
   backgroundImage: vars.gradient.game_problem_bg,
   backdropFilter: "blur(4.95px)",
+} as const;
+
+export const inner = style({
+  ...innerBase,
+  borderRadius: `calc(${vars.radius.l} - 2px)`,
+});
+
+export const innerHeadOnly = style({
+  ...innerBase,
+  borderTopLeftRadius: `calc(${vars.radius.l} - 2px)`,
+  borderBottomLeftRadius: `calc(${vars.radius.l} - 2px)`,
+  borderTopRightRadius: 0,
+  borderBottomRightRadius: 0,
 });
 
 export const categorySection = style({
