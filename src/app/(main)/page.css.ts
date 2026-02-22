@@ -8,7 +8,7 @@ export const pageContainer = style({
 
 export const planetImage = style({
   position: "absolute",
-  top: "8rem",
+  top: "10rem",
   right: "-22.5vw",
   width: "62.5vw",
   height: "auto",

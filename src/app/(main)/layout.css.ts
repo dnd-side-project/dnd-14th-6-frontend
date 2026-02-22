@@ -17,6 +17,7 @@ export const backgroundImage = style({
   pointerEvents: "none",
 });
 
+
 export const contentStyle = style({
   flex: 1,
 });

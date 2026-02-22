@@ -1,3 +1,6 @@
+export { default as Ic1Medal } from "./Ic1Medal";
+export { default as Ic2Medal } from "./Ic2Medal";
+export { default as Ic3Medal } from "./Ic3Medal";
 export { default as IcArrowDown } from "./IcArrowDown";
 export { default as IcArrowLeft } from "./IcArrowLeft";
 export { default as IcArrowLink } from "./IcArrowLink";
