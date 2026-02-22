@@ -10,6 +10,7 @@ export const queryKeys = {
   },
   games: {
     all: ["games"] as const,
+    options: () => [...queryKeys.games.all, "options"] as const,
     sessions: (params: unknown) =>
       [...queryKeys.games.all, "sessions", params] as const,
     reports: (params: unknown) =>

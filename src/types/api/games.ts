@@ -1,5 +1,21 @@
 import type { PaginationMetadataDto } from "./common";
 
+export interface CategoryDto {
+  /** 카테고리 ID */
+  id: number;
+  /** 카테고리 이름 */
+  name: string;
+  /** 카테고리 icon Url */
+  iconUrl: string;
+}
+
+export interface GetGameOptionsResponseDto {
+  /** 게임 카테고리 목록 */
+  categories: CategoryDto[];
+  /** 게임난이도 목록 */
+  difficultyModes: ("Easy" | "Normal" | "Hard" | "Random")[];
+}
+
 export interface SummaryDto {
   /** 게임 세션 ID */
   sessionId: string;
