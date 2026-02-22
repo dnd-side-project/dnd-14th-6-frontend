@@ -79,7 +79,7 @@ export default function RankingContent({ tab }: RankingContentProps) {
           src="/assets/images/ranking-planet-frame.png"
           alt=""
           width={1641}
-          height={963.5}
+          height={964}
           className={styles.planetImage}
         />
         <div ref={rankingListRef} className={styles.rankingListArea}>

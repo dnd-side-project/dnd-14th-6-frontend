@@ -9,6 +9,7 @@ export const heroTitle = style({
   lineHeight: "10.4rem",
   letterSpacing: "0",
   whiteSpace: "pre-wrap",
+  color: "#f7fbff",
   background: "linear-gradient(180deg, #f7fbff 34.48%, #dde7f2 87.8%)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
