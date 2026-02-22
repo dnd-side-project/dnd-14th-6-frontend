@@ -1,3 +1,6 @@
+import Ic1Medal from "@/assets/icons/colored/Ic1Medal";
+import Ic2Medal from "@/assets/icons/colored/Ic2Medal";
+import Ic3Medal from "@/assets/icons/colored/Ic3Medal";
 import IcGitActive from "@/assets/icons/colored/IcGitActive";
 import IcGitInactive from "@/assets/icons/colored/IcGitInactive";
 import Flex from "@/components/common/Flex/Flex";
@@ -31,13 +34,21 @@ const RankingListItem = ({
   return (
     <div className={styles.container({ variant })}>
       <Flex align="center" gap={6}>
-        <Text
-          variant="body7"
-          color={isMe ? "coolgrey_120" : "coolgrey_75"}
-          className={styles.rankNumber}
-        >
-          {ranking}
-        </Text>
+        {ranking === 1 ? (
+          <Ic1Medal size="3rem" className={styles.rankNumber} />
+        ) : ranking === 2 ? (
+          <Ic2Medal size="3rem" className={styles.rankNumber} />
+        ) : ranking === 3 ? (
+          <Ic3Medal size="3rem" className={styles.rankNumber} />
+        ) : (
+          <Text
+            variant="body7"
+            color={isMe ? "coolgrey_120" : "coolgrey_75"}
+            className={styles.rankNumber}
+          >
+            {ranking}
+          </Text>
+        )}
         <Flex align="center" gap={0.6}>
           <div className={styles.tierBadge({ me: isMe })} />
           <Text variant="body7" color={isMe ? "coolgrey_230" : "coolgrey_40"}>
