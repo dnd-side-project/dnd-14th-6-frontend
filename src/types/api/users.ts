@@ -1,3 +1,34 @@
+import type { PaginationMetadataDto } from "./common";
+
+export interface RankTierDto {
+  /** 티어 이름 */
+  name: string;
+  /** 티어 이미지 URL */
+  imageUrl: string;
+}
+
+export interface RankItemDto {
+  /** 랭킹 */
+  ranking: number;
+  /** 닉네임 */
+  nickname: string;
+  /** 총 점수(int size를 넘길 수 있어 string type) */
+  totalScore: string;
+  /** 프로필 이미지 */
+  profileImage: string;
+  /** github 링크 */
+  githubUrl: string | null;
+  /** 티어 정보 */
+  tier: RankTierDto | null;
+}
+
+export interface GetRanksResponseDto {
+  /** 랭킹 리스트 */
+  ranks: RankItemDto[];
+  /** 페이지네이션 메타데이터 */
+  metadata: PaginationMetadataDto;
+}
+
 export interface FrequentWrongCommandDto {
   /** 카테고리 이름 */
   category: string;
