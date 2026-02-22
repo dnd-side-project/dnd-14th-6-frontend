@@ -11,6 +11,7 @@ export interface RankingListSectionProps {
   totalPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
+  myNickname?: string | null;
 }
 
 const RankingListSection = ({
@@ -18,10 +19,11 @@ const RankingListSection = ({
   totalPage,
   currentPage,
   onPageChange,
+  myNickname,
 }: RankingListSectionProps) => {
   return (
     <Flex direction="column" gap={5.6}>
-      <RankingList ranks={ranks} />
+      <RankingList ranks={ranks} myNickname={myNickname} />
       <Flex justify="center">
         <Pagination
           totalItems={totalPage * ITEMS_PER_PAGE}
