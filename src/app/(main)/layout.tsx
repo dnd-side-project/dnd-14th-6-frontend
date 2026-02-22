@@ -14,12 +14,13 @@ export default async function MainLayout({
   return (
     <div className={styles.wrapper}>
       <Image
-        src="/assets/images/home-background.png"
+        src="/assets/images/home.png"
         alt=""
         fill
         className={styles.backgroundImage}
         priority
       />
+
       <Header userInfo={userInfo} />
       <main className={styles.contentStyle}>{children}</main>
       <Footer />
