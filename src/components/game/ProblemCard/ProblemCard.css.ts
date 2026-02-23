@@ -7,95 +7,111 @@ import { fontStyles } from "@/styles/tokens/fontStyles";
 export const container = recipe({
   base: {
     display: "inline-flex",
-    padding: "2px",
     border: "none",
+    background: vars.gradient.game_problem_bg,
+    backdropFilter: "blur(4.95px)",
+    borderRadius: vars.radius.l,
+    overflow: "hidden",
     cursor: "pointer",
     outline: "none",
     transition: "box-shadow 0.2s ease",
   },
   variants: {
     variant: {
-      default: {
-        background: vars.gradient.game_problem_border_default,
-      },
+      default: {},
       selected: {
-        background: vars.gradient.game_problem_border_selected,
         boxShadow: vars.effect.game_selected_default,
       },
       error: {
-        background: vars.gradient.game_problem_border_error,
         boxShadow: vars.effect.game_selected_error,
-      },
-    },
-    shape: {
-      full: {
-        borderRadius: vars.radius.l,
-      },
-      headOnly: {
-        borderTopLeftRadius: vars.radius.l,
-        borderBottomLeftRadius: vars.radius.l,
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: 0,
       },
     },
   },
   defaultVariants: {
     variant: "default",
-    shape: "full",
   },
 });
 
-const innerBase = {
+const sectionBase = {
   display: "flex",
   alignItems: "center",
-  height: "46px",
-  backgroundColor: vars.color.black,
-  backgroundImage: vars.gradient.game_problem_bg,
-  backdropFilter: "blur(4.95px)",
+  height: 50,
+  borderStyle: "solid",
+  borderWidth: 2,
+  flexShrink: 0,
 } as const;
 
-export const inner = style({
-  ...innerBase,
-  borderRadius: `calc(${vars.radius.l} - 2px)`,
-});
-
-export const innerHeadOnly = style({
-  ...innerBase,
-  borderTopLeftRadius: `calc(${vars.radius.l} - 2px)`,
-  borderBottomLeftRadius: `calc(${vars.radius.l} - 2px)`,
-  borderTopRightRadius: 0,
-  borderBottomRightRadius: 0,
-});
-
-export const categorySection = style({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  paddingInline: vars.space.space_20,
-  flexShrink: 0,
-  height: "100%",
-});
-
-export const divider = recipe({
+export const categorySection = recipe({
   base: {
-    width: "2px",
-    alignSelf: "stretch",
+    ...sectionBase,
+    justifyContent: "center",
+    paddingInline: vars.space.space_20,
+    borderTopLeftRadius: vars.radius.l,
+    borderBottomLeftRadius: vars.radius.l,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderRightWidth: 2,
   },
   variants: {
     variant: {
-      default: { backgroundColor: vars.color.game_border_body_default },
-      selected: { backgroundColor: vars.color.game_border_selected },
-      error: { backgroundColor: vars.color.game_border_error },
+      default: {
+        borderColor: vars.color.game_border_default,
+        borderRightColor: vars.color.game_border_body_default,
+      },
+      selected: {
+        borderColor: vars.color.primary_default,
+        borderRightColor: vars.color.game_border_selected,
+      },
+      error: {
+        borderColor: vars.color.point_01,
+        borderRightColor: vars.color.game_border_error,
+      },
     },
+  },
+  defaultVariants: {
+    variant: "default",
   },
 });
 
-export const bodySection = style({
-  display: "flex",
-  alignItems: "center",
-  paddingInline: vars.space.space_28,
-  flexShrink: 0,
-  height: "100%",
+export const categorySectionHeadOnly = recipe({
+  base: {
+    ...sectionBase,
+    justifyContent: "center",
+    paddingInline: vars.space.space_20,
+    borderRadius: vars.radius.l,
+  },
+  variants: {
+    variant: {
+      default: { borderColor: vars.color.game_border_default },
+      selected: { borderColor: vars.color.primary_default },
+      error: { borderColor: vars.color.point_01 },
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+export const bodySection = recipe({
+  base: {
+    ...sectionBase,
+    paddingInline: vars.space.space_28,
+    borderLeftWidth: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderTopRightRadius: vars.radius.l,
+    borderBottomRightRadius: vars.radius.l,
+  },
+  variants: {
+    variant: {
+      default: { borderColor: vars.color.game_border_body_default },
+      selected: { borderColor: vars.color.game_border_selected },
+      error: { borderColor: vars.color.game_border_error },
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
 });
 
 export const categoryText = recipe({

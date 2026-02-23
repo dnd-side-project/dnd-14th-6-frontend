@@ -22,25 +22,23 @@ const ProblemCard = ({
   return (
     <button
       type="button"
-      className={styles.container({
-        variant,
-        shape: isHeadOnly ? "headOnly" : "full",
-      })}
+      className={styles.container({ variant })}
       onClick={onClick}
     >
-      <div className={isHeadOnly ? styles.innerHeadOnly : styles.inner}>
-        <div className={styles.categorySection}>
-          <span className={styles.categoryText({ level })}>{category}</span>
-        </div>
-        {text !== undefined && (
-          <>
-            <div className={styles.divider({ variant })} />
-            <div className={styles.bodySection}>
-              <span className={styles.bodyText}>{text}</span>
-            </div>
-          </>
-        )}
+      <div
+        className={
+          isHeadOnly
+            ? styles.categorySectionHeadOnly({ variant })
+            : styles.categorySection({ variant })
+        }
+      >
+        <span className={styles.categoryText({ level })}>{category}</span>
       </div>
+      {text !== undefined && (
+        <div className={styles.bodySection({ variant })}>
+          <span className={styles.bodyText}>{text}</span>
+        </div>
+      )}
     </button>
   );
 };
