@@ -1,5 +1,39 @@
 import type { PaginationMetadataDto } from "./common";
 
+export interface InputDto {
+  /** 사용자 입력 값 */
+  input: string;
+  /** 정답 여부 */
+  isCorrect: boolean;
+}
+
+export interface ClientAnswerDto {
+  /** 문제 ID */
+  problemId: string;
+  /** 사용자 입력 이력 */
+  inputs: InputDto[];
+  /** 문제 해결 여부 */
+  solved: boolean;
+}
+
+export interface SaveGameSessionRequestDto {
+  /** 카테고리 ID */
+  categoryId: number;
+  /** 난이도 모드 */
+  difficultyMode: "Easy" | "Normal" | "Hard" | "Random";
+  /** 획득 점수 */
+  score: number;
+  /** 클라이언트 답안 목록 */
+  clientAnswers: ClientAnswerDto[];
+}
+
+export interface SaveGameSessionResponseDto {
+  /** 생성된 게임세션 ID */
+  gameSessionId: string;
+  /** (회원용) 유저의 전체 스코어 */
+  totalScore?: string;
+}
+
 export interface CategoryDto {
   /** 카테고리 ID */
   id: number;
@@ -29,13 +63,6 @@ export interface SummaryDto {
   correctProblemCount: number | null;
   /** 정답률(%) */
   correctRate: number | null;
-}
-
-export interface InputDto {
-  /** 사용자 입력 값 */
-  input: string;
-  /** 정답 여부 */
-  isCorrect: boolean;
 }
 
 export interface ReportDto {
