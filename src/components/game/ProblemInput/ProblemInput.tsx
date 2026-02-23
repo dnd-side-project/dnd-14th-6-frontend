@@ -1,14 +1,16 @@
 "use client";
 
-import type { InputHTMLAttributes, KeyboardEvent } from "react";
+import type { InputHTMLAttributes, KeyboardEvent, Ref } from "react";
 import * as styles from "./ProblemInput.css";
 
 interface ProblemInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+  ref?: Ref<HTMLInputElement>;
   onSubmit?: () => void;
 }
 
 const ProblemInput = ({
+  ref,
   onSubmit,
   onKeyDown,
   placeholder = "정답을 입력해 주세요",
@@ -26,6 +28,7 @@ const ProblemInput = ({
     <div className={styles.wrapper}>
       <div className={styles.inputContainer}>
         <input
+          ref={ref}
           className={styles.input}
           placeholder={placeholder}
           onKeyDown={handleKeyDown}

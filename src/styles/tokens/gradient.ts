@@ -45,6 +45,12 @@ export const gradient = {
   game_problem_border_error:
     "linear-gradient(90deg, #ee1331 0%, #e87384 35%, #ff7676 55%, #ee1331 100%)",
 
+  // Problem input border
+  game_input_border_default:
+    "linear-gradient(180deg, rgba(98, 235, 254, 0.3) 0%, rgba(59, 141, 152, 0.3) 100%)",
+  game_input_border_hover:
+    "linear-gradient(180deg, rgba(98, 235, 254, 0.91) 0%, rgba(63, 198, 216, 0.91) 74%, rgba(98, 235, 254, 0.91) 100%)",
+
   // Login
   login_github:
     "linear-gradient(0deg, rgba(16, 40, 52, 0.2) 0%, rgba(26, 28, 36, 0.2) 100%)",

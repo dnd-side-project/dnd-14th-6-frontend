@@ -22,7 +22,10 @@ const ProblemCard = ({
   return (
     <button
       type="button"
-      className={styles.container({ variant, shape: isHeadOnly ? "headOnly" : "full" })}
+      className={styles.container({
+        variant,
+        shape: isHeadOnly ? "headOnly" : "full",
+      })}
       onClick={onClick}
     >
       <div className={isHeadOnly ? styles.innerHeadOnly : styles.inner}>

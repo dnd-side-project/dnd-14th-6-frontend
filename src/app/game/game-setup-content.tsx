@@ -41,8 +41,12 @@ export default function GameSetupContent({
   };
 
   const handleLevelSelect = (mode: string) => {
+    const matchedCategory = gameOptions.categories.find(
+      (c) => c.name.toLowerCase() === (category ?? "").toLowerCase(),
+    );
     const session: GameSession = {
       category: (category ?? "").toLowerCase(),
+      categoryId: matchedCategory?.id ?? 0,
       level: mode.toLowerCase(),
     };
     sessionStorage.setItem(GAME_SESSION_KEY, JSON.stringify(session));
