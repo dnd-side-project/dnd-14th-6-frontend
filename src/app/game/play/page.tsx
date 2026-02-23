@@ -306,6 +306,19 @@ export default function GamePlayPage() {
 
   return (
     <div className={styles.playingWrapper}>
+      <video
+        className={styles.backgroundVideo}
+        src="/assets/videos/orvit-hq.webm"
+        autoPlay
+        loop
+        muted
+        playsInline
+        disablePictureInPicture
+        preload="auto"
+        aria-hidden="true"
+        tabIndex={-1}
+      />
+
       <GameHeader
         category={category}
         level={level}
