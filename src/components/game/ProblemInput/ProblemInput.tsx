@@ -17,7 +17,7 @@ const ProblemInput = ({
   ...props
 }: ProblemInputProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && onSubmit) {
+    if (e.key === "Enter" && onSubmit && !e.nativeEvent.isComposing) {
       e.preventDefault();
       onSubmit();
     }
