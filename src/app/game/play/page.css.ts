@@ -9,10 +9,30 @@ import { fontStyles } from "@/styles/tokens/fontStyles";
 
 export const playingWrapper = style({
   position: "relative",
+  isolation: "isolate",
   display: "flex",
   flexDirection: "column",
   height: "100vh",
   paddingTop: 34,
+  overflow: "hidden",
+  marginInline: `calc(-1 * ${vars.space.space_48})`,
+  paddingInline: vars.space.space_48,
+});
+
+export const backgroundVideo = style({
+  position: "absolute",
+  inset: 0,
+  zIndex: -1,
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  pointerEvents: "none",
+  willChange: "transform",
+  "@media": {
+    "(prefers-reduced-motion: reduce)": {
+      display: "none",
+    },
+  },
 });
 
 export const gameArea = style({
