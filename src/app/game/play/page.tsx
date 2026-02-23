@@ -315,6 +315,8 @@ export default function GamePlayPage() {
         playsInline
         disablePictureInPicture
         preload="auto"
+        aria-hidden="true"
+        tabIndex={-1}
       />
 
       <GameHeader
