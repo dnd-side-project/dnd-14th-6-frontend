@@ -237,7 +237,9 @@ export function useGameStream({
 
       let decoded: string;
       try {
-        decoded = atob(currentProblem.answer);
+        decoded = new TextDecoder().decode(
+          Uint8Array.from(atob(currentProblem.answer), (c) => c.charCodeAt(0)),
+        );
       } catch {
         decoded = "";
       }

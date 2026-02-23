@@ -41,8 +41,10 @@ const VALID_LEVELS = new Set(["easy", "normal", "hard", "random"]);
 
 const BACK_GUARD_STATE = { gamePlayGuard: true };
 
-function toDifficultyMode(level: LevelType): string {
-  return level.charAt(0).toUpperCase() + level.slice(1);
+type DifficultyMode = "Easy" | "Normal" | "Hard" | "Random";
+
+function toDifficultyMode(level: LevelType): DifficultyMode {
+  return (level.charAt(0).toUpperCase() + level.slice(1)) as DifficultyMode;
 }
 
 function getGameEndType(clientAnswers: ClientAnswer[]): GameEndType {
@@ -261,13 +263,13 @@ export default function GamePlayPage() {
   const goToResult = async () => {
     const savePayload = {
       categoryId,
-      difficultyMode: toDifficultyMode(level) as
-        | "Easy"
-        | "Normal"
-        | "Hard"
-        | "Random",
+      difficultyMode: toDifficultyMode(level),
       score: gameState.score,
-      clientAnswers: gameState.clientAnswers,
+      clientAnswers: gameState.clientAnswers.map((ca) => ({
+        problemId: ca.problemId,
+        inputs: ca.inputs,
+        solved: ca.solved,
+      })),
     };
     console.log("[Save] 게임 결과 저장 요청:", savePayload);
 

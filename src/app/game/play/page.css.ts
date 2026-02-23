@@ -40,11 +40,11 @@ const fallingCardBase = style({
   animation: `${fallDown} 10s linear forwards`,
 });
 
-// 3개 수평 레인 (Figma 기준 X좌표)
+// 3개 수평 레인 (균등 분배, 카드 너비 ~25vw 고려)
 export const fallingCardLane = styleVariants({
-  0: [fallingCardBase, { left: "54.38vw" }],
-  1: [fallingCardBase, { left: "11.81vw" }],
-  2: [fallingCardBase, { left: "55.69vw" }],
+  0: [fallingCardBase, { left: "3vw" }],
+  1: [fallingCardBase, { left: "35vw" }],
+  2: [fallingCardBase, { left: "67vw" }],
 });
 
 // ── Foul Line / Bottom ──
