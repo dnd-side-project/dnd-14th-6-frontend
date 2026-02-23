@@ -30,15 +30,62 @@ type GameAction =
   | { type: "SELECT_PROBLEM"; index: number }
   | { type: "UPDATE_ANSWER"; answer: string }
   | { type: "PROBLEM_EXPIRED"; index: number }
+  | { type: "ACTIVATE_QUEUED_TICK" }
   | { type: "GAME_ENDED" }
   | { type: "STREAM_ERROR"; error: string };
 
+const MAX_VISIBLE = 3;
+const LANE_COUNT = 3;
+const MIN_ACTIVATION_GAP_MS = 4500;
+
+function isActive(a: ClientAnswer): boolean {
+  return a.activatedAt !== null && !a.solved && !a.expired;
+}
+
+function countActiveVisible(answers: ClientAnswer[]): number {
+  return answers.filter(isActive).length;
+}
+
+/** 현재 사용 중이지 않은 레인 목록 반환 */
+function getAvailableLanes(answers: ClientAnswer[]): number[] {
+  const usedLanes = new Set<number>();
+  for (const a of answers) {
+    if (isActive(a) && a.lane !== null) {
+      usedLanes.add(a.lane);
+    }
+  }
+  return Array.from({ length: LANE_COUNT }, (_, i) => i).filter(
+    (l) => !usedLanes.has(l),
+  );
+}
+
+/** 슬롯이 비면 큐에서 1개 활성화 (간격 체크 포함) */
+function activateQueued(answers: ClientAnswer[]): ClientAnswer[] {
+  if (countActiveVisible(answers) >= MAX_VISIBLE) return answers;
+  const now = Date.now();
+  const lastActivatedAt = answers.reduce(
+    (max, a) =>
+      a.activatedAt !== null && a.activatedAt > max ? a.activatedAt : max,
+    0,
+  );
+  if (lastActivatedAt > 0 && now - lastActivatedAt < MIN_ACTIVATION_GAP_MS)
+    return answers;
+  const availableLanes = getAvailableLanes(answers);
+  if (availableLanes.length === 0) return answers;
+  let activated = false;
+  return answers.map((a) => {
+    if (activated || a.activatedAt !== null) return a;
+    activated = true;
+    return { ...a, activatedAt: now, lane: availableLanes[0] };
+  });
+}
+
 function findNextActive(answers: ClientAnswer[], fromIndex: number): number {
   for (let i = fromIndex + 1; i < answers.length; i++) {
-    if (!answers[i].solved && !answers[i].expired) return i;
+    if (isActive(answers[i])) return i;
   }
   for (let i = 0; i < fromIndex; i++) {
-    if (!answers[i].solved && !answers[i].expired) return i;
+    if (isActive(answers[i])) return i;
   }
   return fromIndex;
 }
@@ -48,29 +95,30 @@ function gameReducer(state: GamePlayState, action: GameAction): GamePlayState {
     case "STREAM_OPENED":
       return { ...state, isStreamOpen: true };
 
-    case "PROBLEM_RECEIVED":
+    case "PROBLEM_RECEIVED": {
+      const newAnswer: ClientAnswer = {
+        problemId: action.problem.problemId,
+        inputs: [],
+        solved: false,
+        expired: false,
+        activatedAt: null,
+        lane: null,
+      };
       return {
         ...state,
         problems: [
           ...state.problems,
           { ...action.problem, arrivedAt: Date.now() },
         ],
-        clientAnswers: [
-          ...state.clientAnswers,
-          {
-            problemId: action.problem.problemId,
-            inputs: [],
-            solved: false,
-            expired: false,
-          },
-        ],
+        clientAnswers: activateQueued([...state.clientAnswers, newAnswer]),
       };
+    }
 
     case "TIMER_TICK":
       return { ...state, remainingSeconds: action.remainingSeconds };
 
     case "ANSWER_SUBMITTED": {
-      const updatedAnswers = state.clientAnswers.map(
+      let updatedAnswers = state.clientAnswers.map(
         (clientAnswer, index): ClientAnswer =>
           index === state.currentProblemIndex
             ? {
@@ -86,6 +134,7 @@ function gameReducer(state: GamePlayState, action: GameAction): GamePlayState {
 
       let nextIndex = state.currentProblemIndex;
       if (action.isCorrect) {
+        updatedAnswers = activateQueued(updatedAnswers);
         nextIndex = findNextActive(updatedAnswers, state.currentProblemIndex);
       }
 
@@ -102,10 +151,12 @@ function gameReducer(state: GamePlayState, action: GameAction): GamePlayState {
       const ca = state.clientAnswers[action.index];
       if (!ca || ca.expired || ca.solved) return state;
 
-      const updatedAnswers = state.clientAnswers.map(
+      let updatedAnswers = state.clientAnswers.map(
         (answer, i): ClientAnswer =>
           i === action.index ? { ...answer, expired: true } : answer,
       );
+
+      updatedAnswers = activateQueued(updatedAnswers);
 
       let nextIndex = state.currentProblemIndex;
       if (action.index === state.currentProblemIndex) {
@@ -120,8 +171,34 @@ function gameReducer(state: GamePlayState, action: GameAction): GamePlayState {
       };
     }
 
-    case "SELECT_PROBLEM":
+    case "SELECT_PROBLEM": {
+      const target = state.clientAnswers[action.index];
+      if (
+        !target ||
+        target.activatedAt === null ||
+        target.solved ||
+        target.expired
+      ) {
+        return state;
+      }
       return { ...state, currentProblemIndex: action.index, answer: "" };
+    }
+
+    case "ACTIVATE_QUEUED_TICK": {
+      const updatedAnswers = activateQueued(state.clientAnswers);
+      if (updatedAnswers === state.clientAnswers) return state;
+
+      let nextIndex = state.currentProblemIndex;
+      const currentCa = state.clientAnswers[state.currentProblemIndex];
+      if (!currentCa || !isActive(currentCa)) {
+        nextIndex = findNextActive(updatedAnswers, state.currentProblemIndex);
+      }
+      return {
+        ...state,
+        clientAnswers: updatedAnswers,
+        currentProblemIndex: nextIndex,
+      };
+    }
 
     case "UPDATE_ANSWER":
       return { ...state, answer: action.answer };
@@ -229,11 +306,12 @@ export function useGameStream({
   }, [enabled, categoryId, difficultyMode]);
 
   const submitAnswer = useCallback(
-    (input: string) => {
+    (input: string): { isCorrect: boolean; problemId: string } | null => {
       const currentProblem = state.problems[state.currentProblemIndex];
-      if (!currentProblem) return;
-      if (state.clientAnswers[state.currentProblemIndex]?.solved) return;
-      if (state.clientAnswers[state.currentProblemIndex]?.expired) return;
+      const currentAnswer = state.clientAnswers[state.currentProblemIndex];
+      if (!currentProblem || !currentAnswer) return null;
+      if (currentAnswer.solved || currentAnswer.expired) return null;
+      if (currentAnswer.activatedAt === null) return null;
 
       let decoded: string;
       try {
@@ -260,6 +338,8 @@ export function useGameStream({
         isCorrect,
         point: currentProblem.point,
       });
+
+      return { isCorrect, problemId: currentProblem.problemId };
     },
     [state.problems, state.currentProblemIndex, state.clientAnswers],
   );

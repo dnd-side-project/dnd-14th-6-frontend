@@ -44,7 +44,7 @@ export const gameArea = style({
 const fallDown = keyframes({
   from: { top: "4vh", opacity: 0 },
   "5%": { opacity: 1 },
-  to: { top: "72.56vh", opacity: 1 },
+  to: { top: "calc(72.56vh - 50px)", opacity: 1 },
 });
 
 export const fallingCardContainer = style({
@@ -57,14 +57,53 @@ export const fallingCardContainer = style({
 const fallingCardBase = style({
   position: "absolute",
   pointerEvents: "auto",
-  animation: `${fallDown} 10s linear forwards`,
+  animation: `${fallDown} 15s linear forwards`,
 });
 
 // 3개 수평 레인 (균등 분배, 카드 너비 ~25vw 고려)
 export const fallingCardLane = styleVariants({
-  0: [fallingCardBase, { left: "3vw" }],
-  1: [fallingCardBase, { left: "35vw" }],
-  2: [fallingCardBase, { left: "67vw" }],
+  0: [fallingCardBase, { left: "7vw" }],
+  1: [fallingCardBase, { left: "39vw" }],
+  2: [fallingCardBase, { left: "71vw" }],
+});
+
+// ── 정답 이펙트 ──
+
+const fadeOut = keyframes({
+  "0%": { opacity: 1, transform: "scale(1)" },
+  "20%": { opacity: 1, transform: "scale(1.03)" },
+  "100%": { opacity: 0, transform: "scale(0.95)" },
+});
+
+export const solvingCard = style({
+  animation: `${fadeOut} 800ms ease-in-out 200ms forwards`,
+  pointerEvents: "none",
+});
+
+// ── 만료 이펙트 ──
+
+const expireFadeOut = keyframes({
+  from: { opacity: 1, transform: "translateY(0)" },
+  to: { opacity: 0, transform: "translateY(25px)" },
+});
+
+export const expiringCard = style({
+  animation: `${expireFadeOut} 600ms ease-in forwards`,
+  pointerEvents: "none",
+});
+
+// ── 오답 이펙트 ──
+
+const shake = keyframes({
+  "0%, 100%": { transform: "translateX(0)" },
+  "20%": { transform: "translateX(-4px)" },
+  "40%": { transform: "translateX(4px)" },
+  "60%": { transform: "translateX(-3px)" },
+  "80%": { transform: "translateX(3px)" },
+});
+
+export const shakingCard = style({
+  animation: `${shake} 400ms ease-in-out`,
 });
 
 // ── Foul Line / Bottom ──
@@ -94,4 +133,5 @@ export const problemText = style({
   color: vars.color.coolgrey_10,
   textAlign: "center",
   maxWidth: 680,
+  minHeight: 62,
 });
