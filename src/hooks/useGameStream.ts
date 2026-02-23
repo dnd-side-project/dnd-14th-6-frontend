@@ -173,12 +173,7 @@ function gameReducer(state: GamePlayState, action: GameAction): GamePlayState {
 
     case "SELECT_PROBLEM": {
       const target = state.clientAnswers[action.index];
-      if (
-        !target ||
-        target.activatedAt === null ||
-        target.solved ||
-        target.expired
-      ) {
+      if (!target || !isActive(target)) {
         return state;
       }
       return { ...state, currentProblemIndex: action.index, answer: "" };
@@ -310,8 +305,7 @@ export function useGameStream({
       const currentProblem = state.problems[state.currentProblemIndex];
       const currentAnswer = state.clientAnswers[state.currentProblemIndex];
       if (!currentProblem || !currentAnswer) return null;
-      if (currentAnswer.solved || currentAnswer.expired) return null;
-      if (currentAnswer.activatedAt === null) return null;
+      if (!isActive(currentAnswer)) return null;
 
       let decoded: string;
       try {
