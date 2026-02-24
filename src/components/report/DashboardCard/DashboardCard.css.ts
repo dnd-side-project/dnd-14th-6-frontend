@@ -18,8 +18,9 @@ export const card = style({
       position: "absolute",
       inset: 0,
       borderRadius: "inherit",
-      padding: "0.5px",
-      background: vars.gradient.glass_outstroke,
+      padding: "1px",
+      background:
+        "linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.3) 100%)",
       WebkitMask:
         "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
       WebkitMaskComposite: "xor",
@@ -29,7 +30,7 @@ export const card = style({
     },
     "&:hover::before": {
       padding: "1px",
-      background: `linear-gradient(90deg, ${vars.color.primary_default} 0%, ${vars.color.primary_50} 100%)`,
+      background: `linear-gradient(135deg, ${vars.color.primary_default} 0%, ${vars.color.primary_50} 100%)`,
     },
   },
 });
