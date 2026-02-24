@@ -23,6 +23,7 @@
     "@vanilla-extract/recipes": "^0.5.7",
     "cookies-next": "^6.1.1",
     "ky": "^1.14.3",
+    "lottie-react": "^2.4.1",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",

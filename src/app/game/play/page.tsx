@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-
 import type { CategoryType } from "@/components/game/Category/Category";
+import CorrectAnswerEffect from "@/components/game/CorrectAnswerEffect/CorrectAnswerEffect";
 import FoulLine from "@/components/game/FoulLine/FoulLine";
 import type { GameEndType } from "@/components/game/GameEndOverlay/GameEndOverlay";
 import GameEndOverlay from "@/components/game/GameEndOverlay/GameEndOverlay";
@@ -17,6 +17,7 @@ import type { ScoreLevelType } from "@/components/game/ScoreTable/ScoreTable";
 import { ROUTES } from "@/constants/routes";
 import { useSaveGameSessionMutation } from "@/hooks/mutation/useSaveGameSessionMutation";
 import { useGameStream } from "@/hooks/useGameStream";
+import { useTimedMap } from "@/hooks/useTimedMap";
 import type {
   ClientAnswer,
   GameResult,
@@ -27,8 +28,7 @@ import { GAME_RESULT_KEY, GAME_SESSION_KEY } from "@/types/game";
 import * as styles from "./page.css";
 
 const TOTAL_TIME = 60;
-const FALL_DURATION = 10;
-const NEAR_DEADLINE_RATIO = 0.8;
+const FALL_DURATION = 15;
 
 const DEFAULT_SCORES: Record<ScoreLevelType, number> = {
   hard: 50,
@@ -40,6 +40,7 @@ const VALID_CATEGORIES = new Set(["git", "linux", "docker"]);
 const VALID_LEVELS = new Set(["easy", "normal", "hard", "random"]);
 
 const BACK_GUARD_STATE = { gamePlayGuard: true };
+const IGNORED_KEYS = new Set(["Shift", "Control", "Alt", "Meta"]);
 
 type DifficultyMode = "Easy" | "Normal" | "Hard" | "Random";
 
@@ -93,6 +94,9 @@ export default function GamePlayPage() {
     level: LevelType;
   } | null>(null);
   const [phase, setPhase] = useState<PlayPhase>("tutorial");
+  const solvingCards = useTimedMap(3000);
+  const expiringCards = useTimedMap(800);
+  const shakingCards = useTimedMap(500);
 
   const updatePhase = useCallback((next: PlayPhase) => {
     phaseRef.current = next;
@@ -166,15 +170,11 @@ export default function GamePlayPage() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  const startGame = useCallback(() => {
-    phaseRef.current = "playing";
-    setPhase("playing");
-  }, []);
+  const startGame = useCallback(() => updatePhase("playing"), [updatePhase]);
 
   useEffect(() => {
     if (phase !== "tutorial") return;
     const timer = setTimeout(startGame, 3000);
-    const IGNORED_KEYS = new Set(["Shift", "Control", "Alt", "Meta"]);
     const handleKeyDown = (e: KeyboardEvent) => {
       if (IGNORED_KEYS.has(e.key)) return;
       clearTimeout(timer);
@@ -187,22 +187,36 @@ export default function GamePlayPage() {
     };
   }, [phase, startGame]);
 
-  // 산성비: 카드 만료 체크 (1초 간격)
+  // 산성비: 카드 만료 체크 (300ms 간격)
   useEffect(() => {
     if (phase !== "playing") return;
     const interval = setInterval(() => {
       const now = Date.now();
+      const newlyExpired: string[] = [];
       for (let i = 0; i < gameState.problems.length; i++) {
         const ca = gameState.clientAnswers[i];
         if (ca?.solved || ca?.expired) continue;
-        const elapsed = (now - gameState.problems[i].arrivedAt) / 1000;
+        if (ca?.activatedAt == null) continue;
+        const elapsed = (now - ca.activatedAt) / 1000;
         if (elapsed >= FALL_DURATION) {
+          newlyExpired.push(gameState.problems[i].problemId);
           dispatch({ type: "PROBLEM_EXPIRED", index: i });
         }
       }
-    }, 1000);
+      if (newlyExpired.length > 0) {
+        expiringCards.addAll(newlyExpired);
+      }
+      // 큐에서 활성화 (간격 체크는 리듀서에서 처리)
+      dispatch({ type: "ACTIVATE_QUEUED_TICK" });
+    }, 300);
     return () => clearInterval(interval);
-  }, [phase, gameState.problems, gameState.clientAnswers, dispatch]);
+  }, [
+    phase,
+    gameState.problems,
+    gameState.clientAnswers,
+    dispatch,
+    expiringCards.addAll,
+  ]);
 
   // Tab/Shift+Tab: 활성 카드만 순회, Alt+Tab: 입력창 포커스
   useEffect(() => {
@@ -217,7 +231,9 @@ export default function GamePlayPage() {
       }
 
       const activeIndexes = gameState.clientAnswers
-        .map((ca, i) => (!ca.solved && !ca.expired ? i : -1))
+        .map((ca, i) =>
+          ca.activatedAt !== null && !ca.solved && !ca.expired ? i : -1,
+        )
         .filter((i) => i >= 0);
       if (activeIndexes.length === 0) return;
 
@@ -248,16 +264,38 @@ export default function GamePlayPage() {
   const { category, categoryId, level } = params;
   const currentProblem = gameState.problems[gameState.currentProblemIndex];
 
-  const getCardVariant = (index: number): "default" | "selected" | "error" => {
+  const getCardEffect = (
+    isSolving: boolean,
+    isExpiring: boolean,
+    isShaking: boolean,
+  ) => {
+    if (isSolving) return styles.solvingCard;
+    if (isExpiring) return styles.expiringCard;
+    if (isShaking) return styles.shakingCard;
+    return undefined;
+  };
+
+  const getCardVariant = (
+    index: number,
+    isSolving: boolean,
+    isExpiring: boolean,
+    isShaking: boolean,
+  ): "default" | "selected" | "error" => {
+    if (isSolving) return "default";
+    if (isExpiring || isShaking) return "error";
     if (index === gameState.currentProblemIndex) return "selected";
-    const elapsed = (Date.now() - gameState.problems[index].arrivedAt) / 1000;
-    if (elapsed >= FALL_DURATION * NEAR_DEADLINE_RATIO) return "error";
     return "default";
   };
 
   const handleSubmit = () => {
+    if (phase === "end") return;
     if (!gameState.answer.trim()) return;
-    submitAnswer(gameState.answer);
+    const result = submitAnswer(gameState.answer);
+    if (result?.isCorrect) {
+      solvingCards.add(result.problemId);
+    } else if (result) {
+      shakingCards.add(result.problemId);
+    }
   };
 
   const goToResult = async () => {
@@ -273,30 +311,24 @@ export default function GamePlayPage() {
     };
     console.log("[Save] 게임 결과 저장 요청:", savePayload);
 
+    let gameSessionId: string | undefined;
     try {
       const response = await saveGameMutation.mutateAsync(savePayload);
       console.log("[Save] 저장 성공:", response.data);
-
-      const result: GameResult = {
-        category,
-        level,
-        score: gameState.score,
-        totalTime: TOTAL_TIME,
-        playedAt: new Date().toISOString(),
-        gameSessionId: response.data.gameSessionId,
-      };
-      sessionStorage.setItem(GAME_RESULT_KEY, JSON.stringify(result));
+      gameSessionId = response.data.gameSessionId;
     } catch (error) {
       console.error("[Save] 저장 실패:", error);
-      const result: GameResult = {
-        category,
-        level,
-        score: gameState.score,
-        totalTime: TOTAL_TIME,
-        playedAt: new Date().toISOString(),
-      };
-      sessionStorage.setItem(GAME_RESULT_KEY, JSON.stringify(result));
     }
+
+    const result: GameResult = {
+      category,
+      level,
+      score: gameState.score,
+      totalTime: TOTAL_TIME,
+      playedAt: new Date().toISOString(),
+      ...(gameSessionId != null && { gameSessionId }),
+    };
+    sessionStorage.setItem(GAME_RESULT_KEY, JSON.stringify(result));
     router.replace(ROUTES.GAME_RESULT);
   };
 
@@ -330,57 +362,79 @@ export default function GamePlayPage() {
 
       <div className={styles.gameArea} />
 
-      <div className={styles.fallingCardContainer}>
-        {gameState.problems.map((problem, index) => {
-          const ca = gameState.clientAnswers[index];
-          if (ca?.solved || ca?.expired) return null;
-          const lane = index % 3;
-          return (
-            <div
-              key={problem.problemId}
-              className={styles.fallingCardLane[lane as 0 | 1 | 2]}
-            >
-              <ProblemCard
-                category={problem.subCategory}
-                text={problem.title}
-                level={problem.difficulty.toLowerCase() as ProblemCardLevel}
-                variant={getCardVariant(index)}
-                onClick={() =>
-                  dispatch({
-                    type: "SELECT_PROBLEM",
-                    index,
-                  })
-                }
-              />
-            </div>
-          );
-        })}
-      </div>
+      {phase !== "end" && (
+        <div className={styles.fallingCardContainer}>
+          {gameState.problems.map((problem, index) => {
+            const ca = gameState.clientAnswers[index];
+            if (ca?.expired && !expiringCards.map.has(problem.problemId))
+              return null;
+            if (ca?.solved && !solvingCards.map.has(problem.problemId))
+              return null;
+            if (ca?.activatedAt == null || ca?.lane == null) return null;
+
+            const isSolving = solvingCards.map.has(problem.problemId);
+            const isExpiring = expiringCards.map.has(problem.problemId);
+            const isShaking = shakingCards.map.has(problem.problemId);
+
+            return (
+              <div
+                key={problem.problemId}
+                className={styles.fallingCardLane[ca.lane as 0 | 1 | 2]}
+                style={isSolving ? { animationPlayState: "paused" } : undefined}
+              >
+                <div
+                  className={getCardEffect(isSolving, isExpiring, isShaking)}
+                >
+                  <ProblemCard
+                    category={problem.subCategory}
+                    text={problem.title}
+                    level={
+                      level === "random"
+                        ? (problem.difficulty.toLowerCase() as ProblemCardLevel)
+                        : undefined
+                    }
+                    variant={getCardVariant(
+                      index,
+                      isSolving,
+                      isExpiring,
+                      isShaking,
+                    )}
+                    onClick={
+                      isSolving || isExpiring
+                        ? undefined
+                        : () =>
+                            dispatch({
+                              type: "SELECT_PROBLEM",
+                              index,
+                            })
+                    }
+                  />
+                </div>
+                {isSolving && (
+                  <CorrectAnswerEffect
+                    onComplete={() => solvingCards.remove(problem.problemId)}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       <div className={styles.foulLineArea}>
-        <FoulLine
-          variant={
-            gameState.problems.some((p, i) => {
-              const ca = gameState.clientAnswers[i];
-              if (ca?.solved || ca?.expired) return false;
-              return (
-                (Date.now() - p.arrivedAt) / 1000 >=
-                FALL_DURATION * NEAR_DEADLINE_RATIO
-              );
-            })
-              ? "error"
-              : "default"
-          }
-        />
+        <FoulLine variant={expiringCards.map.size > 0 ? "error" : "default"} />
       </div>
 
       <div className={styles.bottomArea}>
-        <p className={styles.problemText}>
-          {currentProblem?.text ?? "문제를 불러오는 중..."}
-        </p>
+        {phase !== "end" && (
+          <p className={styles.problemText}>
+            {currentProblem?.text ?? "문제를 불러오는 중..."}
+          </p>
+        )}
         <ProblemInput
           ref={inputRef}
           value={gameState.answer}
+          disabled={phase === "end"}
           onChange={(e) =>
             dispatch({
               type: "UPDATE_ANSWER",

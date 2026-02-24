@@ -51,6 +51,10 @@ export interface ClientAnswer {
   solved: boolean;
   /** 파울라인 도달 시 true */
   expired: boolean;
+  /** null = 큐(화면에 안 보임), number = 활성화 시점 (Date.now()) */
+  activatedAt: number | null;
+  /** 배정된 레인 (0 | 1 | 2), 큐 상태이면 null */
+  lane: number | null;
 }
 
 /** useGameStream 리듀서 상태 */

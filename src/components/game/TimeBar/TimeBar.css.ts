@@ -12,7 +12,7 @@ export const track = style({
 const fillBase = style({
   height: 9,
   borderRadius: vars.radius.l,
-  transition: "width 0.3s linear",
+  transition: "width 1s linear",
 });
 
 export const fill = styleVariants({
