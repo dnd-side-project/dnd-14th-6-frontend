@@ -1,6 +1,4 @@
 import { style } from "@vanilla-extract/css";
-import { vars } from "@/styles/theme.css";
-
 export const linkWrapper = style({
   textDecoration: "none",
   color: "inherit",
@@ -17,7 +15,7 @@ export const cardFullHeight = style({
 export const content = style({
   display: "flex",
   flexDirection: "column",
-  gap: "3.1rem",
+  gap: "3.9rem",
 });
 
 export const header = style({
@@ -29,8 +27,5 @@ export const header = style({
 export const imagePlaceholder = style({
   width: "100%",
   height: "14.8rem",
-  backgroundColor: vars.color.coolgrey_110,
-  borderRadius: vars.radius.s,
-  overflow: "hidden",
   position: "relative",
 });

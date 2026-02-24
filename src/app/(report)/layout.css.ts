@@ -10,7 +10,7 @@ export const wrapper = style({
 });
 
 export const backgroundWrapper = style({
-  position: "fixed",
+  position: "absolute",
   inset: 0,
   zIndex: 0,
   pointerEvents: "none",

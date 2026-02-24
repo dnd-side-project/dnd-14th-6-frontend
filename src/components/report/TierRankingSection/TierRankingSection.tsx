@@ -3,6 +3,7 @@ import Link from "next/link";
 import { IcArrowLink } from "@/assets/icons/colored";
 import Text from "@/components/common/Text/Text";
 import DashboardCard from "@/components/report/DashboardCard/DashboardCard";
+import RankingGauge from "@/components/report/RankingGauge/RankingGauge";
 import type { Tier } from "@/types/report";
 import {
   cardFullHeight,
@@ -14,7 +15,7 @@ import {
 
 type TierRankingSectionProps =
   | { variant: "tier"; tier: Tier }
-  | { variant: "ranking"; ranking: number };
+  | { variant: "ranking"; ranking: number; percentil?: number };
 
 const VARIANT_LABEL = {
   tier: "티어",
@@ -53,13 +54,7 @@ export default function TierRankingSection(props: TierRankingSectionProps) {
               />
             )}
             {variant === "ranking" && (
-              <Image
-                src="/assets/images/ranking-placeholder.png"
-                alt="랭킹 그래프"
-                fill
-                sizes="(max-width: 768px) 50vw, 25vw"
-                style={{ objectFit: "contain" }}
-              />
+              <RankingGauge percentil={props.percentil} />
             )}
           </div>
         </div>
