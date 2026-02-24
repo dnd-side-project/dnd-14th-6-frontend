@@ -311,7 +311,7 @@ export default function GamePlayPage() {
   }, [phase, gameState.remainingSeconds, playSfx]);
 
   // 게임 종료 시 BGM 페이드아웃 + 기존 SFX 모두 정지 + 종료 SFX
-  // biome-ignore lint/correctness/useExhaustiveDependencies: phase === "end" 전환 시 1회만 실행
+  // biome-ignore lint/correctness/useExhaustiveDependencies: phase === "end" 전환 시 1회만 실행해야 함 — stopAllSfx, fadeBgmOut, playSfx는 useCallback([], [])로 안정 참조이고, gameState.clientAnswers를 의존성에 넣으면 매 답안 제출마다 effect가 재실행되어 종료 SFX가 중복 재생됨
   useEffect(() => {
     if (phase !== "end") return;
 

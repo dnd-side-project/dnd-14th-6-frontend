@@ -1,7 +1,11 @@
 import { Howl, Howler } from "howler";
 import { useCallback, useEffect, useRef } from "react";
 
-import { AUDIO_PATHS, AUDIO_VOLUME, type SfxKey } from "@/constants/audio";
+import {
+  AUDIO_PATHS,
+  AUDIO_VOLUME,
+  type GamePlaySfxKey,
+} from "@/constants/audio";
 
 interface UseGamePlayAudioOptions {
   muted?: boolean;
@@ -27,7 +31,7 @@ export function useGamePlayAudio(options: UseGamePlayAudioOptions = {}) {
       });
     }
 
-    const sfxKeys: SfxKey[] = [
+    const sfxKeys: GamePlaySfxKey[] = [
       "SFX_CORRECT",
       "SFX_WRONG",
       "SFX_TYPING",
@@ -67,7 +71,7 @@ export function useGamePlayAudio(options: UseGamePlayAudioOptions = {}) {
     }
   }, []);
 
-  const playSfx = useCallback((key: SfxKey) => {
+  const playSfx = useCallback((key: GamePlaySfxKey) => {
     if (key === "SFX_TYPING") {
       if (typingTimerRef.current) return;
       typingTimerRef.current = setTimeout(() => {

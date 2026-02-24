@@ -19,3 +19,8 @@ export const AUDIO_VOLUME = {
 export const COUNTDOWN_WARNING_THRESHOLD = 12;
 
 export type SfxKey = Exclude<keyof typeof AUDIO_PATHS, "MAIN_BGM" | "GAME_BGM">;
+
+export type GamePlaySfxKey = Exclude<
+  SfxKey,
+  "SFX_GAME_ENTER" | "SFX_BUTTON_CLICK"
+>;
