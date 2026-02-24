@@ -14,8 +14,10 @@ import type { ProblemCardLevel } from "@/components/game/ProblemCard/ProblemCard
 import ProblemCard from "@/components/game/ProblemCard/ProblemCard";
 import ProblemInput from "@/components/game/ProblemInput/ProblemInput";
 import type { ScoreLevelType } from "@/components/game/ScoreTable/ScoreTable";
+import { COUNTDOWN_WARNING_THRESHOLD } from "@/constants/audio";
 import { ROUTES } from "@/constants/routes";
 import { useSaveGameSessionMutation } from "@/hooks/mutation/useSaveGameSessionMutation";
+import { useGamePlayAudio } from "@/hooks/useGamePlayAudio";
 import { useGameStream } from "@/hooks/useGameStream";
 import { useTimedMap } from "@/hooks/useTimedMap";
 import type {
@@ -94,6 +96,9 @@ export default function GamePlayPage() {
     level: LevelType;
   } | null>(null);
   const [phase, setPhase] = useState<PlayPhase>("tutorial");
+  const [isMuted, setIsMuted] = useState(false);
+  const countdownWarningFiredRef = useRef(false);
+
   const solvingCards = useTimedMap(3000);
   const expiringCards = useTimedMap(800);
   const shakingCards = useTimedMap(500);
@@ -116,6 +121,37 @@ export default function GamePlayPage() {
   });
 
   const saveGameMutation = useSaveGameSessionMutation();
+
+  // 오디오
+  const {
+    preloadAll,
+    playBgm,
+    fadeBgmOut,
+    playSfx,
+    stopAllSfx,
+    cleanup: cleanupAudio,
+  } = useGamePlayAudio({ muted: isMuted });
+
+  // prefers-reduced-motion 감지
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      setIsMuted(true);
+    }
+
+    const handler = (e: MediaQueryListEvent) => {
+      setIsMuted(e.matches);
+    };
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  // tutorial 단계에서 오디오 프리로드
+  useEffect(() => {
+    if (params && phase === "tutorial") {
+      preloadAll();
+    }
+  }, [params, phase, preloadAll]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: 마운트 1회만 실행 — 세션 토큰은 소비 후 재실행 불가 (Strict Mode는 initializedRef로 방어)
   useEffect(() => {
@@ -145,6 +181,7 @@ export default function GamePlayPage() {
       if (phaseRef.current === "playing") {
         const leave = window.confirm("게임이 종료됩니다. 정말 나가시겠습니까?");
         if (leave) {
+          cleanupAudio();
           closeStream();
           router.replace(ROUTES.GAME);
         } else {
@@ -157,7 +194,7 @@ export default function GamePlayPage() {
 
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, [router, closeStream]);
+  }, [router, closeStream, cleanupAudio]);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -170,7 +207,10 @@ export default function GamePlayPage() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  const startGame = useCallback(() => updatePhase("playing"), [updatePhase]);
+  const startGame = useCallback(() => {
+    updatePhase("playing");
+    playBgm();
+  }, [updatePhase, playBgm]);
 
   useEffect(() => {
     if (phase !== "tutorial") return;
@@ -257,6 +297,35 @@ export default function GamePlayPage() {
     }
   }, [phase, gameState.remainingSeconds, closeStream, updatePhase]);
 
+  // 카운트다운 경고 (1회)
+  useEffect(() => {
+    if (
+      phase === "playing" &&
+      !countdownWarningFiredRef.current &&
+      gameState.remainingSeconds <= COUNTDOWN_WARNING_THRESHOLD &&
+      gameState.remainingSeconds > 0
+    ) {
+      countdownWarningFiredRef.current = true;
+      playSfx("SFX_COUNTDOWN_WARNING");
+    }
+  }, [phase, gameState.remainingSeconds, playSfx]);
+
+  // 게임 종료 시 BGM 페이드아웃 + 기존 SFX 모두 정지 + 종료 SFX
+  // biome-ignore lint/correctness/useExhaustiveDependencies: phase === "end" 전환 시 1회만 실행해야 함 — stopAllSfx, fadeBgmOut, playSfx는 useCallback([], [])로 안정 참조이고, gameState.clientAnswers를 의존성에 넣으면 매 답안 제출마다 effect가 재실행되어 종료 SFX가 중복 재생됨
+  useEffect(() => {
+    if (phase !== "end") return;
+
+    stopAllSfx();
+    fadeBgmOut(800);
+
+    const endType = getGameEndType(gameState.clientAnswers);
+    if (endType === "perfect" || endType === "clear") {
+      playSfx("SFX_PERFECT_CLEAR");
+    } else {
+      playSfx("SFX_TIMEOUT");
+    }
+  }, [phase]);
+
   if (!params) {
     return null;
   }
@@ -293,12 +362,15 @@ export default function GamePlayPage() {
     const result = submitAnswer(gameState.answer);
     if (result?.isCorrect) {
       solvingCards.add(result.problemId);
+      playSfx("SFX_CORRECT");
     } else if (result) {
       shakingCards.add(result.problemId);
+      playSfx("SFX_WRONG");
     }
   };
 
   const goToResult = async () => {
+    cleanupAudio();
     const savePayload = {
       categoryId,
       difficultyMode: toDifficultyMode(level),
@@ -435,12 +507,13 @@ export default function GamePlayPage() {
           ref={inputRef}
           value={gameState.answer}
           disabled={phase === "end"}
-          onChange={(e) =>
+          onChange={(e) => {
+            playSfx("SFX_TYPING");
             dispatch({
               type: "UPDATE_ANSWER",
               answer: e.target.value,
-            })
-          }
+            });
+          }}
           onSubmit={handleSubmit}
         />
       </div>
