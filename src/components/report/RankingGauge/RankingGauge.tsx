@@ -120,6 +120,7 @@ export default function RankingGauge({ percentil }: RankingGaugeProps) {
   return (
     <div className={styles.container}>
       <svg
+        role="img"
         viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
         className={styles.svg}
         aria-label={
