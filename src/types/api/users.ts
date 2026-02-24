@@ -87,7 +87,7 @@ export interface GetUserStatsResponseDto {
   /** 총 점수 (BigInt 안정성을 위해 String) */
   totalScore: string;
   /** 전체 유저 평균 점수 (BigInt 안정성을 위해 String) */
-  averageScore: string;
+  percentil: number;
   /** 현재 랭킹 */
   ranking: number;
   /** 티어 정보 */
