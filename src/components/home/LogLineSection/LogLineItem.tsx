@@ -9,7 +9,7 @@ export interface LogLineItemProps {
   label?: string;
   text?: string;
   indented?: boolean;
-  descriptionColor?: "coolgrey_80" | "coolgrey_50";
+  descriptionColor?: "coolgrey_85" | "coolgrey_55";
 }
 
 const LogLineItem = ({
@@ -18,7 +18,7 @@ const LogLineItem = ({
   label,
   text,
   indented = false,
-  descriptionColor = "coolgrey_80",
+  descriptionColor = "coolgrey_85",
 }: LogLineItemProps) => {
   const rowClassName = [styles.row, variant === "header" && styles.headerRow]
     .filter(Boolean)
@@ -42,10 +42,10 @@ const LogLineItem = ({
       case "label":
         return (
           <>
-            <Text as="span" variant="body12" color="coolgrey_20">
+            <Text as="span" variant="body12" color="coolgrey_45">
               {label}
             </Text>
-            <Text as="span" variant="body12" color="coolgrey_40">
+            <Text as="span" variant="body12" color="coolgrey_45">
               {text}
             </Text>
           </>
@@ -58,7 +58,7 @@ const LogLineItem = ({
         );
       case "bold":
         return (
-          <Text as="span" variant="body12" color="coolgrey_20">
+          <Text as="span" variant="body12" color="coolgrey_45">
             {text}
           </Text>
         );
@@ -71,7 +71,7 @@ const LogLineItem = ({
     <div className={rowClassName}>
       <div className={styles.lineNumberArea}>
         {displayNumber !== undefined && (
-          <Text as="span" variant="body13" color="coolgrey_110">
+          <Text as="span" variant="body13" color="coolgrey_115">
             {displayNumber}
           </Text>
         )}
