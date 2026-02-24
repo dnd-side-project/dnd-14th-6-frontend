@@ -9,6 +9,7 @@ import LevelCard from "@/components/game/LevelCard/LevelCard";
 import StepIndicator from "@/components/game/StepIndicator/StepIndicator";
 import { ROUTES } from "@/constants/routes";
 import { useGetGameOptionsSuspenseQuery } from "@/hooks/query/useGetGameOptionsQuery";
+import { useSetupAudio } from "@/hooks/useSetupAudio";
 import type { CategoryDto } from "@/types/api";
 import type { GameSession } from "@/types/game";
 import { GAME_SESSION_KEY } from "@/types/game";
@@ -25,6 +26,7 @@ export default function GameSetupContent({
 }: GameSetupContentProps) {
   const { data: gameOptions } = useGetGameOptionsSuspenseQuery();
   const router = useRouter();
+  const { playButtonClick } = useSetupAudio();
 
   const isValidCategory =
     category &&
@@ -35,12 +37,14 @@ export default function GameSetupContent({
     step === "difficulty" && isValidCategory ? "difficulty" : "category";
 
   const handleCategorySelect = (cat: CategoryDto) => {
+    playButtonClick();
     router.push(
       `${ROUTES.GAME}?step=difficulty&category=${encodeURIComponent(cat.name.toLowerCase())}`,
     );
   };
 
   const handleLevelSelect = (mode: string) => {
+    playButtonClick();
     const matchedCategory = gameOptions.categories.find(
       (c) => c.name.toLowerCase() === (category ?? "").toLowerCase(),
     );
