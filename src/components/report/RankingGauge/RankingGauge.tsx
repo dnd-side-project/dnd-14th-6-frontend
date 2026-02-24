@@ -1,3 +1,4 @@
+import { useId } from "react";
 import Text from "@/components/common/Text/Text";
 import { color } from "@/styles/tokens/color";
 import * as styles from "./RankingGauge.css";
@@ -95,9 +96,11 @@ const TRACK_PATH = describeAnnularSector(
 );
 
 export default function RankingGauge({ percentil }: RankingGaugeProps) {
+  const gradientId = useId();
   const hasPercentil = percentil != null;
-  const fillRatio = hasPercentil ? (100 - percentil) / 100 : 0;
-  const displayPercent = hasPercentil ? Math.round(percentil) : 0;
+  const clamped = hasPercentil ? Math.min(100, Math.max(0, percentil)) : 0;
+  const fillRatio = hasPercentil ? (100 - clamped) / 100 : 0;
+  const displayPercent = hasPercentil ? Math.round(clamped) : 0;
 
   const fillEndAngle = START_ANGLE + TOTAL_SWEEP * fillRatio;
   const fillPath =
@@ -119,10 +122,12 @@ export default function RankingGauge({ percentil }: RankingGaugeProps) {
       <svg
         viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
         className={styles.svg}
-        aria-label={`랭킹 게이지: Top ${displayPercent}%`}
+        aria-label={
+          hasPercentil ? `랭킹 게이지: Top ${displayPercent}%` : "랭킹 게이지"
+        }
       >
         <defs>
-          <linearGradient id="rankingGaugeGradient" x1="0" y1="0" x2="1" y2="0">
+          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor={color.primary_250} />
             <stop offset="100%" stopColor={color.primary_default} />
           </linearGradient>
@@ -130,9 +135,7 @@ export default function RankingGauge({ percentil }: RankingGaugeProps) {
 
         <path d={TRACK_PATH} fill={color.coolgrey_110} />
 
-        {fillRatio > 0 && (
-          <path d={fillPath} fill="url(#rankingGaugeGradient)" />
-        )}
+        {fillRatio > 0 && <path d={fillPath} fill={`url(#${gradientId})`} />}
       </svg>
 
       <div className={styles.labels}>

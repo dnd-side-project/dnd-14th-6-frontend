@@ -86,7 +86,7 @@ export interface GetUserStatsResponseDto {
   nickname: string;
   /** 총 점수 (BigInt 안정성을 위해 String) */
   totalScore: string;
-  /** 전체 유저 평균 점수 (BigInt 안정성을 위해 String) */
+  /** 유저 상위 백분위 (0-100) */
   percentil: number;
   /** 현재 랭킹 */
   ranking: number;
