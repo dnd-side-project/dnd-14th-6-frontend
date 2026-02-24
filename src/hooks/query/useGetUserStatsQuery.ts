@@ -17,7 +17,7 @@ interface GetUserStatsQueryParams {
 export interface UserStats {
   nickname: string;
   totalScore: number;
-  averageScore: number;
+  percentil: number;
   ranking: number;
   tier: GetUserStatsResponseDto["tier"];
   scoreDetail: ScoreDetail[];
@@ -27,7 +27,7 @@ function toUserStats(dto: GetUserStatsResponseDto): UserStats {
   return {
     nickname: dto.nickname,
     totalScore: Number(dto.totalScore),
-    averageScore: Number(dto.averageScore),
+    percentil: dto.percentil,
     ranking: dto.ranking,
     tier: dto.tier,
     scoreDetail: dto.scoreDetail.map((detail) => ({

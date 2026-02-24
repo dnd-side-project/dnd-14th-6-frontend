@@ -110,7 +110,7 @@ export const LOG_LINES: LogLine[] = [
     variant: "description",
     text: "# 실무 기반 시나리오 타이핑 훈련을 시작합니다.",
     indented: true,
-    descriptionColor: "coolgrey_50",
+    descriptionColor: "coolgrey_55",
   },
   {
     id: "training",

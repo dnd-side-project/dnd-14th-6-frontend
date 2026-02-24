@@ -39,7 +39,11 @@ export default function ReportContent({ userId }: ReportContentProps) {
             {stats.tier && (
               <TierRankingSection variant="tier" tier={stats.tier} />
             )}
-            <TierRankingSection variant="ranking" ranking={stats.ranking} />
+            <TierRankingSection
+              variant="ranking"
+              ranking={stats.ranking}
+              percentil={stats.percentil}
+            />
           </Flex>
         </Flex>
         <FrequentWrongCommandsSection
