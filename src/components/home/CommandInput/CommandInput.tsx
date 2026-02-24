@@ -2,6 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
+
+import { AUDIO_PATHS } from "@/constants/audio";
+import { playOneShot } from "@/utils/sound";
+
 import CommandDropdown from "./CommandDropdown";
 import * as styles from "./CommandInput.css";
 
@@ -51,6 +55,9 @@ const CommandInput = () => {
     (href: string) => {
       setIsOpen(false);
       setInputValue("");
+      if (href === "/game") {
+        playOneShot(AUDIO_PATHS.SFX_GAME_ENTER);
+      }
       router.push(href);
     },
     [router],

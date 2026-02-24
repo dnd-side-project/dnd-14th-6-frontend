@@ -48,6 +48,7 @@ export default function GameHeader({
       </div>
       <div className={styles.bottomRow}>
         {scores && <ScoreTable scores={scores} />}
+        {/* TODO: 음소거 토글 버튼 UI 추가 (디자이너 협의 후) — muted, onToggleMute props 수신 예정 */}
         <button type="button" className={styles.hintButton}>
           <IcGameHint size={36} />
         </button>
