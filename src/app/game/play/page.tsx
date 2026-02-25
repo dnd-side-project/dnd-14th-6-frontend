@@ -20,13 +20,8 @@ import { useSaveGameSessionMutation } from "@/hooks/mutation/useSaveGameSessionM
 import { useGamePlayAudio } from "@/hooks/useGamePlayAudio";
 import { useGameStream } from "@/hooks/useGameStream";
 import { useTimedMap } from "@/hooks/useTimedMap";
-import type {
-  ClientAnswer,
-  GameResult,
-  GameSession,
-  PlayPhase,
-} from "@/types/game";
-import { GAME_RESULT_KEY, GAME_SESSION_KEY } from "@/types/game";
+import type { ClientAnswer, GameSession, PlayPhase } from "@/types/game";
+import { GAME_SESSION_KEY } from "@/types/game";
 import * as styles from "./page.css";
 
 const TOTAL_TIME = 60;
@@ -381,27 +376,15 @@ export default function GamePlayPage() {
         solved: ca.solved,
       })),
     };
-    console.log("[Save] 게임 결과 저장 요청:", savePayload);
 
-    let gameSessionId: string | undefined;
     try {
       const response = await saveGameMutation.mutateAsync(savePayload);
-      console.log("[Save] 저장 성공:", response.data);
-      gameSessionId = response.data.gameSessionId;
+      const gameSessionId = response.data.gameSessionId;
+      router.replace(`${ROUTES.GAME_RESULT}?gameSessionId=${gameSessionId}`);
     } catch (error) {
       console.error("[Save] 저장 실패:", error);
+      router.replace(ROUTES.GAME);
     }
-
-    const result: GameResult = {
-      category,
-      level,
-      score: gameState.score,
-      totalTime: TOTAL_TIME,
-      playedAt: new Date().toISOString(),
-      ...(gameSessionId != null && { gameSessionId }),
-    };
-    sessionStorage.setItem(GAME_RESULT_KEY, JSON.stringify(result));
-    router.replace(ROUTES.GAME_RESULT);
   };
 
   if (phase === "tutorial") {

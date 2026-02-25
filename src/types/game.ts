@@ -3,21 +3,11 @@ export type SetupStep = "category" | "difficulty";
 export type PlayPhase = "tutorial" | "playing" | "end";
 
 export const GAME_SESSION_KEY = "gameSession";
-export const GAME_RESULT_KEY = "gameResult";
 
 export interface GameSession {
   category: string;
   categoryId: number;
   level: string;
-}
-
-export interface GameResult {
-  category: string;
-  level: string;
-  score: number;
-  totalTime: number;
-  playedAt: string;
-  gameSessionId?: string;
 }
 
 /** SSE "problem" 이벤트 페이로드 */
