@@ -12,6 +12,7 @@ type Provider = "github" | "google";
 type LoginButtonProps = {
   provider: Provider;
   redirectUrl?: string;
+  gameSessionId?: string;
 } & Omit<ComponentPropsWithoutRef<"button">, "children" | "onClick">;
 
 const PROVIDER_CONFIG = {
@@ -30,6 +31,7 @@ const PROVIDER_CONFIG = {
 export default function LoginButton({
   provider,
   redirectUrl,
+  gameSessionId,
   ...props
 }: LoginButtonProps) {
   const { label, textVariant, textColor } = PROVIDER_CONFIG[provider];
@@ -38,7 +40,10 @@ export default function LoginButton({
     const callbackUrl = redirectUrl
       ? `/api/auth/callback?redirect=${encodeURIComponent(redirectUrl)}`
       : "/api/auth/callback";
-    const url = getSocialLoginUrl(provider, { redirectUrl: callbackUrl });
+    const url = getSocialLoginUrl(provider, {
+      redirectUrl: callbackUrl,
+      gameSessionId,
+    });
     window.location.href = url;
   };
 

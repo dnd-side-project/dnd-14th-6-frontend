@@ -43,7 +43,7 @@ const RankingListItem = ({
         {(() => {
           const MedalIcon = MEDAL_ICONS[ranking];
           if (MedalIcon) {
-            return <MedalIcon size="3rem" className={styles.rankNumber} />;
+            return <MedalIcon size={30} className={styles.rankNumber} />;
           }
           return (
             <Text

@@ -10,7 +10,9 @@
   "replaceAttrValues": {
     "#62EBFE": "currentColor",
     "#7F82A1": "currentColor",
-    "#9EA4AA": "currentColor"
+    "#9EA4AA": "currentColor",
+    "#93a5b9b2": "currentColor",
+    "#93A5B9": "currentColor"
   },
   "svgProps": {
     "width": "{size}",

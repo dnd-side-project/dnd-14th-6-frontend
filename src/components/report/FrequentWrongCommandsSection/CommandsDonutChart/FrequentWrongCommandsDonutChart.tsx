@@ -61,11 +61,15 @@ const CHART_GRADIENTS = {
   accentId: GRADIENT_DEFS[2].id,
 };
 
+function round(n: number): number {
+  return Math.round(n * 1e4) / 1e4;
+}
+
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
   const angleRad = ((angleDeg - 90) * Math.PI) / 180;
   return {
-    x: cx + r * Math.cos(angleRad),
-    y: cy + r * Math.sin(angleRad),
+    x: round(cx + r * Math.cos(angleRad)),
+    y: round(cy + r * Math.sin(angleRad)),
   };
 }
 
