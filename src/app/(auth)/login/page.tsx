@@ -5,11 +5,20 @@ import LoginButton from "@/components/login/LoginButton/LoginButton";
 import * as styles from "./page.css";
 
 interface LoginPageProps {
-  searchParams: Promise<{ redirect?: string; gameSessionId?: string }>;
+  searchParams: Promise<{
+    redirect?: string | string[];
+    gameSessionId?: string | string[];
+  }>;
+}
+
+function normalize(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { redirect: rawRedirect = "/", gameSessionId } = await searchParams;
+  const params = await searchParams;
+  const rawRedirect = normalize(params.redirect) ?? "/";
+  const gameSessionId = normalize(params.gameSessionId);
   const redirect =
     rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")
       ? rawRedirect

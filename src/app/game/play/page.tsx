@@ -379,7 +379,11 @@ export default function GamePlayPage() {
 
     try {
       const response = await saveGameMutation.mutateAsync(savePayload);
-      const gameSessionId = response.data.gameSessionId;
+      const gameSessionId = response.data?.gameSessionId;
+      if (!gameSessionId) {
+        router.replace(ROUTES.GAME);
+        return;
+      }
       router.replace(`${ROUTES.GAME_RESULT}?gameSessionId=${gameSessionId}`);
     } catch (error) {
       console.error("[Save] 저장 실패:", error);

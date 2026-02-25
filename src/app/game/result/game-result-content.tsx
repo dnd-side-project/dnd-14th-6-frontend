@@ -93,7 +93,7 @@ export default function GameResultContent({
               <StatCard
                 title="정답률"
                 value={`${summary.correctRate ?? 0}%`}
-                subtitle={`${summary.correctProblemCount ?? 0} / 20`}
+                subtitle={`${summary.correctProblemCount ?? 0} / ${summary.totalProblemCount ?? 0}`}
                 isBlurred={isGuest}
               />
             </Flex>

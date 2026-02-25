@@ -13,22 +13,15 @@ async function refreshAccessToken(
       body: JSON.stringify({ refreshToken }),
     });
 
-    if (!response.ok) {
-      console.log("[Proxy] refresh API 실패:", response.status);
-      return null;
-    }
+    if (!response.ok) return null;
 
     const json = await response.json();
     const data = json.data;
 
-    if (!data?.accessToken || !data?.refreshToken) {
-      console.log("[Proxy] 토큰 응답 이상:", JSON.stringify(json));
-      return null;
-    }
+    if (!data?.accessToken || !data?.refreshToken) return null;
 
     return { accessToken: data.accessToken, refreshToken: data.refreshToken };
-  } catch (error) {
-    console.log("[Proxy] refresh 에러:", error);
+  } catch {
     return null;
   }
 }
@@ -67,13 +60,10 @@ export async function proxy(request: NextRequest) {
 
   // accessToken 없고 refreshToken 있으면 갱신 시도
   if (!accessToken && refreshToken) {
-    console.log("[Proxy] accessToken 없음, refreshToken으로 갱신 시도...");
-    console.log("[Proxy] BACKEND_URL:", BACKEND_URL);
     const tokens = await refreshAccessToken(refreshToken);
-    console.log("[Proxy] 갱신 결과:", tokens ? "성공" : "실패");
 
     if (tokens) {
-      const response = NextResponse.next();
+      const response = NextResponse.redirect(request.url);
       setTokenCookies(response, tokens);
 
       // userInfo 쿠키도 갱신
