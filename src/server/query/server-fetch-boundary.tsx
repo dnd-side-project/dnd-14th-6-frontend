@@ -19,7 +19,9 @@ export default async function ServerFetchBoundary({
 
   const options = Array.isArray(fetchOptions) ? fetchOptions : [fetchOptions];
 
-  await Promise.all(options.map((option) => queryClient.prefetchQuery(option)));
+  await Promise.all(
+    options.map((option) => queryClient.prefetchQuery(option).catch(() => {})),
+  );
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

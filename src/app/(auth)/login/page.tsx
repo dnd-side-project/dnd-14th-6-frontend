@@ -5,11 +5,20 @@ import LoginButton from "@/components/login/LoginButton/LoginButton";
 import * as styles from "./page.css";
 
 interface LoginPageProps {
-  searchParams: Promise<{ redirect?: string }>;
+  searchParams: Promise<{
+    redirect?: string | string[];
+    gameSessionId?: string | string[];
+  }>;
+}
+
+function normalize(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { redirect: rawRedirect = "/" } = await searchParams;
+  const params = await searchParams;
+  const rawRedirect = normalize(params.redirect) ?? "/";
+  const gameSessionId = normalize(params.gameSessionId);
   const redirect =
     rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")
       ? rawRedirect
@@ -43,8 +52,16 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         />
       </div>
       <Flex direction="column" gap={1.5} align="center">
-        <LoginButton provider="github" redirectUrl={redirect} />
-        <LoginButton provider="google" redirectUrl={redirect} />
+        <LoginButton
+          provider="github"
+          redirectUrl={redirect}
+          gameSessionId={gameSessionId}
+        />
+        <LoginButton
+          provider="google"
+          redirectUrl={redirect}
+          gameSessionId={gameSessionId}
+        />
       </Flex>
     </Flex>
   );

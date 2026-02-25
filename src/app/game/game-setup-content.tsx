@@ -38,7 +38,7 @@ export default function GameSetupContent({
 
   const handleCategorySelect = (cat: CategoryDto) => {
     playButtonClick();
-    router.push(
+    router.replace(
       `${ROUTES.GAME}?step=difficulty&category=${encodeURIComponent(cat.name.toLowerCase())}`,
     );
   };
@@ -54,7 +54,7 @@ export default function GameSetupContent({
       level: mode.toLowerCase(),
     };
     sessionStorage.setItem(GAME_SESSION_KEY, JSON.stringify(session));
-    router.push(ROUTES.GAME_PLAY);
+    router.replace(ROUTES.GAME_PLAY);
   };
 
   if (currentStep === "difficulty") {
