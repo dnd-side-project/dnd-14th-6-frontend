@@ -22,14 +22,18 @@ interface GameEndOverlayProps {
 const GameEndOverlay = ({ type, onComplete }: GameEndOverlayProps) => {
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
+  const calledRef = useRef(false);
+
+  const handleComplete = useRef(() => {
+    if (calledRef.current) return;
+    calledRef.current = true;
+    onCompleteRef.current();
+  }).current;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onCompleteRef.current();
-    }, FALLBACK_DURATION);
-
+    const timer = setTimeout(handleComplete, FALLBACK_DURATION);
     return () => clearTimeout(timer);
-  }, []);
+  }, [handleComplete]);
 
   return (
     <div className={styles.overlay}>
@@ -41,7 +45,7 @@ const GameEndOverlay = ({ type, onComplete }: GameEndOverlayProps) => {
         playsInline
         preload="auto"
         disablePictureInPicture
-        onEnded={() => onCompleteRef.current()}
+        onEnded={handleComplete}
       />
     </div>
   );
