@@ -4,8 +4,6 @@ import type { RankUser } from "@/types/ranking";
 
 import RankingList from "./RankingList/RankingList";
 
-const ITEMS_PER_PAGE = 20;
-
 export interface RankingListSectionProps {
   ranks: RankUser[];
   totalPage: number;
@@ -26,8 +24,7 @@ const RankingListSection = ({
       <RankingList ranks={ranks} myNickname={myNickname} />
       <Flex justify="center">
         <Pagination
-          totalItems={totalPage * ITEMS_PER_PAGE}
-          itemsPerPage={ITEMS_PER_PAGE}
+          totalPage={totalPage}
           currentPage={currentPage}
           onPageChange={onPageChange}
         />

@@ -10,7 +10,7 @@ import * as styles from "./HistoryList.css";
 
 interface HistoryListProps {
   items: SessionHistoryDto[];
-  totalItems: number;
+  totalPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
   sortField: SortField | null;
@@ -21,7 +21,7 @@ interface HistoryListProps {
 
 const HistoryList = ({
   items,
-  totalItems,
+  totalPage,
   currentPage,
   onPageChange,
   sortField,
@@ -54,7 +54,7 @@ const HistoryList = ({
         />
         <div className={styles.paginationWrapper}>
           <Pagination
-            totalItems={totalItems}
+            totalPage={totalPage}
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />

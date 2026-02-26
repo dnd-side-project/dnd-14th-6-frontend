@@ -211,7 +211,7 @@ const GameHistorySection = ({ userId }: GameHistorySectionProps) => {
       </Flex>
       <HistoryList
         items={data?.sessions ?? []}
-        totalItems={data?.metadata.totalItems ?? 0}
+        totalPage={Math.ceil((data?.metadata.totalItems ?? 0) / ITEMS_PER_PAGE)}
         currentPage={currentPage}
         onPageChange={handlePageChange}
         sortField={sortField}
