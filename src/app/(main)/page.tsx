@@ -15,16 +15,19 @@ export default function Home() {
         className={styles.planetImage}
         priority
       />
+      <div className={styles.heroViewport}>
+        <div className={styles.topSpacer} />
+        <HomeHeroSection />
+        <div className={styles.bottomSpacer} />
+      </div>
       <Flex
         direction="column"
         paddingLeft={10}
         paddingRight={10}
-        paddingTop="clamp(12rem, 20vh, 17rem)"
+        paddingTop={21}
         paddingBottom={15}
-        gap={25.5}
         className={styles.content}
       >
-        <HomeHeroSection />
         <LogLineSection />
       </Flex>
     </div>

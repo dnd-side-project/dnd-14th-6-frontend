@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import Text from "@/components/common/Text/Text";
 import * as styles from "./LogLineItem.css";
 
@@ -12,6 +13,8 @@ export interface LogLineItemProps {
   descriptionColor?: "coolgrey_85" | "coolgrey_55";
 }
 
+const TYPING_SPEED = 35;
+
 const LogLineItem = ({
   displayNumber,
   variant,
@@ -19,7 +22,39 @@ const LogLineItem = ({
   text,
   indented = false,
   descriptionColor = "coolgrey_85",
-}: LogLineItemProps) => {
+  onTypingComplete,
+}: LogLineItemProps & { onTypingComplete?: () => void }) => {
+  const fullText =
+    variant === "label" ? `${label ?? ""}${text ?? ""}` : (text ?? "");
+  const [typedLength, setTypedLength] = useState(0);
+  const completedRef = useRef(false);
+  const onCompleteRef = useRef(onTypingComplete);
+  onCompleteRef.current = onTypingComplete;
+
+  useEffect(() => {
+    if (variant === "empty" || fullText.length === 0) {
+      if (!completedRef.current) {
+        completedRef.current = true;
+        onCompleteRef.current?.();
+      }
+      return;
+    }
+
+    if (typedLength >= fullText.length) {
+      if (!completedRef.current) {
+        completedRef.current = true;
+        onCompleteRef.current?.();
+      }
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setTypedLength((prev) => prev + 1);
+    }, TYPING_SPEED);
+
+    return () => clearTimeout(timer);
+  }, [typedLength, fullText, variant]);
+
   const rowClassName = [styles.row, variant === "header" && styles.headerRow]
     .filter(Boolean)
     .join(" ");
@@ -36,30 +71,34 @@ const LogLineItem = ({
       case "header":
         return (
           <Text as="span" variant="body17" color="primary_150">
-            {text}
+            {fullText.slice(0, typedLength)}
           </Text>
         );
-      case "label":
+      case "label": {
+        const labelLen = label?.length ?? 0;
         return (
           <>
             <Text as="span" variant="body12" color="coolgrey_45">
-              {label}
+              {fullText.slice(0, Math.min(typedLength, labelLen))}
             </Text>
             <Text as="span" variant="body12" color="coolgrey_45">
-              {text}
+              {typedLength > labelLen
+                ? fullText.slice(labelLen, typedLength)
+                : ""}
             </Text>
           </>
         );
+      }
       case "description":
         return (
           <Text as="span" variant="body17" color={descriptionColor}>
-            {text}
+            {fullText.slice(0, typedLength)}
           </Text>
         );
       case "bold":
         return (
           <Text as="span" variant="body12" color="coolgrey_45">
-            {text}
+            {fullText.slice(0, typedLength)}
           </Text>
         );
       default:

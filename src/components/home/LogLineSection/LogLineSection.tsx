@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Text from "@/components/common/Text/Text";
 import { LOG_LINES } from "@/constants/log-lines";
 import LogLineItem from "./LogLineItem";
@@ -11,7 +11,7 @@ const getGapClassName = (gap?: "header") => {
   return undefined;
 };
 
-const LINE_REVEAL_DELAY = 120;
+const LINE_PAUSE = 80;
 
 const FIRST_NUMBERED_INDEX = LOG_LINES.findIndex(
   (l) => l.displayNumber !== undefined,
@@ -22,6 +22,7 @@ const CURSOR_LINE_NUMBER =
 
 const LogLineSection = () => {
   const [visibleCount, setVisibleCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
   const [targetCount, setTargetCount] = useState(0);
   const slotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const verticalLineRef = useRef<HTMLDivElement>(null);
@@ -71,16 +72,21 @@ const LogLineSection = () => {
   }, []);
 
   useEffect(() => {
+    if (completedCount < visibleCount) return;
     if (visibleCount >= targetCount) return;
 
     const timer = setTimeout(() => {
       setVisibleCount((prev) => prev + 1);
-    }, LINE_REVEAL_DELAY);
+    }, LINE_PAUSE);
 
     return () => clearTimeout(timer);
-  }, [visibleCount, targetCount]);
+  }, [completedCount, visibleCount, targetCount]);
 
-  const allVisible = visibleCount >= LOG_LINES.length;
+  const handleTypingComplete = useCallback(() => {
+    setCompletedCount((prev) => prev + 1);
+  }, []);
+
+  const allTyped = completedCount >= LOG_LINES.length;
 
   return (
     <section className={styles.section}>
@@ -101,12 +107,17 @@ const LogLineSection = () => {
                 .filter(Boolean)
                 .join(" ")}
             >
-              {isVisible && <LogLineItem {...lineProps} />}
+              {isVisible && (
+                <LogLineItem
+                  {...lineProps}
+                  onTypingComplete={handleTypingComplete}
+                />
+              )}
             </div>
           );
         })}
 
-        {allVisible && (
+        {allTyped && (
           <div className={styles.cursorRow}>
             <div className={styles.cursorNumberArea}>
               <Text as="span" variant="body13" color="coolgrey_110">
