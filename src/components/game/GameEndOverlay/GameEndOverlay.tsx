@@ -6,12 +6,12 @@ import * as styles from "./GameEndOverlay.css";
 
 export type GameEndType = "perfect" | "clear" | "timeout";
 
-const END_DISPLAY_DURATION = 3000;
+const FALLBACK_DURATION = 3000;
 
-const END_TEXT: Record<GameEndType, string> = {
-  perfect: "PERFECT CLEAR!",
-  clear: "GAME CLEAR!",
-  timeout: "TIME OUT!",
+const END_VIDEO: Record<GameEndType, string> = {
+  perfect: "/assets/videos/perfectclear.webm",
+  clear: "/assets/videos/gameclear.webm",
+  timeout: "/assets/videos/timeout.webm",
 };
 
 interface GameEndOverlayProps {
@@ -22,18 +22,31 @@ interface GameEndOverlayProps {
 const GameEndOverlay = ({ type, onComplete }: GameEndOverlayProps) => {
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
+  const calledRef = useRef(false);
+
+  const handleComplete = useRef(() => {
+    if (calledRef.current) return;
+    calledRef.current = true;
+    onCompleteRef.current();
+  }).current;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onCompleteRef.current();
-    }, END_DISPLAY_DURATION);
-
+    const timer = setTimeout(handleComplete, FALLBACK_DURATION);
     return () => clearTimeout(timer);
-  }, []);
+  }, [handleComplete]);
 
   return (
     <div className={styles.overlay}>
-      <p className={styles.resultText}>{END_TEXT[type]}</p>
+      <video
+        className={styles.video}
+        src={END_VIDEO[type]}
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        disablePictureInPicture
+        onEnded={handleComplete}
+      />
     </div>
   );
 };
