@@ -2,17 +2,19 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useCallback, useEffect } from "react";
 
 import CategoryCard from "@/components/game/CategoryCard/CategoryCard";
 import { isValidLevel } from "@/components/game/Level/Level";
 import LevelCard from "@/components/game/LevelCard/LevelCard";
 import StepIndicator from "@/components/game/StepIndicator/StepIndicator";
+import { AUDIO_PATHS } from "@/constants/audio";
 import { ROUTES } from "@/constants/routes";
 import { useGetGameOptionsSuspenseQuery } from "@/hooks/query/useGetGameOptionsQuery";
-import { useSetupAudio } from "@/hooks/useSetupAudio";
 import type { CategoryDto } from "@/types/api";
 import type { GameSession } from "@/types/game";
 import { GAME_SESSION_KEY } from "@/types/game";
+import { createSound, playOneShot } from "@/utils/sound";
 import * as styles from "./page.css";
 
 interface GameSetupContentProps {
@@ -26,7 +28,14 @@ export default function GameSetupContent({
 }: GameSetupContentProps) {
   const { data: gameOptions } = useGetGameOptionsSuspenseQuery();
   const router = useRouter();
-  const { playButtonClick } = useSetupAudio();
+
+  useEffect(() => {
+    createSound(AUDIO_PATHS.SFX_BUTTON_CLICK);
+  }, []);
+
+  const playButtonClick = useCallback(() => {
+    playOneShot(AUDIO_PATHS.SFX_BUTTON_CLICK);
+  }, []);
 
   const isValidCategory =
     category &&
