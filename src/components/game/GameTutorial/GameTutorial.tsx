@@ -18,7 +18,7 @@ const GameTutorial = ({ level, onStart }: GameTutorialProps) => {
       onClick={onStart}
     >
       <Image
-        src="/assets/images/game-tutorial.png"
+        src="/assets/images/game-tutorials.png"
         alt=""
         fill
         className={styles.stepBackground}

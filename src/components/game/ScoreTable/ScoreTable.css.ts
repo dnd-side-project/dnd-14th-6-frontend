@@ -4,7 +4,7 @@ import { vars } from "@/styles/theme.css";
 export const wrapper = style({
   display: "flex",
   flexDirection: "column",
-  gap: 6,
+  gap: "0.4rem",
   width: 191,
 });
 

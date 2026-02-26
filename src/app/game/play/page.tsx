@@ -25,7 +25,7 @@ import { GAME_SESSION_KEY } from "@/types/game";
 import * as styles from "./page.css";
 
 const TOTAL_TIME = 60;
-const FALL_DURATION = 15;
+const FALL_DURATION = 17;
 
 const DEFAULT_SCORES: Record<ScoreLevelType, number> = {
   hard: 50,
@@ -209,15 +209,12 @@ export default function GamePlayPage() {
 
   useEffect(() => {
     if (phase !== "tutorial") return;
-    const timer = setTimeout(startGame, 3000);
     const handleKeyDown = (e: KeyboardEvent) => {
       if (IGNORED_KEYS.has(e.key)) return;
-      clearTimeout(timer);
       startGame();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => {
-      clearTimeout(timer);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [phase, startGame]);

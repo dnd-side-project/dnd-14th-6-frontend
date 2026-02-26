@@ -61,7 +61,7 @@ export default function GameSetupContent({
     return (
       <div className={styles.categoryWrapper}>
         <Image
-          src="/assets/images/game-option.png"
+          src="/assets/images/game-options.png"
           alt=""
           fill
           className={styles.stepBackground}
@@ -89,7 +89,7 @@ export default function GameSetupContent({
   return (
     <div className={styles.categoryWrapper}>
       <Image
-        src="/assets/images/game-option.png"
+        src="/assets/images/game-options.png"
         alt=""
         fill
         priority

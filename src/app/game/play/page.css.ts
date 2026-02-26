@@ -57,7 +57,7 @@ export const fallingCardContainer = style({
 const fallingCardBase = style({
   position: "absolute",
   pointerEvents: "auto",
-  animation: `${fallDown} 15s linear forwards`,
+  animation: `${fallDown} 17s linear forwards`,
 });
 
 // 3개 수평 레인 (균등 분배, 카드 너비 ~25vw 고려)
