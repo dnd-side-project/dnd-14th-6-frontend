@@ -13,13 +13,6 @@ export const container = style({
   paddingBottom: "6.4rem",
   maxHeight: "60rem",
   overflowY: "auto",
-  msOverflowStyle: "none",
-  scrollbarWidth: "none",
-  selectors: {
-    "&::-webkit-scrollbar": {
-      display: "none",
-    },
-  },
 });
 
 export const problemSection = style({
