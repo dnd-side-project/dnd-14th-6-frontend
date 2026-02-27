@@ -5,7 +5,7 @@ export const wrapper = style({
   position: "relative",
   isolation: "isolate",
   backgroundColor: vars.color.black,
-  minHeight: "100vh",
+  minHeight: "max(100vh, 141.25vw)",
   display: "flex",
   flexDirection: "column",
 });
