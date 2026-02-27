@@ -26,7 +26,7 @@ import { GAME_SESSION_KEY } from "@/types/game";
 import * as styles from "./page.css";
 
 const TOTAL_TIME = 120;
-const FALL_DURATION = 17;
+const FALL_DURATION = 16;
 
 const DEFAULT_SCORES: Record<ScoreLevelType, number> = {
   hard: 50,

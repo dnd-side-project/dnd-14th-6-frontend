@@ -1,6 +1,6 @@
 export const AUDIO_PATHS = {
   MAIN_BGM: "/assets/audio/bgm/main-bgm.mp3",
-  GAME_BGM: "/assets/audio/bgm/game-bgm.mp3",
+  GAME_BGM: "/assets/audio/bgm/game-playing-bgm.mp3",
   SFX_GAME_ENTER: "/assets/audio/sfx/game-enter.mp3",
   SFX_BUTTON_CLICK: "/assets/audio/sfx/button-click.mp3",
   SFX_CORRECT: "/assets/audio/sfx/correct.mp3",
