@@ -14,6 +14,7 @@ export function useMainBGM() {
   const pathname = usePathname();
   const activatedRef = useRef(false);
   const bgmRef = useRef<ReturnType<typeof createSound> | null>(null);
+  const fadePauseRef = useRef<(() => void) | null>(null);
 
   const shouldPlay = BGM_ROUTES.has(pathname);
 
@@ -36,6 +37,11 @@ export function useMainBGM() {
     const bgm = bgmRef.current;
     if (!bgm) return;
 
+    if (fadePauseRef.current) {
+      bgm.off("fade", fadePauseRef.current);
+      fadePauseRef.current = null;
+    }
+
     if (shouldPlay && activatedRef.current) {
       if (!bgm.playing()) {
         bgm.volume(0);
@@ -44,9 +50,12 @@ export function useMainBGM() {
       bgm.fade(bgm.volume(), AUDIO_VOLUME.BGM, FADE_MS);
     } else if (!shouldPlay && bgm.playing()) {
       bgm.fade(bgm.volume(), 0, FADE_MS);
-      bgm.once("fade", () => {
+      const onFade = () => {
         bgm.pause();
-      });
+        fadePauseRef.current = null;
+      };
+      fadePauseRef.current = onFade;
+      bgm.once("fade", onFade);
     }
   }, [shouldPlay]);
 
