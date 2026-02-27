@@ -24,6 +24,7 @@ export const header = recipe({
       },
       false: {
         position: "relative",
+        zIndex: 10,
       },
     },
   },
