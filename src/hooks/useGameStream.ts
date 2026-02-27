@@ -9,7 +9,7 @@ import type {
 const INITIAL_STATE: GamePlayState = {
   problems: [],
   currentProblemIndex: 0,
-  remainingSeconds: 60,
+  remainingSeconds: 120,
   score: 0,
   clientAnswers: [],
   answer: "",
@@ -36,7 +36,7 @@ type GameAction =
 
 const MAX_VISIBLE = 3;
 const LANE_COUNT = 3;
-const MIN_ACTIVATION_GAP_MS = 4500;
+const MIN_ACTIVATION_GAP_MS = 5000;
 
 function isActive(a: ClientAnswer): boolean {
   return a.activatedAt !== null && !a.solved && !a.expired;

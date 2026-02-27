@@ -20,6 +20,7 @@ export const planetSection = style({
   position: "relative",
   overflow: "hidden",
   marginTop: "-25.42vw",
+  zIndex: 0,
 });
 
 export const planetImage = style({
@@ -30,7 +31,6 @@ export const planetImage = style({
   width: "130%",
   maxWidth: "none",
   height: "auto",
-  pointerEvents: "none",
   zIndex: 0,
 });
 

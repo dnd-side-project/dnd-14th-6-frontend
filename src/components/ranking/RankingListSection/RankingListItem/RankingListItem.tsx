@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Ic1Medal from "@/assets/icons/colored/Ic1Medal";
 import Ic2Medal from "@/assets/icons/colored/Ic2Medal";
 import Ic3Medal from "@/assets/icons/colored/Ic3Medal";
@@ -32,6 +33,7 @@ const RankingListItem = ({
   nickname,
   totalScore,
   githubUrl,
+  tier,
   isMe = false,
 }: RankingListItemProps) => {
   const variant = getVariant(ranking, isMe);
@@ -56,7 +58,9 @@ const RankingListItem = ({
           );
         })()}
         <Flex align="center" gap={0.6}>
-          <div className={styles.tierBadge({ me: isMe })} />
+          {tier && (
+            <Image src={tier.imageUrl} alt={tier.name} width={30} height={17} />
+          )}
           <Text variant="body7" color={isMe ? "coolgrey_230" : "coolgrey_40"}>
             {nickname}
           </Text>

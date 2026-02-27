@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CategoryType } from "@/components/game/Category/Category";
@@ -24,8 +25,8 @@ import type { ClientAnswer, GameSession, PlayPhase } from "@/types/game";
 import { GAME_SESSION_KEY } from "@/types/game";
 import * as styles from "./page.css";
 
-const TOTAL_TIME = 60;
-const FALL_DURATION = 15;
+const TOTAL_TIME = 120;
+const FALL_DURATION = 16;
 
 const DEFAULT_SCORES: Record<ScoreLevelType, number> = {
   hard: 50,
@@ -209,15 +210,12 @@ export default function GamePlayPage() {
 
   useEffect(() => {
     if (phase !== "tutorial") return;
-    const timer = setTimeout(startGame, 3000);
     const handleKeyDown = (e: KeyboardEvent) => {
       if (IGNORED_KEYS.has(e.key)) return;
-      clearTimeout(timer);
       startGame();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => {
-      clearTimeout(timer);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [phase, startGame]);
@@ -397,17 +395,13 @@ export default function GamePlayPage() {
 
   return (
     <div className={styles.playingWrapper}>
-      <video
+      <Image
         className={styles.backgroundVideo}
-        src="/assets/videos/orvit-hq.webm"
-        autoPlay
-        loop
-        muted
-        playsInline
-        disablePictureInPicture
-        preload="auto"
+        src="/assets/images/game-tutorials.png"
+        alt=""
+        fill
+        priority
         aria-hidden="true"
-        tabIndex={-1}
       />
 
       <GameHeader

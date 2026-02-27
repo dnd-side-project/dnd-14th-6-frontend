@@ -23,16 +23,8 @@ export const backgroundVideo = style({
   position: "absolute",
   inset: 0,
   zIndex: -1,
-  width: "100%",
-  height: "100%",
   objectFit: "cover",
   pointerEvents: "none",
-  willChange: "transform",
-  "@media": {
-    "(prefers-reduced-motion: reduce)": {
-      display: "none",
-    },
-  },
 });
 
 export const gameArea = style({
@@ -57,7 +49,7 @@ export const fallingCardContainer = style({
 const fallingCardBase = style({
   position: "absolute",
   pointerEvents: "auto",
-  animation: `${fallDown} 15s linear forwards`,
+  animation: `${fallDown} 16s linear forwards`,
 });
 
 // 3개 수평 레인 (균등 분배, 카드 너비 ~25vw 고려)

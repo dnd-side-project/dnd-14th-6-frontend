@@ -52,4 +52,3 @@ const GameEndOverlay = ({ type, onComplete }: GameEndOverlayProps) => {
 };
 
 export default GameEndOverlay;
-

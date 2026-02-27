@@ -33,7 +33,6 @@ export const stepBackground = style({
   zIndex: 0,
   pointerEvents: "none",
   objectFit: "cover",
-  objectPosition: "top center",
 });
 
 export const guide = style({

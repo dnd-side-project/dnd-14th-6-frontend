@@ -82,16 +82,18 @@ export default function RankingContent({ tab }: RankingContentProps) {
           height={964}
           className={styles.planetImage}
         />
-        <div ref={rankingListRef} className={styles.rankingListArea}>
-          {listData && (
-            <RankingListSection
-              ranks={listData.ranks}
-              totalPage={listData.metadata.totalPage}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-              myNickname={myNickname}
-            />
-          )}
+        <div className={styles.rankingListArea}>
+          <div ref={rankingListRef}>
+            {listData && (
+              <RankingListSection
+                ranks={listData.ranks}
+                totalPage={listData.metadata.totalPage}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+                myNickname={myNickname}
+              />
+            )}
+          </div>
         </div>
       </div>
     </>

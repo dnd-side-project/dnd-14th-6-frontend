@@ -1,0 +1,28 @@
+import { forwardRef, type Ref, type SVGProps } from "react";
+
+const IcPageLeft = (
+  {
+    size = 24,
+    ...props
+  }: SVGProps<SVGSVGElement> & {
+    size?: number | string;
+  },
+  ref: Ref<SVGSVGElement>,
+) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 30 30"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    ref={ref}
+    {...props}
+  >
+    <path
+      d="M13.9166 15L17.7243 18.7248C17.8644 18.8667 17.9419 19.0568 17.9402 19.2541C17.9384 19.4514 17.8575 19.6401 17.7149 19.7796C17.5723 19.9191 17.3793 19.9983 17.1777 20C16.976 20.0017 16.7817 19.9258 16.6366 19.7888L12.285 15.532C12.1408 15.3909 12.0598 15.1995 12.0598 15C12.0598 14.8005 12.1408 14.6091 12.285 14.468L16.6366 10.2112C16.7817 10.0742 16.976 9.99831 17.1777 10C17.3793 10.0017 17.5723 10.0809 17.7149 10.2204C17.8575 10.3599 17.9384 10.5486 17.9402 10.7459C17.9419 10.9432 17.8644 11.1333 17.7243 11.2752L13.9166 15V15Z"
+      fill="#6D7B86"
+    />
+  </svg>
+);
+const ForwardRef = forwardRef(IcPageLeft);
+export default ForwardRef;
