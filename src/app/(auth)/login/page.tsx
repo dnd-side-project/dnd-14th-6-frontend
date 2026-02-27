@@ -45,7 +45,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         />
         <Image
           className={styles.planetImage}
-          src="/assets/images/login-planet.png"
+          src="/assets/images/planet-login.png"
           alt=""
           width={1639}
           height={1695}

@@ -33,7 +33,7 @@ export const planetImage = style({
   left: "50%",
   top: "50%",
   transform: "translate(-50%, -50%)",
-  width: "39.1rem",
+  width: "clamp(43rem, 30vw, 60rem)",
   height: "auto",
   pointerEvents: "none",
 });
