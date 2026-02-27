@@ -6,13 +6,20 @@ export const pageContainer = style({
   overflowX: "hidden",
 });
 
-export const planetImage = style({
+export const planetImageWrapper = style({
   position: "absolute",
   top: "10rem",
   right: "-22.5vw",
   width: "62.5vw",
-  height: "auto",
   pointerEvents: "none",
+  willChange: "transform",
+  transformOrigin: "center",
+});
+
+export const planetImage = style({
+  width: "100%",
+  height: "auto",
+  display: "block",
 });
 
 export const heroViewport = style({

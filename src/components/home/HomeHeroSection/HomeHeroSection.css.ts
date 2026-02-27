@@ -14,6 +14,7 @@ export const heroTitle = style({
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
   backgroundClip: "text",
+  paddingBottom: "1.2rem",
 });
 
 export const copyText = style({
