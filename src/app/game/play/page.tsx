@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CategoryType } from "@/components/game/Category/Category";
@@ -24,7 +25,7 @@ import type { ClientAnswer, GameSession, PlayPhase } from "@/types/game";
 import { GAME_SESSION_KEY } from "@/types/game";
 import * as styles from "./page.css";
 
-const TOTAL_TIME = 60;
+const TOTAL_TIME = 120;
 const FALL_DURATION = 17;
 
 const DEFAULT_SCORES: Record<ScoreLevelType, number> = {
@@ -394,17 +395,13 @@ export default function GamePlayPage() {
 
   return (
     <div className={styles.playingWrapper}>
-      <video
+      <Image
         className={styles.backgroundVideo}
-        src="/assets/videos/orvit-hq.webm"
-        autoPlay
-        loop
-        muted
-        playsInline
-        disablePictureInPicture
-        preload="auto"
+        src="/assets/images/game-tutorials.png"
+        alt=""
+        fill
+        priority
         aria-hidden="true"
-        tabIndex={-1}
       />
 
       <GameHeader

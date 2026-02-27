@@ -9,7 +9,7 @@ import type {
 const INITIAL_STATE: GamePlayState = {
   problems: [],
   currentProblemIndex: 0,
-  remainingSeconds: 60,
+  remainingSeconds: 120,
   score: 0,
   clientAnswers: [],
   answer: "",
