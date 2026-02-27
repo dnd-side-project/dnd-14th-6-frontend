@@ -9,7 +9,7 @@ export const LOG_LINES: LogLine[] = [
   {
     id: "header-1",
     variant: "header",
-    text: "# Orbit에 오신 것을 환영합니다!",
+    text: "# Orvit에 오신 것을 환영합니다!",
   },
   {
     id: "header-2",

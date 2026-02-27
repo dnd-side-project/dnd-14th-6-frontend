@@ -6,7 +6,7 @@ import { vars } from "@/styles/theme.css";
 export const container = style({
   display: "flex",
   alignItems: "center",
-  gap: "1.48rem",
+  gap: "2.4rem",
 });
 
 export const navigationButton = style({
@@ -15,14 +15,12 @@ export const navigationButton = style({
   border: "none",
   cursor: "pointer",
   borderRadius: vars.radius.xs,
-  padding: "0.1rem 1.42rem",
-  height: "3rem",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   selectors: {
     "&:disabled": {
-      cursor: "default",
+      cursor: "not-allowed",
       opacity: 0.4,
     },
   },

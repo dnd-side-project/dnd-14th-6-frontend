@@ -20,6 +20,7 @@ const TopRankingSection = ({ ranks }: TopRankingSectionProps) => {
           nickname={second.nickname}
           totalScore={second.totalScore}
           profileImage={second.profileImage}
+          tier={second.tier}
         />
       )}
       {first && (
@@ -28,6 +29,7 @@ const TopRankingSection = ({ ranks }: TopRankingSectionProps) => {
           nickname={first.nickname}
           totalScore={first.totalScore}
           profileImage={first.profileImage}
+          tier={first.tier}
         />
       )}
       {third && (
@@ -36,6 +38,7 @@ const TopRankingSection = ({ ranks }: TopRankingSectionProps) => {
           nickname={third.nickname}
           totalScore={third.totalScore}
           profileImage={third.profileImage}
+          tier={third.tier}
         />
       )}
     </div>
