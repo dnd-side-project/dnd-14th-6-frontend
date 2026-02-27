@@ -13,6 +13,7 @@ export const header = recipe({
     background:
       "linear-gradient(345deg, rgba(24, 40, 56, 0.04) 63.51%, rgba(24, 40, 56, 0.00) 103.01%)",
     backdropFilter: "blur(7.5px)",
+    WebkitBackdropFilter: "blur(7.5px)",
   },
   variants: {
     fixed: {
