@@ -70,6 +70,19 @@ function isApiResponseWrapper(schema) {
   return props?.statusCode && props?.success && props?.data;
 }
 
+/**
+ * 생성된 코드에 대한 check(biome) + 타입 체크 + 빌드 검증
+ * generate-api.cjs에서 타입/훅 생성이 모두 끝난 뒤 호출합니다.
+ */
+function runVerification() {
+  console.log("Running check...");
+  execSync("pnpm check", { stdio: "inherit", cwd: ROOT_DIR });
+  console.log("Running type check...");
+  execSync("pnpm typecheck", { stdio: "inherit", cwd: ROOT_DIR });
+  console.log("Running build...");
+  execSync("pnpm build", { stdio: "inherit", cwd: ROOT_DIR });
+}
+
 module.exports = {
   SWAGGER_URL,
   ROOT_DIR,
@@ -79,4 +92,5 @@ module.exports = {
   fetchSwagger,
   runBiomeFormat,
   isApiResponseWrapper,
+  runVerification,
 };

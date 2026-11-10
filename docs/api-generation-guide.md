@@ -48,6 +48,7 @@
 | **태그별 타입 분리** | Games/Users/Tiers 별도 파일, 공유 스키마는 common.ts |
 | **중앙 집중 쿼리키** | 모든 쿼리키를 `query-keys.ts` 한 곳에서 관리 (증분 재생성) |
 | **Security 기반 자동 판별** | Swagger `security` 필드로 public/private를 자동 결정 (수동 관리 불필요) |
+| **생성 후 자동 검증** | 통합 실행(`generate:api`) 마지막에 `pnpm check` → `pnpm typecheck` → `pnpm build`를 자동 실행 |
 
 ---
 
@@ -91,8 +92,15 @@
 │  - fetchSwagger()        │
 │  - runBiomeFormat()      │
 │  - isApiResponseWrapper()│
+│  - runVerification()     │
 └──────────────────────────┘
 ```
+
+### 생성 후 검증
+
+`generate-api.cjs`는 타입/훅 생성이 모두 성공한 뒤 `shared.cjs`의 `runVerification()`을 호출해 `pnpm check`(biome check) → `pnpm typecheck`(`tsc --noEmit`) → `pnpm build`를 순서대로 실행합니다. 셋 중 하나라도 실패하면 프로세스가 비정상 종료되어, 린트 오류·타입 오류·빌드 실패가 있는 상태로 생성이 "성공"했다고 보고되지 않도록 합니다.
+
+`pnpm generate:types`/`pnpm generate:hooks`를 개별 실행할 때는 이 검증이 자동으로 돌지 않으므로, 직접 `pnpm check` → `pnpm typecheck` → `pnpm build`를 실행해 확인해야 합니다.
 
 ### Swagger 트랜스포머
 
@@ -117,7 +125,7 @@
 pnpm generate:api -- --path /api/games/options
 ```
 
-`--path`/`--tag` 인자가 타입과 훅 모두에 전달됩니다.
+`--path`/`--tag` 인자가 타입과 훅 모두에 전달됩니다. 생성이 끝나면 `pnpm check` → `pnpm typecheck` → `pnpm build`가 자동 실행되어 결과를 검증합니다.
 
 ### 타입 생성
 

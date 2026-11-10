@@ -6,13 +6,14 @@
  * Swagger JSON을 한 번만 fetch한 뒤 임시 파일로 저장하고,
  * generate-types.cjs → generate-hooks.cjs 순서로 실행합니다.
  * 동일한 --path/--tag/--force 인자를 두 스크립트 모두에 전달합니다.
+ * 마지막으로 check(biome) + 타입 체크 + 빌드를 실행해 생성된 코드를 검증합니다.
  */
 
 const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
-const { fetchSwagger, SWAGGER_URL } = require("./shared.cjs");
+const { fetchSwagger, runVerification, SWAGGER_URL } = require("./shared.cjs");
 
 const args = process.argv.slice(2);
 const cwd = path.resolve(__dirname, "..");
@@ -40,6 +41,8 @@ async function main() {
       { stdio: "inherit", cwd },
     );
     if (hooks.status !== 0) process.exit(hooks.status ?? 1);
+
+    runVerification();
   } finally {
     fs.unlinkSync(specFile);
   }

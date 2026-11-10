@@ -402,7 +402,8 @@ function generateQueryKeysFile(allOperations, currentBatchOps) {
  */
 function generateQueryHook(op, hookName) {
   const hasParams = op.params.length > 0;
-  const fetchFn = isPublic(op) ? "GET_PUBLIC" : "GET";
+  const isPrivate = !isPublic(op);
+  const fetchFn = isPrivate ? "GET" : "GET_PUBLIC";
   const queryKeyName = buildQueryKeyName(op);
   const apiPath = buildApiPath(op.path);
   const baseName = hookName.replace(/Query$/, "");
@@ -451,10 +452,12 @@ function generateQueryHook(op, hookName) {
     }
   }
 
-  // import 구성
+  // import 구성 (인증 API는 서버 프리패칭용 Tokens 타입도 함께 import)
   const imports = [
     `import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";`,
-    `import { ${fetchFn}, queryKeys } from "@/server";`,
+    isPrivate
+      ? `import { ${fetchFn}, queryKeys, type Tokens } from "@/server";`
+      : `import { ${fetchFn}, queryKeys } from "@/server";`,
   ];
 
   if (op.responseType) {
@@ -463,9 +466,12 @@ function generateQueryHook(op, hookName) {
 
   const responseGeneric = op.responseType ? `<${op.responseType}>` : "";
 
-  // queryFn 구성
+  // queryFn 구성 (인증 API는 서버 프리패칭용 tokens를 마지막 인자로 전달)
   let queryFnBody;
-  if (searchParamsObj) {
+  if (isPrivate) {
+    const searchParamsArg = searchParamsObj || "undefined";
+    queryFnBody = `${fetchFn}${responseGeneric}(${dynamicPath}, ${searchParamsArg}, tokens)`;
+  } else if (searchParamsObj) {
     queryFnBody = `${fetchFn}${responseGeneric}(${dynamicPath}, ${searchParamsObj})`;
   } else {
     queryFnBody = `${fetchFn}${responseGeneric}(${dynamicPath})`;
@@ -476,8 +482,14 @@ function generateQueryHook(op, hookName) {
     ? `queryKeys.${domain}.${detailKey}(params)`
     : `queryKeys.${domain}.${detailKey}()`;
 
-  // queryOptions
-  const queryOptionsArgs = hasParams ? `(${paramsArg})` : "()";
+  // queryOptions (인증 API는 서버 프리패칭용 tokens 파라미터 추가)
+  const queryOptionsArgs = hasParams
+    ? isPrivate
+      ? `(${paramsArg}, tokens?: Tokens)`
+      : `(${paramsArg})`
+    : isPrivate
+      ? "(tokens?: Tokens)"
+      : "()";
 
   // 훅
   const hookArgs = hasParams ? `(${paramsArg})` : "()";
